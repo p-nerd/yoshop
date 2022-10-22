@@ -1,20 +1,24 @@
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Rating from "./Rating.jsx";
+
+const PLink = ({ children, productId }) => (
+    <Link to={`/products/${productId}`}>{children}</Link>
+);
 
 const Product = ({ product }) => {
     return (
         <Card className="my-3 p-3 rounded">
-            <a href={`/products/${product._id}`}>
+            <PLink productId={product._id}>
                 <Card.Img src={product.image} variant="top" />
-            </a>
-
+            </PLink>
             <Card.Body>
-                <a href={`/products/${product._id}`}>
+                <PLink productId={product._id}>
                     <Card.Title as="div">
                         <strong>{product.name}</strong>
                     </Card.Title>
-                </a>
+                </PLink>
                 <Card.Text as="div">
                     <Rating
                         value={product.rating}
