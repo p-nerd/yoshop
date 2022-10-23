@@ -10,7 +10,9 @@
     "scripts": {
         "server": "yarn --cwd backend dev",
         "client": "yarn --cwd frontend dev",
-        "dev": "concurrently \"yarn server\" \"yarn client\""
+        "dev": "concurrently \"yarn server\" \"yarn client\"",
+        "data:import": "yarn --cwd backend data:import",
+        "data:destroy": "yarn --cwd backend data:destroy"
     },
     "devDependencies": {
         "concurrently": "^7.5.0"
