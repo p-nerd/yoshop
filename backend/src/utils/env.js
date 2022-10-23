@@ -2,7 +2,7 @@ import "dotenv/config";
 
 const checkEnv = (env, name) => {
     if (!env) {
-        console.error(`${name} can't be null in .env`);
+        console.error(`${name} can't be null in .env`.red.underline.bold);
         process.exit(1);
     }
 };

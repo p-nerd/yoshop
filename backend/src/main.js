@@ -1,3 +1,4 @@
+import colors from "colors";
 import express from "express";
 import cors from "cors";
 import products from "./data/product.js";
@@ -23,5 +24,5 @@ app.get("/api/products/:id", (req, res) => {
 connectToMongoDB();
 
 app.listen(PORT, () => {
-    console.log(`Server Listening in ${NODE_ENV} mode on port ${PORT}`);
+    console.log(`Server Listening in ${NODE_ENV} mode on port ${PORT}`.yellow.bold);
 });
