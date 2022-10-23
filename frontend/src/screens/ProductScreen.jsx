@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, Card, Button, ListGroup } from "react-bootstrap";
 import Rating from "../components/Rating.jsx";
@@ -8,7 +8,15 @@ const { Item } = ListGroup;
 
 const ProductScreen = () => {
     const productId = useParams().id;
-    const product = getOneProduct(productId);
+    const [product, setProduct] = useState([]);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const { product } = await getOneProduct(productId);
+            setProduct(product);
+        };
+        fetchProduct();
+    }, []);
 
     return (
         <>
