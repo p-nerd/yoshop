@@ -10,7 +10,6 @@ const HomeScreen = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             const { products } = await getAllProducts();
-            console.log(products);
             setProducts(products);
         };
         fetchProducts();

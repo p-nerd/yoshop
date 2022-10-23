@@ -6,9 +6,12 @@
     },
     "scripts": {
         "dev": "nodemon ./src/main.js",
-        "prod": "node ./src/main.js"
+        "prod": "node ./src/main.js",
+        "data:import": "node ./src/data/seeder.js",
+        "data:destroy": "node ./src/data/seeder.js -d"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "colors": "^1.4.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",

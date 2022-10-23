@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
-const reviewSchema = Schema(
+const reviewSchema = new Schema(
     {
         name: { type: String, required: true },
         rating: { type: Number, required: true },
@@ -26,6 +26,6 @@ const productSchema = Schema(
     { timestamps: true }
 );
 
-const Product = model(productSchema, "Product");
+const Product = model("Product", productSchema);
 
 export default Product;

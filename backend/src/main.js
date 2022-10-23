@@ -1,9 +1,9 @@
 import colors from "colors";
 import express from "express";
 import cors from "cors";
-import products from "./data/product.js";
 import { NODE_ENV, PORT } from "./utils/env.js";
 import connectToMongoDB from "./utils/db.js";
+import { getProduct, getProducts } from "./services/productService.js";
 
 const app = express();
 
@@ -13,12 +13,22 @@ app.get("/health", (req, res) => {
     res.send(`<h1>${Date()}</h1>`);
 });
 
-app.get("/api/products", (req, res) => {
-    res.json(products);
+app.get("/api/products", async (req, res) => {
+    try {
+        const products = await getProducts();
+        return res.json(products);
+    } catch (e) {
+        return res.status(e.status).json({ message: e.message });
+    }
 });
 
-app.get("/api/products/:id", (req, res) => {
-    res.json(products.find(p => p._id === req.params.id));
+app.get("/api/products/:id", async (req, res) => {
+    try {
+        const product = await getProduct(req.params.id);
+        return res.json(product);
+    } catch (e) {
+        return res.status(e.status).json({ message: e.message });
+    }
 });
 
 connectToMongoDB();

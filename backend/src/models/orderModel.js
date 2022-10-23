@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
-const orderSchema = Schema(
+const orderSchema = new Schema(
     {
         user: { type: Types.ObjectId, required: true, ref: "User" },
         orderItems: [
@@ -36,6 +36,6 @@ const orderSchema = Schema(
     { timestamps: true }
 );
 
-const Order = model(orderSchema, "Order");
+const Order = model("Order", orderSchema);
 
 export default Order;
