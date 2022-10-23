@@ -1,7 +1,6 @@
 import { Router } from "express";
 import Product from "../models/productModel.js";
-import { wrap } from "../middlewares/etc.js";
-import { eResponse, response } from "../utils/res.js";
+import wrap from "../middlewares/wrap.js";
 import { validId } from "../middlewares/validate.js";
 
 const router = Router();
@@ -15,7 +14,7 @@ router.get(
     "/",
     wrap(async (req, res, next) => {
         const products = await Product.find();
-        return response(res, 200, products);
+        return res.json(products);
     })
 );
 
@@ -31,9 +30,10 @@ router.get(
         const productId = req.params.id;
         const product = await Product.findById(productId);
         if (!product) {
-            return eResponse(res, 404, `Product not found by id: ${productId}`);
+            res.status(404);
+            throw new Error(`Product not found by id: ${productId}`);
         }
-        return response(res, 200, product);
+        return res.json(product);
     })
 );
 
