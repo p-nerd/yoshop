@@ -1,9 +1,9 @@
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product.jsx";
-import products from "../products.js";
+import { getAllProducts } from "../services/productService.js";
 
 const HomeScreen = () => {
-    products;
+    const products = getAllProducts();
     return (
         <>
             <h1>Latest Products</h1>

@@ -79,4 +79,10 @@ const products = [
     },
 ];
 
-export default products;
+export const getAllProducts = () => {
+    return products;
+};
+
+export const getOneProduct = productId => {
+    return products.find(p => p._id === productId);
+};
