@@ -9,6 +9,5 @@ export const getAllProducts = async () => {
 
 export const getOneProduct = async productId => {
     const { data: product, status } = await axios.get(`/products/${productId}`);
-    console.log(product);
     return { product, status };
 };

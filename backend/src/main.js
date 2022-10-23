@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import products from "./data/product.js";
-import { PORT } from "./utils/env.js";
+import { NODE_ENV, PORT } from "./utils/env.js";
 
 const app = express();
 
@@ -20,5 +20,5 @@ app.get("/api/products/:id", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+    console.log(`Server Listening in ${NODE_ENV} mode on port ${PORT}`);
 });
