@@ -1,7 +1,7 @@
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+export default () => {
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -25,5 +25,3 @@ const Header = () => {
         </header>
     );
 };
-
-export default Header;

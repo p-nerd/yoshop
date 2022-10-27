@@ -15,6 +15,15 @@ export const getAllProducts = async () => {
 };
 
 export const getOneProduct = async productId => {
-    const { data: product, status } = await axios.get(`/products/${productId}`);
-    return { product, status };
+    try {
+        const { data: product, status } = await axios.get(
+            `/products/${productId}`
+        );
+        return { product, status };
+    } catch (e) {
+        if (e.response && e.response.data.message) {
+            throw e.response.data.message;
+        }
+        throw `Get product with id ${productId} request unsuccessful`;
+    }
 };
