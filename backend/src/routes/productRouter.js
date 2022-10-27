@@ -13,8 +13,11 @@ const router = Router();
 router.get(
     "/",
     wrap(async (req, res, next) => {
+        // throw new Error("Not Authorized");
+        // setTimeout(async () => {
         const products = await Product.find();
         return res.json(products);
+        // }, 5000);
     })
 );
 
