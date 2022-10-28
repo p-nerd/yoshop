@@ -1,5 +1,5 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../app/constants.js";
-import { getOneProduct } from "../services/productService.js";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "./../constants.js";
+import { getOneProduct } from "../../services/productService.js";
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
     const { product } = await getOneProduct(productId);

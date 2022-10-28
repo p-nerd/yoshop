@@ -16,8 +16,17 @@ import {
     useParams,
     useSearchParams,
 } from "react-router-dom";
-import { addToCart, removeFromCart } from "../actions/cartActions.js";
+import {
+    addToCart,
+    removeFromCart,
+} from "./../../stores/actions/cartActions.js";
 import Message from "../components/Message.jsx";
+import {
+    calculateTotalCartItemsPrice,
+    calculateTotalCartItemsQty,
+    convertStockCountToArray,
+    isCartItemEmpty,
+} from "../../services/cartService.js";
 
 export default () => {
     const params = useParams();
@@ -43,14 +52,6 @@ export default () => {
         history("/login?redirect=shipping");
         console.log("checkout");
     };
-
-    const totalCartItemsQty = () =>
-        cartItems.reduce((sum, item) => sum + item.qty, 0);
-
-    const totalCartItemsPrice = () =>
-        cartItems
-            .reduce((sum, item) => sum + item.qty * item.price, 0)
-            .toFixed(2);
 
     return (
         <Row>
@@ -92,16 +93,11 @@ export default () => {
                                                 )
                                             }
                                         >
-                                            {[
-                                                ...Array(
-                                                    item.countInStock
-                                                ).keys(),
-                                            ].map(x => (
-                                                <option
-                                                    key={x + 1}
-                                                    value={x + 1}
-                                                >
-                                                    {x + 1}
+                                            {convertStockCountToArray(
+                                                item.countInStock
+                                            ).map(x => (
+                                                <option key={x} value={x}>
+                                                    {x}
                                                 </option>
                                             ))}
                                         </FormControl>
@@ -129,14 +125,17 @@ export default () => {
                 <Card>
                     <ListGroup variant="flush">
                         <ListGroupItem>
-                            <h2>Subtotal ({totalCartItemsQty()}) items</h2>
-                            <>৳{totalCartItemsPrice()}</>
+                            <h2>
+                                Subtotal (
+                                {calculateTotalCartItemsQty(cartItems)}) items
+                            </h2>
+                            <>৳{calculateTotalCartItemsPrice(cartItems)}</>
                         </ListGroupItem>
                         <ListGroupItem>
                             <Button
                                 type="button"
                                 className="btn-block"
-                                disabled={cartItems.length === 0}
+                                disabled={isCartItemEmpty(cartItems)}
                                 onClick={checkoutHandler}
                             >
                                 Checkout

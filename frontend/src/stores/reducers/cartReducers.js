@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../app/constants.js";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants.js";
 
 export const cartReducer = (state = { cartItems: [] }, action) => {
     switch (action.type) {

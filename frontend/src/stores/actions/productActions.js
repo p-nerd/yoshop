@@ -5,8 +5,11 @@ import {
     PRODUCT_LIST_FAIL,
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
-} from "./../app/constants.js";
-import { getAllProducts, getOneProduct } from "../services/productService.js";
+} from "./../constants.js";
+import {
+    getAllProducts,
+    getOneProduct,
+} from "../../services/productService.js";
 
 export const listProducts = () => async dispatch => {
     try {

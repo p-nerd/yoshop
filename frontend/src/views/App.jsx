@@ -1,5 +1,7 @@
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./styles/bootstrap.css";
+import "./styles/index.css";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import CartScreen from "./screens/CartScreen.jsx";

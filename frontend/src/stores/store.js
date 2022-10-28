@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import reduxThunk from "redux-thunk";
-import { cartReducer } from "../reducers/cartReducers.js";
+import { cartReducer } from "./reducers/cartReducers.js";
 import {
     productDetailsReducer,
     productListReducer,
-} from "../reducers/productReducers.js";
+} from "./reducers/productReducers.js";
 
 const reducer = combineReducers({
     productList: productListReducer,

@@ -27,3 +27,7 @@ export const getOneProduct = async productId => {
         throw `Get product with id ${productId} request unsuccessful`;
     }
 };
+
+export const isProductOutOfStock = product => {
+    return product.countInStock <= 0;
+};

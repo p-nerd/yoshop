@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Image, Card, Button, ListGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { listProductDetails } from "../actions/productActions.js";
+import { listProductDetails } from "./../../stores/actions/productActions.js";
 import Rating from "../components/Rating.jsx";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
-import { useState } from "react";
+import { convertStockCountToArray } from "../../services/cartService.js";
+import { isProductOutOfStock } from "../../services/productService.js";
 
 const { Item } = ListGroup;
 
@@ -80,12 +81,12 @@ export default () => {
                             <ListGroup variant="flush">
                                 <ListGroupItem title="Status:">
                                     <strong>
-                                        {product.countInStock > 0
-                                            ? "In Stock"
-                                            : "Out of Stock"}
+                                        {isProductOutOfStock(product)
+                                            ? "Out of Stock"
+                                            : "In Stock"}
                                     </strong>
                                 </ListGroupItem>
-                                {product.countInStock > 0 && (
+                                {isProductOutOfStock(product) === false && (
                                     <ListGroupItem title="Qty:">
                                         <FormControl
                                             as="select"
@@ -94,16 +95,11 @@ export default () => {
                                                 setQty(e.target.value)
                                             }
                                         >
-                                            {[
-                                                ...Array(
-                                                    product.countInStock
-                                                ).keys(),
-                                            ].map(x => (
-                                                <option
-                                                    key={x + 1}
-                                                    value={x + 1}
-                                                >
-                                                    {x + 1}
+                                            {convertStockCountToArray(
+                                                product.countInStock
+                                            ).map(x => (
+                                                <option key={x} value={x}>
+                                                    {x}
                                                 </option>
                                             ))}
                                         </FormControl>
@@ -114,7 +110,7 @@ export default () => {
                                         onClick={addToCartHandler}
                                         className="btn-block button"
                                         type="button"
-                                        disabled={product.countInStock <= 0}
+                                        disabled={isProductOutOfStock(product)}
                                     >
                                         Add to Cart
                                     </Button>
