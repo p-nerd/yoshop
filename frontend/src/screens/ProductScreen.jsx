@@ -1,17 +1,33 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Image, Card, Button, ListGroup } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails } from "../actions/productActions.js";
 import Rating from "../components/Rating.jsx";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
+import { useState } from "react";
 
 const { Item } = ListGroup;
 
+const ListGroupItem = ({ title, children }) => {
+    return (
+        <Item>
+            <Row>
+                <Col>{title}</Col>
+                <Col>{children}</Col>
+            </Row>
+        </Item>
+    );
+};
+
 export default () => {
+    const [qty, setQty] = useState(1);
+
     const productId = useParams().id;
     const dispatch = useDispatch();
+    const history = useNavigate();
 
     const { loading, error, product } = useSelector(
         state => state.productDetails
@@ -20,6 +36,10 @@ export default () => {
     useEffect(() => {
         dispatch(listProductDetails(productId));
     }, [dispatch]);
+
+    const addToCartHandler = () => {
+        history(`/cart/${productId}?qty=${qty}`);
+    };
 
     return (
         <>
@@ -53,30 +73,45 @@ export default () => {
                     <Col md={3}>
                         <Card>
                             <ListGroup variant="flush">
-                                <Item>
-                                    <Row>
-                                        <Col>Price:</Col>
-                                        <Col>
-                                            <strong>৳{product.price}</strong>
-                                        </Col>
-                                    </Row>
-                                </Item>
+                                <ListGroupItem title="Price:">
+                                    <strong>৳{product.price}</strong>
+                                </ListGroupItem>
                             </ListGroup>
                             <ListGroup variant="flush">
-                                <Item>
-                                    <Row>
-                                        <Col>Status:</Col>
-                                        <Col>
-                                            <strong>
-                                                {product.countInStock > 0
-                                                    ? "In Stock"
-                                                    : "Out of Stock"}
-                                            </strong>
-                                        </Col>
-                                    </Row>
-                                </Item>
+                                <ListGroupItem title="Status:">
+                                    <strong>
+                                        {product.countInStock > 0
+                                            ? "In Stock"
+                                            : "Out of Stock"}
+                                    </strong>
+                                </ListGroupItem>
+                                {product.countInStock > 0 && (
+                                    <ListGroupItem title="Qty:">
+                                        <FormControl
+                                            as="select"
+                                            value={qty}
+                                            onChange={e =>
+                                                setQty(e.target.value)
+                                            }
+                                        >
+                                            {[
+                                                ...Array(
+                                                    product.countInStock
+                                                ).keys(),
+                                            ].map(x => (
+                                                <option
+                                                    key={x + 1}
+                                                    value={x + 1}
+                                                >
+                                                    {x + 1}
+                                                </option>
+                                            ))}
+                                        </FormControl>
+                                    </ListGroupItem>
+                                )}
                                 <Item>
                                     <Button
+                                        onClick={addToCartHandler}
                                         className="btn-block button"
                                         type="button"
                                         disabled={product.countInStock <= 0}
