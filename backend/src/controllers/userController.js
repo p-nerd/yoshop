@@ -20,7 +20,7 @@ export const loginUser = wrap(async (req, res, next) => {
         });
     }
 
-    res.status(401);
+    res.status(400);
     throw new Error("Invalid email or password");
 });
 
@@ -48,7 +48,6 @@ export const createUser = wrap(async (req, res, next) => {
             res.status(400);
             throw new Error("User already exits");
         }
-        password = await hashString(password);
         user = new User({ name, email, password });
 
         await user.save();

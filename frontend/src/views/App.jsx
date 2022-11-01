@@ -7,6 +7,8 @@ import Header from "./components/Header.jsx";
 import CartScreen from "./screens/CartScreen.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen.jsx";
+import LoginScreen from "./screens/LoginScreen.jsx";
+import RegisterScreen from "./screens/RegisterScreen.jsx";
 
 export default () => (
     <BrowserRouter>
@@ -22,6 +24,8 @@ export default () => (
                     />
                     <Route path="/cart/:id" exact element={<CartScreen />} />
                     <Route path="/cart" exact element={<CartScreen />} />
+                    <Route path="/login" exact element={<LoginScreen />} />
+                    <Route path="/signup" exact element={<RegisterScreen />} />
                 </Routes>
             </Container>
         </main>
