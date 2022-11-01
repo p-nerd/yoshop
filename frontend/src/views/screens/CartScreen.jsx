@@ -75,7 +75,7 @@ export default () => {
                                         />
                                     </Col>
                                     <Col md={3}>
-                                        <Link to={`products/${item.product}`}>
+                                        <Link to={`/products/${item.product}`}>
                                             {item.name}
                                         </Link>
                                     </Col>

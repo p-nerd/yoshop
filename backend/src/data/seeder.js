@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import colors from "colors";
 import users from "./users.js";
 import products from "./products.js";
