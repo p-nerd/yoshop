@@ -8,9 +8,7 @@ import Product from "../components/Product.jsx";
 
 export default () => {
     const dispatch = useDispatch();
-    const { loading, error, products } = useSelector(
-        state => state.productList
-    );
+    const { loading, error, products } = useSelector(s => s.productList);
 
     useEffect(() => {
         dispatch(listProducts());

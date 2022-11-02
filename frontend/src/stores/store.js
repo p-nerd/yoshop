@@ -7,6 +7,7 @@ import {
     productListReducer,
 } from "./reducers/productReducers.js";
 import {
+    userDetailsReducer,
     userLoginReducer,
     userRegisterReducer,
 } from "./reducers/userReducers.js";
@@ -17,11 +18,13 @@ const reducer = combineReducers({
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
 });
 
 const initialState = {
     cart: { cartItems: extractFromLocalStorage("cartItems", []) },
     userLogin: { userInfo: extractFromLocalStorage("userInfo", {}) },
+    userDetails: { user: {} },
 };
 
 const middlewares = [reduxThunk];

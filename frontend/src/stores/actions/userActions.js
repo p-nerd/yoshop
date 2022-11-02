@@ -1,9 +1,16 @@
-import { loginUser, registerUser } from "../../services/loginService.js";
+import {
+    getUserById,
+    loginUser,
+    registerUser,
+} from "../../services/loginService.js";
 import {
     addItemToLocalStorage,
     removeFromLocalStorage,
 } from "../../utils/localStorageUtil.js";
 import {
+    USER_DETAILS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
@@ -38,5 +45,20 @@ export const register = (name, email, password) => async dispatch => {
         addItemToLocalStorage("userInfo", user);
     } catch (e) {
         dispatch({ type: USER_REGISTER_FAIL, payload: e.message });
+    }
+};
+
+export const getProfile = id => async (dispatch, getState) => {
+    try {
+        dispatch({ type: USER_DETAILS_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const { user } = await getUserById(id, userInfo.token);
+        dispatch({ type: USER_DETAILS_SUCCESS, payload: user });
+    } catch (e) {
+        dispatch({ type: USER_DETAILS_FAIL, payload: e.message });
     }
 };

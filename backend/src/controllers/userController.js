@@ -69,3 +69,29 @@ export const createUser = wrap(async (req, res, next) => {
         throw new Error(e.message);
     }
 });
+
+const setProperty = (user, body, property) => body[property] || user[property];
+
+export const updateUser = wrap(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    user.name = setProperty(user, req.body, "name");
+    user.email = setProperty(user, req.body, "email");
+    if (req.body.password) {
+        user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    return res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        token: await updatedUser.getToken(),
+    });
+});

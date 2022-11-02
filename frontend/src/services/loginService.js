@@ -29,3 +29,18 @@ export const registerUser = async registerData => {
         throw new Error(message);
     }
 };
+
+export const getUserById = async (id, token) => {
+    try {
+        const { data: user, status } = await axios.get(`/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return { user, status };
+    } catch (e) {
+        const message = eem(e, "Get user profile request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

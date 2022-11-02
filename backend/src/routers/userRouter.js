@@ -3,6 +3,7 @@ import {
     getUser,
     loginUser,
     createUser,
+    updateUser,
 } from "../controllers/userController.js";
 import protect from "../middlewares/protect.js";
 const userRouter = Router();
@@ -27,5 +28,12 @@ userRouter.post("/login", loginUser);
  * @access Private
  */
 userRouter.get("/profile", [protect], getUser);
+
+/**
+ * @desc Update user profile
+ * @router PUT /api/users
+ * @access Private
+ */
+userRouter.put("/", [protect], updateUser);
 
 export default userRouter;

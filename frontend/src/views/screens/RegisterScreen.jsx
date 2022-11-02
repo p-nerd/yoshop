@@ -28,9 +28,7 @@ const RegisterScreen = () => {
 
     useEffect(() => {
         if (!isObjectEmpty(userInfo)) {
-            if (!isObjectEmpty(userInfo)) {
-                navigate(redirect ? `/?redirect=${redirect}` : "/");
-            }
+            navigate(redirect ? `/?redirect=${redirect}` : "/");
         }
     }, [navigate, userInfo, redirect]);
 
