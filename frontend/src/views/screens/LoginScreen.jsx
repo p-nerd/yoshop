@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { login } from "../../stores/actions/userActions.js";
+import { loginAction } from "../../stores/actions/userActions.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "../components/Message.jsx";
 import Loader from "../components/Loader.jsx";
@@ -23,13 +23,13 @@ const LoginScreen = () => {
 
     useEffect(() => {
         if (!isObjectEmpty(userInfo)) {
-            navigate(redirect ? `/?redirect=${redirect}` : "/");
+            navigate(redirect ? `/${redirect}` : "/");
         }
     }, [navigate, userInfo, redirect]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
-        dispatch(login(email, password));
+        dispatch(loginAction(email, password));
     };
 
     return (

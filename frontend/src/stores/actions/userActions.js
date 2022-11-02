@@ -2,6 +2,7 @@ import {
     getUserById,
     loginUser,
     registerUser,
+    updateUserProfile,
 } from "../../services/loginService.js";
 import {
     addItemToLocalStorage,
@@ -18,9 +19,12 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
+    USER_UPDATE_PROFILE_FAIL,
+    USER_UPDATE_PROFILE_REQUEST,
+    USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants.js";
 
-export const login = (email, password) => async dispatch => {
+export const loginAction = (email, password) => async dispatch => {
     try {
         dispatch({ type: USER_LOGIN_REQUEST });
         const { user } = await loginUser({ email, password });
@@ -31,12 +35,12 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
-export const logout = () => async dispatch => {
+export const logoutAction = () => async dispatch => {
     removeFromLocalStorage("userInfo");
     dispatch({ type: USER_LOGOUT });
 };
 
-export const register = (name, email, password) => async dispatch => {
+export const registerAction = (name, email, password) => async dispatch => {
     try {
         dispatch({ type: USER_REGISTER_REQUEST });
         const { user } = await registerUser({ email, password, name });
@@ -48,7 +52,7 @@ export const register = (name, email, password) => async dispatch => {
     }
 };
 
-export const getProfile = id => async (dispatch, getState) => {
+export const getProfileAction = id => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 
@@ -62,3 +66,19 @@ export const getProfile = id => async (dispatch, getState) => {
         dispatch({ type: USER_DETAILS_FAIL, payload: e.message });
     }
 };
+
+export const updateUserProfileAction =
+    userData => async (dispatch, getState) => {
+        try {
+            dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+
+            const {
+                userLogin: { userInfo },
+            } = getState();
+
+            const { user } = await updateUserProfile(userData, userInfo.token);
+            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: user });
+        } catch (e) {
+            dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: e.message });
+        }
+    };

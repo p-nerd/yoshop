@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../stores/actions/userActions.js";
+import { registerAction } from "../../stores/actions/userActions.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "./../components/Message.jsx";
 import Loader from "./../components/Loader.jsx";
@@ -28,7 +28,7 @@ const RegisterScreen = () => {
 
     useEffect(() => {
         if (!isObjectEmpty(userInfo)) {
-            navigate(redirect ? `/?redirect=${redirect}` : "/");
+            navigate(redirect ? `/${redirect}` : "/");
         }
     }, [navigate, userInfo, redirect]);
 
@@ -37,7 +37,7 @@ const RegisterScreen = () => {
         if (password !== confirmPassword) {
             setMessage("Password do not match");
         } else {
-            dispatch(register(name, email, password));
+            dispatch(registerAction(name, email, password));
         }
     };
 

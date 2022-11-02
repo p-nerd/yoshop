@@ -2,7 +2,7 @@ import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
-import { logout } from "../../stores/actions/userActions.js";
+import { logoutAction } from "../../stores/actions/userActions.js";
 
 const { Brand, Toggle, Collapse } = Navbar;
 
@@ -10,7 +10,7 @@ export default () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector(s => s.userLogin);
     const logoutHandler = () => {
-        dispatch(logout());
+        dispatch(logoutAction());
     };
     return (
         <header>

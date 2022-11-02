@@ -44,3 +44,18 @@ export const getUserById = async (id, token) => {
         throw new Error(message);
     }
 };
+
+export const updateUserProfile = async (userData, token) => {
+    try {
+        const { data: user, status } = await axios.put(`/users`, userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return { user, status };
+    } catch (e) {
+        const message = eem(e, "Update user profile request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};
