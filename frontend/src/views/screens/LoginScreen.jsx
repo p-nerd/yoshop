@@ -6,6 +6,7 @@ import { login } from "../../stores/actions/userActions.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "../components/Message.jsx";
 import Loader from "../components/Loader.jsx";
+import { isObjectEmpty } from "../../logic/commonLogic.js";
 
 const { Group, Label, Control, Check } = Form;
 
@@ -21,13 +22,14 @@ const LoginScreen = () => {
     const redirect = searchParams.get("redirect");
 
     useEffect(() => {
-        if (userInfo) navigate(redirect);
+        if (!isObjectEmpty(userInfo)) {
+            navigate(redirect ? `/?redirect=${redirect}` : "/");
+        }
     }, [navigate, userInfo, redirect]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
         dispatch(login(email, password));
-        if (!error) navigate("/?login=true");
     };
 
     return (

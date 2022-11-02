@@ -1,7 +1,7 @@
 {
-    "name": "yo-shop",
+    "name": "yoshop",
     "version": "0.0.0",
-    "repository": "https://github.com/shh26b/yo-shop.git",
+    "repository": "https://github.com/shh26b/yoshop.git",
     "author": "Shihab Mahamud <shihab4t@gmail.com>",
     "license": "MIT",
     "engines": {

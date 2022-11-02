@@ -46,8 +46,10 @@ export const createUser = wrap(async (req, res, next) => {
     try {
         let { name, email, password } = req.body;
         let user = await User.findOne({ email });
+        console.log(user);
         if (user) {
             res.status(400);
+            console.error("User already exits");
             throw new Error("User already exits");
         }
         user = new User({ name, email, password });
@@ -64,6 +66,6 @@ export const createUser = wrap(async (req, res, next) => {
         console.error(e);
         if (res.statusCode === 400) throw e;
         res.status(500);
-        throw new Error("Internal server error in saving new user");
+        throw new Error(e.message);
     }
 });

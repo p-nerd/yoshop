@@ -1,28 +1,49 @@
-import { Container, Navbar, Nav } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { isObjectEmpty } from "../../logic/commonLogic";
+import { isObjectEmpty } from "../../logic/commonLogic.js";
+import { logout } from "../../stores/actions/userActions.js";
+
+const { Brand, Toggle, Collapse } = Navbar;
 
 export default () => {
-    const { userInfo } = useSelector(state => state.userLogin);
-
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector(s => s.userLogin);
+    const logoutHandler = () => {
+        dispatch(logout());
+    };
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
-                    <Navbar.Brand as={Link} to="/">
+                    <Brand as={Link} to="/">
                         YoShop
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    </Brand>
+                    <Toggle aria-controls="basic-navbar-nav" />
+                    <Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <Nav.Link as={Link} to="/cart">
                                 <i className="fas fa-shopping-cart"></i> Cart
                             </Nav.Link>
                             {!isObjectEmpty(userInfo) ? (
-                                <Nav.Link as={Link} to="/logout">
-                                    <i className="fas fa-out"></i> Logout
-                                </Nav.Link>
+                                <>
+                                    <NavDropdown
+                                        title={userInfo.name}
+                                        id="username"
+                                    >
+                                        <NavDropdown.Item
+                                            as={Link}
+                                            to="/profile"
+                                        >
+                                            Profile
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item
+                                            onClick={logoutHandler}
+                                        >
+                                            Logout
+                                        </NavDropdown.Item>
+                                    </NavDropdown>
+                                </>
                             ) : (
                                 <>
                                     <Nav.Link as={Link} to="/login">
@@ -35,7 +56,7 @@ export default () => {
                                 </>
                             )}
                         </Nav>
-                    </Navbar.Collapse>
+                    </Collapse>
                 </Container>
             </Navbar>
         </header>
