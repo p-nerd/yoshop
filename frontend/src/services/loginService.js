@@ -1,6 +1,9 @@
 import axios from "axios";
+import { BACKEND_API_URL } from "../utils/envUtil.js";
+import { logIfNotProduction } from "../utils/loggerUtil.js";
+import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
-axios.defaults.baseURL = `http://localhost:3000/api`;
+axios.defaults.baseURL = BACKEND_API_URL;
 
 export const loginUser = async loginData => {
     try {
@@ -10,10 +13,9 @@ export const loginUser = async loginData => {
         );
         return { user, status };
     } catch (e) {
-        if (e.response && e.response.data.message) {
-            throw e.response.data.message;
-        }
-        throw "Login user request unsuccessful";
+        const message = eem(e, "Login user request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
     }
 };
 
@@ -22,9 +24,8 @@ export const registerUser = async registerData => {
         const { data: user, status } = await axios.post("/users", registerData);
         return { user, status };
     } catch (e) {
-        if (e.response && e.response.data.message) {
-            throw e.response.data.message;
-        }
-        throw "Register user request unsuccessful";
+        const message = eem(e, "Register user request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
     }
 };

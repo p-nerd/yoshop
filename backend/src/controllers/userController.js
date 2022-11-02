@@ -1,22 +1,24 @@
 import wrap from "../middlewares/wrap.js";
 import User from "../models/userModel.js";
-import { hashString } from "../utils/hash.js";
 
 export const loginUser = wrap(async (req, res, next) => {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        res.status(400);
+        throw new Error("Invalid email or password Validation");
+    }
 
     const user = await User.findOne({ email });
     const isPasswordMatch = await user.matchPassword(password);
 
     if (user && isPasswordMatch) {
-        const token = await user.getToken();
-
         return res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
-            token,
+            token: await user.getToken(),
         });
     }
 

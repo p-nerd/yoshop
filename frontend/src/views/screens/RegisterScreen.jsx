@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { registerUser } from "../../services/loginService.js";
+import FormContainer from "../components/FormContainer.jsx";
 const { Group, Label, Control, Check } = Form;
 
 const RegisterScreen = () => {
@@ -30,7 +31,7 @@ const RegisterScreen = () => {
     };
 
     return (
-        <>
+        <FormContainer>
             <h1>Register</h1>
             <Form onSubmit={handlerSubmit}>
                 <Group className="mb-3" controlId="formBasicName">
@@ -73,7 +74,7 @@ const RegisterScreen = () => {
                     Submit
                 </Button>
             </Form>
-        </>
+        </FormContainer>
     );
 };
 

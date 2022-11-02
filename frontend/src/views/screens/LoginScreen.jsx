@@ -1,65 +1,85 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
-import { loginUser } from "../../services/loginService.js";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { login } from "../../stores/actions/userActions.js";
+import FormContainer from "../components/FormContainer.jsx";
+import Message from "../components/Message.jsx";
+import Loader from "../components/Loader.jsx";
+
 const { Group, Label, Control, Check } = Form;
 
 const LoginScreen = () => {
-    const [loginData, setLoginData] = useState({ email: "", password: "" });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const dispatch = useDispatch();
+    const { loading, error, userInfo } = useSelector(state => state.userLogin);
 
-    const handleChange = e => {
-        const { name, value } = e.target;
-        setLoginData({ ...loginData, [name]: value });
-    };
+    const redirect = searchParams.get("redirect");
 
-    const handleShowPassword = e => {
-        setShowPassword(!showPassword);
-    };
+    useEffect(() => {
+        if (userInfo) navigate(redirect);
+    }, [navigate, userInfo, redirect]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
-        const { user } = await loginUser(loginData);
-        localStorage.setItem("token", user.token);
-        navigate("/");
+        dispatch(login(email, password));
+        if (!error) navigate("/?login=true");
     };
 
     return (
-        <>
+        <FormContainer>
             <h1>Login</h1>
+            {error && <Message variant="danger">{error}</Message>}{" "}
+            {loading && <Loader />}
             <Form onSubmit={handlerSubmit}>
-                <Group className="mb-3" controlId="formBasicEmail">
+                <Group className="mb-3" controlId="email">
                     <Label>Email address</Label>
                     <Control
-                        onChange={handleChange}
-                        name="email"
                         type="email"
                         placeholder="Enter email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                 </Group>
-
                 <Group className="mb-3" controlId="formBasicPassword">
                     <Label>Password</Label>
                     <Control
-                        name="password"
-                        onChange={handleChange}
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
                 </Group>
                 <Group className="mb-3" controlId="formBasicCheckbox">
                     <Check
                         type="checkbox"
                         label="Show Password"
-                        onClick={handleShowPassword}
+                        onClick={() => setShowPassword(!showPassword)}
                     />
                 </Group>
                 <Button variant="primary" type="submit">
-                    Submit
+                    Sign In
                 </Button>
             </Form>
-        </>
+            <Row className="py-3">
+                <Col>
+                    New Customer?{" "}
+                    <Link
+                        to={
+                            redirect
+                                ? `/signup?redirect=${redirect}`
+                                : "/signup"
+                        }
+                    >
+                        Register
+                    </Link>
+                </Col>
+            </Row>
+        </FormContainer>
     );
 };
 

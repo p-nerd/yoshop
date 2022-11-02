@@ -26,7 +26,7 @@ import {
     calculateTotalCartItemsQty,
     convertStockCountToArray,
     isCartItemEmpty,
-} from "../../services/cartService.js";
+} from "../../logic/cartLogic.js";
 
 export default () => {
     const params = useParams();

@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Image, Card, Button, ListGroup } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import {
+    Row,
+    Col,
+    Image,
+    Card,
+    Button,
+    ListGroup,
+    FormControl,
+} from "react-bootstrap";
 import { listProductDetails } from "./../../stores/actions/productActions.js";
+import { convertStockCountToArray } from "../../logic/cartLogic.js";
+import { isProductOutOfStock } from "../../logic/productLogic.js";
 import Rating from "../components/Rating.jsx";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
-import { convertStockCountToArray } from "../../services/cartService.js";
-import { isProductOutOfStock } from "../../services/productService.js";
 
 const { Item } = ListGroup;
 

@@ -1,16 +1,18 @@
 import axios from "axios";
+import { BACKEND_API_URL } from "../utils/envUtil.js";
+import { logIfNotProduction } from "../utils/loggerUtil.js";
+import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
-axios.defaults.baseURL = `http://localhost:3000/api`;
+axios.defaults.baseURL = BACKEND_API_URL;
 
 export const getAllProducts = async () => {
     try {
         const { data: products, status } = await axios.get(`/products`);
         return { products, status };
     } catch (e) {
-        if (e.response && e.response.data.message) {
-            throw e.response.data.message;
-        }
-        throw "Get all product request unsuccessful";
+        const message = eem(e, "Get all product request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
     }
 };
 
@@ -21,13 +23,11 @@ export const getOneProduct = async productId => {
         );
         return { product, status };
     } catch (e) {
-        if (e.response && e.response.data.message) {
-            throw e.response.data.message;
-        }
-        throw `Get product with id ${productId} request unsuccessful`;
+        const message = eem(
+            e,
+            `Get product with id ${productId} request unsuccessful`
+        );
+        logIfNotProduction(message);
+        throw new Error(message);
     }
-};
-
-export const isProductOutOfStock = product => {
-    return product.countInStock <= 0;
 };
