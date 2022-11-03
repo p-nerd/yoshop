@@ -10,6 +10,7 @@ import ProductScreen from "./screens/ProductScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
+import ShippingScreen from "./screens/ShippingScreen.jsx";
 
 export default () => (
     <BrowserRouter>
@@ -28,6 +29,11 @@ export default () => (
                     <Route path="/login" exact element={<LoginScreen />} />
                     <Route path="/signup" exact element={<RegisterScreen />} />
                     <Route path="/profile" exact element={<ProfileScreen />} />
+                    <Route
+                        path="/shipping"
+                        exact
+                        element={<ShippingScreen />}
+                    />
                 </Routes>
             </Container>
         </main>

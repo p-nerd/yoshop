@@ -1,5 +1,10 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "./../constants.js";
+import {
+    CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
+    CART_SAVE_SHIPPING_ADDRESS,
+} from "./../constants.js";
 import { getOneProduct } from "../../services/productService.js";
+import { addItemToLocalStorage } from "../../utils/localStorageUtil.js";
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
     const { product } = await getOneProduct(productId);
@@ -26,4 +31,9 @@ export const removeFromCart = productId => async (dispatch, getState) => {
         "cartItems",
         JSON.stringify(getState().cart.cartItems)
     );
+};
+
+export const saveShippingAddressAction = shippingData => async dispatch => {
+    dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: shippingData });
+    addItemToLocalStorage("shippingAddress", shippingData);
 };

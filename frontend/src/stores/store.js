@@ -1,38 +1,12 @@
-import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
-import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
-import { cartReducer } from "./reducers/cartReducers.js";
-import {
-    productDetailsReducer,
-    productListReducer,
-} from "./reducers/productReducers.js";
-import {
-    userDetailsReducer,
-    userLoginReducer,
-    userRegisterReducer,
-    userUpdateProfileReducer,
-} from "./reducers/userReducers.js";
-
-const reducer = combineReducers({
-    productList: productListReducer,
-    productDetails: productDetailsReducer,
-    cart: cartReducer,
-    userLogin: userLoginReducer,
-    userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer,
-    userUpdateProfile: userUpdateProfileReducer,
-});
-
-const initialState = {
-    cart: { cartItems: extractFromLocalStorage("cartItems", []) },
-    userLogin: { userInfo: extractFromLocalStorage("userInfo", {}) },
-    userDetails: { user: {} },
-};
+import reducers from "./combineReducers.js";
+import initialState from "./initialState.js";
 
 const middlewares = [reduxThunk];
 
 export default createStore(
-    reducer,
+    reducers,
     initialState,
     compose(
         applyMiddleware(...middlewares),
