@@ -2,22 +2,9 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import FormContainer from "../components/FormContainer.jsx";
 import { saveShippingAddressAction } from "../../stores/actions/cartActions.js";
-
-const field = (label, name, value, setFunc, required = true, type = "text") => (
-    <Form.Group className="mb-3" controlId={name}>
-        <Form.Label>{label}</Form.Label>
-        <Form.Control
-            name={name}
-            placeholder={`Enter ${name}`}
-            value={value}
-            required={required}
-            onChange={e => setFunc(e.target.value)}
-            type={type}
-        />
-    </Form.Group>
-);
+import FormContainer from "../components/FormContainer.jsx";
+import ShippingField from "../components/ShippingField.jsx";
 
 const ShippingScreen = () => {
     const navigate = useNavigate();
@@ -42,10 +29,30 @@ const ShippingScreen = () => {
         <FormContainer>
             <h1>Shipping</h1>
             <Form onSubmit={handleSubmit}>
-                {field("Address", "address", address, setAddress)}
-                {field("City", "city", city, setCity)}
-                {field("Postal Code", "postalCode", postalCode, setPostalCode)}
-                {field("Country", "country", country, setCountry)}
+                <ShippingField
+                    label="Address"
+                    name="address"
+                    value={address}
+                    setFunc={setAddress}
+                />
+                <ShippingField
+                    label="City"
+                    name="city"
+                    value={city}
+                    setFunc={setCity}
+                />
+                <ShippingField
+                    label="Postal Code"
+                    name="postalCode"
+                    value={postalCode}
+                    setFunc={setPostalCode}
+                />
+                <ShippingField
+                    label="Country"
+                    name="country"
+                    value={country}
+                    setFunc={setCountry}
+                />
                 <Button type="submit" variant="primary">
                     Continue
                 </Button>
