@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { saveShippingAddressAction } from "../../stores/actions/cartActions.js";
 import FormContainer from "../components/FormContainer.jsx";
-import ShippingField from "../components/ShippingField.jsx";
+import FormField from "../components/FormField.jsx";
+import SubmitButton from "../components/SubmitButton.jsx";
 
 const ShippingScreen = () => {
     const navigate = useNavigate();
@@ -29,33 +30,31 @@ const ShippingScreen = () => {
         <FormContainer>
             <h1>Shipping</h1>
             <Form onSubmit={handleSubmit}>
-                <ShippingField
+                <FormField
                     label="Address"
                     name="address"
                     value={address}
                     setFunc={setAddress}
                 />
-                <ShippingField
+                <FormField
                     label="City"
                     name="city"
                     value={city}
                     setFunc={setCity}
                 />
-                <ShippingField
+                <FormField
                     label="Postal Code"
                     name="postalCode"
                     value={postalCode}
                     setFunc={setPostalCode}
                 />
-                <ShippingField
+                <FormField
                     label="Country"
                     name="country"
                     value={country}
                     setFunc={setCountry}
                 />
-                <Button type="submit" variant="primary">
-                    Continue
-                </Button>
+                <SubmitButton label="Continue" />
             </Form>
         </FormContainer>
     );

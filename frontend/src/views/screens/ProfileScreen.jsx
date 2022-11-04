@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getProfileAction,
@@ -9,8 +9,9 @@ import {
 import { isObjectEmpty } from "../../logic/commonLogic.js";
 import Message from "./../components/Message.jsx";
 import Loader from "./../components/Loader.jsx";
-
-const { Group, Label, Control, Check } = Form;
+import FormField from "../components/FormField.jsx";
+import PasswordShowToggle from "../components/PasswordShowToggle.jsx";
+import SubmitButton from "../components/SubmitButton.jsx";
 
 const ProfileScreen = () => {
     const navigate = useNavigate();
@@ -67,56 +68,37 @@ const ProfileScreen = () => {
                 )}
                 {loading && <Loader />}
                 <Form onSubmit={handlerSubmit}>
-                    <Group className="mb-3" controlId="name">
-                        <Label>Name</Label>
-                        <Control
-                            name="name"
-                            type="name"
-                            placeholder="Enter name"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                        />
-                    </Group>
-                    <Group className="mb-3" controlId="email">
-                        <Label>Email address</Label>
-                        <Control
-                            name="email"
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                    </Group>
-                    <Group className="mb-3" controlId="password">
-                        <Label>Password</Label>
-                        <Control
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter Password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                    </Group>
-                    <Group className="mb-3" controlId="confirmPassword">
-                        <Label>Confirm Password</Label>
-                        <Control
-                            name="password"
-                            type="password"
-                            placeholder="Enter Password Again"
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)}
-                        />
-                    </Group>
-                    <Group className="mb-3" controlId="checkbox">
-                        <Check
-                            type="checkbox"
-                            label="Show Password"
-                            onClick={() => setShowPassword(!showPassword)}
-                        />
-                    </Group>
-                    <Button variant="primary" type="submit">
-                        Update
-                    </Button>
+                    <FormField
+                        label="Name"
+                        name="name"
+                        value={name}
+                        setFunc={setName}
+                    />
+                    <FormField
+                        label="Email address"
+                        name="email"
+                        value={email}
+                        setFunc={setEmail}
+                    />
+                    <FormField
+                        label="Password"
+                        name="password"
+                        value={password}
+                        setFunc={setPassword}
+                        type={showPassword ? "text" : "password"}
+                    />
+                    <FormField
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        setFunc={setConfirmPassword}
+                        type="password"
+                    />
+                    <PasswordShowToggle
+                        showPassword={showPassword}
+                        setFunc={setShowPassword}
+                    />
+                    <SubmitButton label="Update" />
                 </Form>
             </Col>
             <Col md={9}>

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Form } from "react-bootstrap";
 import { loginAction } from "../../stores/actions/userActions.js";
+import { isObjectEmpty } from "../../logic/commonLogic.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "../components/Message.jsx";
 import Loader from "../components/Loader.jsx";
-import { isObjectEmpty } from "../../logic/commonLogic.js";
-
-const { Group, Label, Control, Check } = Form;
+import FormField from "../components/FormField.jsx";
+import PasswordShowToggle from "../components/PasswordShowToggle.jsx";
+import SubmitButton from "../components/SubmitButton.jsx";
+import RedirectOption from "../components/RedirectOption.jsx";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
@@ -38,49 +40,31 @@ const LoginScreen = () => {
             {error && <Message variant="danger">{error}</Message>}{" "}
             {loading && <Loader />}
             <Form onSubmit={handlerSubmit}>
-                <Group className="mb-3" controlId="email">
-                    <Label>Email address</Label>
-                    <Control
-                        type="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="formBasicPassword">
-                    <Label>Password</Label>
-                    <Control
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="formBasicCheckbox">
-                    <Check
-                        type="checkbox"
-                        label="Show Password"
-                        onClick={() => setShowPassword(!showPassword)}
-                    />
-                </Group>
-                <Button variant="primary" type="submit">
-                    Sign In
-                </Button>
+                <FormField
+                    label="Email address"
+                    name="email"
+                    value={email}
+                    setFunc={setEmail}
+                />
+                <FormField
+                    label="Password"
+                    name="password"
+                    value={password}
+                    setFunc={setPassword}
+                    type={showPassword ? "text" : "password"}
+                />
+                <PasswordShowToggle
+                    showPassword={showPassword}
+                    setFunc={setShowPassword}
+                />
+                <SubmitButton label="Sign In" />
             </Form>
-            <Row className="py-3">
-                <Col>
-                    New Customer?{" "}
-                    <Link
-                        to={
-                            redirect
-                                ? `/signup?redirect=${redirect}`
-                                : "/signup"
-                        }
-                    >
-                        Register
-                    </Link>
-                </Col>
-            </Row>
+            <RedirectOption
+                msg="New Customer? "
+                redirect={redirect}
+                to="/signup"
+                toName="Register"
+            />
         </FormContainer>
     );
 };

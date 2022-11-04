@@ -21,12 +21,12 @@ const { Item } = ListGroup;
 
 const ListGroupItem = ({ title, children }) => {
     return (
-        <Item>
+        <ListGroup.Item>
             <Row>
                 <Col>{title}</Col>
                 <Col>{children}</Col>
             </Row>
-        </Item>
+        </ListGroup.Item>
     );
 };
 

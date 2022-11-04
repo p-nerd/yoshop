@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const ShippingField = ({ label, name, value, setFunc, required, type }) => (
+const FormField = ({ label, name, value, setFunc, required, type }) => (
     <Form.Group className="mb-3" controlId={name}>
         <Form.Label>{label}</Form.Label>
         <Form.Control
@@ -15,12 +15,12 @@ const ShippingField = ({ label, name, value, setFunc, required, type }) => (
     </Form.Group>
 );
 
-ShippingField.defaultProps = {
+FormField.defaultProps = {
     required: true,
     type: "text",
 };
 
-ShippingField.propTypes = {
+FormField.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
@@ -29,4 +29,4 @@ ShippingField.propTypes = {
     type: PropTypes.string,
 };
 
-export default ShippingField;
+export default FormField;

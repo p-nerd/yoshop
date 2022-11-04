@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "../../stores/actions/userActions.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "./../components/Message.jsx";
 import Loader from "./../components/Loader.jsx";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
-
-const { Group, Label, Control, Check } = Form;
+import FormField from "../components/FormField.jsx";
+import PasswordShowToggle from "../components/PasswordShowToggle.jsx";
+import SubmitButton from "../components/SubmitButton.jsx";
+import RedirectOption from "../components/RedirectOption.jsx";
 
 const RegisterScreen = () => {
     const navigate = useNavigate();
@@ -48,67 +50,44 @@ const RegisterScreen = () => {
             {error && <Message variant="danger">{error}</Message>}{" "}
             {loading && <Loader />}
             <Form onSubmit={handlerSubmit}>
-                <Group className="mb-3" controlId="name">
-                    <Label>Name</Label>
-                    <Control
-                        name="name"
-                        type="name"
-                        placeholder="Enter name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="email">
-                    <Label>Email address</Label>
-                    <Control
-                        name="email"
-                        type="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="password">
-                    <Label>Password</Label>
-                    <Control
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="confirmPassword">
-                    <Label>Confirm Password</Label>
-                    <Control
-                        name="password"
-                        type="password"
-                        placeholder="Enter Password Again"
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
-                    />
-                </Group>
-                <Group className="mb-3" controlId="checkbox">
-                    <Check
-                        type="checkbox"
-                        label="Show Password"
-                        onClick={() => setShowPassword(!showPassword)}
-                    />
-                </Group>
-                <Button variant="primary" type="submit">
-                    Register
-                </Button>
+                <FormField
+                    label="Name"
+                    name="name"
+                    value={name}
+                    setFunc={setName}
+                />
+                <FormField
+                    label="Email address"
+                    name="email"
+                    value={email}
+                    setFunc={setEmail}
+                />
+                <FormField
+                    label="Password"
+                    name="password"
+                    value={password}
+                    setFunc={setPassword}
+                    type={showPassword ? "text" : "password"}
+                />
+                <FormField
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    setFunc={setConfirmPassword}
+                    type="password"
+                />
+                <PasswordShowToggle
+                    showPassword={showPassword}
+                    setFunc={setShowPassword}
+                />
+                <SubmitButton label="Register" />
             </Form>
-            <Row className="py-3">
-                <Col>
-                    Have an Account?{" "}
-                    <Link
-                        to={redirect ? `/login?redirect=${redirect}` : "/login"}
-                    >
-                        Login
-                    </Link>
-                </Col>
-            </Row>
+            <RedirectOption
+                msg="Have an Account? "
+                redirect={redirect}
+                to="/login"
+                toName="Login"
+            />
         </FormContainer>
     );
 };
