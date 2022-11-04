@@ -6,6 +6,7 @@ import { saveShippingAddressAction } from "../../stores/actions/cartActions.js";
 import FormContainer from "../components/FormContainer.jsx";
 import FormField from "../components/FormField.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
+import CheckoutSteps from "../components/CheckoutSteps.jsx";
 
 const ShippingScreen = () => {
     const navigate = useNavigate();
@@ -28,34 +29,37 @@ const ShippingScreen = () => {
 
     return (
         <FormContainer>
-            <h1>Shipping</h1>
-            <Form onSubmit={handleSubmit}>
-                <FormField
-                    label="Address"
-                    name="address"
-                    value={address}
-                    setFunc={setAddress}
-                />
-                <FormField
-                    label="City"
-                    name="city"
-                    value={city}
-                    setFunc={setCity}
-                />
-                <FormField
-                    label="Postal Code"
-                    name="postalCode"
-                    value={postalCode}
-                    setFunc={setPostalCode}
-                />
-                <FormField
-                    label="Country"
-                    name="country"
-                    value={country}
-                    setFunc={setCountry}
-                />
-                <SubmitButton label="Continue" />
-            </Form>
+            <>
+                <CheckoutSteps step1 step2 />
+                <h1>Shipping</h1>
+                <Form onSubmit={handleSubmit}>
+                    <FormField
+                        label="Address"
+                        name="address"
+                        value={address}
+                        setFunc={setAddress}
+                    />
+                    <FormField
+                        label="City"
+                        name="city"
+                        value={city}
+                        setFunc={setCity}
+                    />
+                    <FormField
+                        label="Postal Code"
+                        name="postalCode"
+                        value={postalCode}
+                        setFunc={setPostalCode}
+                    />
+                    <FormField
+                        label="Country"
+                        name="country"
+                        value={country}
+                        setFunc={setCountry}
+                    />
+                    <SubmitButton label="Continue" />
+                </Form>
+            </>
         </FormContainer>
     );
 };
