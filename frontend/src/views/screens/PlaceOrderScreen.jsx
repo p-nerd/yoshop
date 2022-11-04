@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Col, ListGroup, Row, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
     calculateShippingPrice,
     calculateTotalCartItemsPrice,
@@ -7,12 +9,14 @@ import {
     calculateTexPrice,
     calculateTotalPrice,
 } from "../../logic/cartLogic.js";
+import { createOrderAction } from "../../stores/actions/orderActions.js";
 import CheckoutSteps from "../components/CheckoutSteps.jsx";
 import Message from "../components/Message.jsx";
 import ProductLinkAndName from "../components/ProductLinkAndName.jsx";
 
 const PlaceOrderScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { cartItems, shippingAddress, paymentMethod } = useSelector(
         s => s.cart
     );
@@ -22,8 +26,26 @@ const PlaceOrderScreen = () => {
     const texPrice = calculateTexPrice(itemsPrice);
     const totalPrice = calculateTotalPrice(itemsPrice, shippingPrice, texPrice);
 
+    const { order, success, error } = useSelector(s => s.orderCreate);
+
+    useEffect(() => {
+        if (success) {
+            navigate(`/order/${order._id}`);
+        }
+    }, [success, navigate, order]);
+
     const handlePlaceOrder = () => {
-        console.log("Order");
+        dispatch(
+            createOrderAction({
+                orderItems: cartItems,
+                shippingAddress,
+                paymentMethod,
+                itemsPrice,
+                shippingPrice,
+                texPrice,
+                totalPrice,
+            })
+        );
     };
 
     return (
@@ -115,6 +137,11 @@ const PlaceOrderScreen = () => {
                                     <Col>Total Price</Col>
                                     <Col>৳ {totalPrice}</Col>
                                 </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {error && (
+                                    <Message variant="danger">{error}</Message>
+                                )}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Button

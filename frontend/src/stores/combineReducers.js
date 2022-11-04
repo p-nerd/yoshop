@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { cartReducer } from "./reducers/cartReducers.js";
+import { orderCreateReducer } from "./reducers/orderReducers.js";
 import {
     productDetailsReducer,
     productListReducer,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    orderCreate: orderCreateReducer,
 });
 
 export default reducers;
