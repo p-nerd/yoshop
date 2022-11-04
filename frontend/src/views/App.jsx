@@ -2,8 +2,8 @@ import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/bootstrap.css";
 import "./styles/index.css";
-import Footer from "./components/Footer.jsx";
-import Header from "./components/Header.jsx";
+import FooterScreen from "./screens/FooterScreen.jsx";
+import HeaderScreen from "./screens/HeaderScreen.jsx";
 import CartScreen from "./screens/CartScreen.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen.jsx";
@@ -14,7 +14,7 @@ import ShippingScreen from "./screens/ShippingScreen.jsx";
 
 export default () => (
     <BrowserRouter>
-        <Header />
+        <HeaderScreen />
         <main className="py-3">
             <Container>
                 <Routes>
@@ -37,6 +37,6 @@ export default () => (
                 </Routes>
             </Container>
         </main>
-        <Footer />
+        <FooterScreen />
     </BrowserRouter>
 );

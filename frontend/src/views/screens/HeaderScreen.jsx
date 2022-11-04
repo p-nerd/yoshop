@@ -6,7 +6,7 @@ import { logoutAction } from "../../stores/actions/userActions.js";
 
 const { Brand, Toggle, Collapse } = Navbar;
 
-export default () => {
+const HeaderScreen = () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector(s => s.userLogin);
     const logoutHandler = () => {
@@ -62,3 +62,5 @@ export default () => {
         </header>
     );
 };
+
+export default HeaderScreen;
