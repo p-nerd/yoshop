@@ -1,6 +1,7 @@
 import {
     CART_ADD_ITEM,
     CART_REMOVE_ITEM,
+    CART_SAVE_PAYMENT_METHOD,
     CART_SAVE_SHIPPING_ADDRESS,
 } from "./../constants.js";
 import { getOneProduct } from "../../services/productService.js";
@@ -36,4 +37,9 @@ export const removeFromCart = productId => async (dispatch, getState) => {
 export const saveShippingAddressAction = shippingData => async dispatch => {
     dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: shippingData });
     addItemToLocalStorage("shippingAddress", shippingData);
+};
+
+export const savePaymentMethodAction = paymentMethod => async dispatch => {
+    dispatch({ type: CART_SAVE_PAYMENT_METHOD, payload: paymentMethod });
+    addItemToLocalStorage("paymentMethod", paymentMethod);
 };

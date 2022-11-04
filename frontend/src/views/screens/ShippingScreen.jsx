@@ -8,7 +8,7 @@ import FormField from "../components/FormField.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
 import CheckoutSteps from "../components/CheckoutSteps.jsx";
 
-const ShippingScreen = () => {
+export default () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -63,5 +63,3 @@ const ShippingScreen = () => {
         </FormContainer>
     );
 };
-
-export default ShippingScreen;

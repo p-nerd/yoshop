@@ -11,6 +11,7 @@ import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 import ShippingScreen from "./screens/ShippingScreen.jsx";
+import PaymentScreen from "./screens/PaymentScreen.jsx";
 
 export default () => (
     <BrowserRouter>
@@ -34,6 +35,7 @@ export default () => (
                         exact
                         element={<ShippingScreen />}
                     />
+                    <Route path="/payment" exact element={<PaymentScreen />} />
                 </Routes>
             </Container>
         </main>
