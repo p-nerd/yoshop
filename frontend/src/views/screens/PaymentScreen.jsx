@@ -8,17 +8,35 @@ import FormContainer from "../components/FormContainer.jsx";
 import PaymentMethodItem from "../components/PaymentMethodItem.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
 
+const paymentMethods = [
+    {
+        label: "PayPal or Credit Card",
+        id: "paypal",
+        value: "PayPal",
+        rest: { checked: true },
+    },
+    {
+        label: "bKash",
+        id: "bkash",
+        value: "bKash",
+        rest: {},
+    },
+    {
+        label: "Cash on Delivery",
+        id: "cod",
+        value: "Cash on Delivery",
+        rest: {},
+    },
+];
+
 export default () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const { shippingAddress } = useSelector(s => s.cart);
+    if (!shippingAddress) navigate("/shipping");
 
-    if (!shippingAddress) {
-        navigate("/shipping");
-    }
-
-    const [paymentMethod, setPaymentMethod] = useState("paypal");
+    const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].value);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -36,17 +54,16 @@ export default () => {
                         <Form.Label as="legend">Select Method</Form.Label>
                     </Form.Group>
                     <Col style={{ marginBottom: "20px" }}>
-                        <PaymentMethodItem
-                            label="PayPal or Credit Card"
-                            id="paypal"
-                            setFunc={setPaymentMethod}
-                            checked
-                        />
-                        <PaymentMethodItem
-                            label="Cash on Delivery"
-                            id="cod"
-                            setFunc={setPaymentMethod}
-                        />
+                        {paymentMethods.map(method => (
+                            <PaymentMethodItem
+                                key={method.id}
+                                label={method.label}
+                                id={method.id}
+                                value={method.value}
+                                setFunc={setPaymentMethod}
+                                {...method.rest}
+                            />
+                        ))}
                     </Col>
                     <SubmitButton label="Continue" />
                 </Form>
