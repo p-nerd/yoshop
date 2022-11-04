@@ -15,11 +15,6 @@ const FormField = ({ label, name, value, setFunc, required, type }) => (
     </Form.Group>
 );
 
-FormField.defaultProps = {
-    required: true,
-    type: "text",
-};
-
 FormField.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -27,6 +22,11 @@ FormField.propTypes = {
     setFunc: PropTypes.func.isRequired,
     required: PropTypes.bool,
     type: PropTypes.string,
+};
+
+FormField.defaultProps = {
+    required: true,
+    type: "text",
 };
 
 export default FormField;
