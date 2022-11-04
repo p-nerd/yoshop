@@ -36,35 +36,37 @@ const LoginScreen = () => {
 
     return (
         <FormContainer>
-            <h1>Login</h1>
-            {error && <Message variant="danger">{error}</Message>}{" "}
-            {loading && <Loader />}
-            <Form onSubmit={handlerSubmit}>
-                <FormField
-                    label="Email address"
-                    name="email"
-                    value={email}
-                    setFunc={setEmail}
+            <>
+                <h1>Login</h1>
+                {error && <Message variant="danger">{error}</Message>}{" "}
+                {loading && <Loader />}
+                <Form onSubmit={handlerSubmit}>
+                    <FormField
+                        label="Email address"
+                        name="email"
+                        value={email}
+                        setFunc={setEmail}
+                    />
+                    <FormField
+                        label="Password"
+                        name="password"
+                        value={password}
+                        setFunc={setPassword}
+                        type={showPassword ? "text" : "password"}
+                    />
+                    <PasswordShowToggle
+                        showPassword={showPassword}
+                        setFunc={setShowPassword}
+                    />
+                    <SubmitButton label="Sign In" />
+                </Form>
+                <RedirectOption
+                    msg="New Customer? "
+                    redirect={redirect}
+                    to="/signup"
+                    toName="Register"
                 />
-                <FormField
-                    label="Password"
-                    name="password"
-                    value={password}
-                    setFunc={setPassword}
-                    type={showPassword ? "text" : "password"}
-                />
-                <PasswordShowToggle
-                    showPassword={showPassword}
-                    setFunc={setShowPassword}
-                />
-                <SubmitButton label="Sign In" />
-            </Form>
-            <RedirectOption
-                msg="New Customer? "
-                redirect={redirect}
-                to="/signup"
-                toName="Register"
-            />
+            </>
         </FormContainer>
     );
 };

@@ -45,49 +45,51 @@ const RegisterScreen = () => {
 
     return (
         <FormContainer>
-            <h1>Register</h1>
-            {message && <Message variant="danger">{message}</Message>}{" "}
-            {error && <Message variant="danger">{error}</Message>}{" "}
-            {loading && <Loader />}
-            <Form onSubmit={handlerSubmit}>
-                <FormField
-                    label="Name"
-                    name="name"
-                    value={name}
-                    setFunc={setName}
+            <>
+                <h1>Register</h1>
+                {message && <Message variant="danger">{message}</Message>}{" "}
+                {error && <Message variant="danger">{error}</Message>}{" "}
+                {loading && <Loader />}
+                <Form onSubmit={handlerSubmit}>
+                    <FormField
+                        label="Name"
+                        name="name"
+                        value={name}
+                        setFunc={setName}
+                    />
+                    <FormField
+                        label="Email address"
+                        name="email"
+                        value={email}
+                        setFunc={setEmail}
+                    />
+                    <FormField
+                        label="Password"
+                        name="password"
+                        value={password}
+                        setFunc={setPassword}
+                        type={showPassword ? "text" : "password"}
+                    />
+                    <FormField
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        setFunc={setConfirmPassword}
+                        type="password"
+                    />
+                    <PasswordShowToggle
+                        showPassword={showPassword}
+                        setFunc={setShowPassword}
+                    />
+                    <SubmitButton label="Register" />
+                </Form>
+                <RedirectOption
+                    msg="Have an Account? "
+                    redirect={redirect}
+                    to="/login"
+                    toName="Login"
                 />
-                <FormField
-                    label="Email address"
-                    name="email"
-                    value={email}
-                    setFunc={setEmail}
-                />
-                <FormField
-                    label="Password"
-                    name="password"
-                    value={password}
-                    setFunc={setPassword}
-                    type={showPassword ? "text" : "password"}
-                />
-                <FormField
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    setFunc={setConfirmPassword}
-                    type="password"
-                />
-                <PasswordShowToggle
-                    showPassword={showPassword}
-                    setFunc={setShowPassword}
-                />
-                <SubmitButton label="Register" />
-            </Form>
-            <RedirectOption
-                msg="Have an Account? "
-                redirect={redirect}
-                to="/login"
-                toName="Login"
-            />
+            </>
         </FormContainer>
     );
 };

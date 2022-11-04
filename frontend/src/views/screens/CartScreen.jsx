@@ -50,7 +50,6 @@ export default () => {
 
     const checkoutHandler = () => {
         history("/login?redirect=shipping");
-        console.log("checkout");
     };
 
     return (

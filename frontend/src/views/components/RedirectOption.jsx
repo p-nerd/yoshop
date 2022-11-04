@@ -15,9 +15,9 @@ const RedirectOption = ({ msg, redirect, to, toName }) => (
 
 RedirectOption.propTypes = {
     msg: PropTypes.string.isRequired,
-    redirect: PropTypes.string.isRequired,
+    redirect: PropTypes.string,
     to: PropTypes.string.isRequired,
-    toName: PropTypes.func.isRequired,
+    toName: PropTypes.string.isRequired,
 };
 
 export default RedirectOption;
