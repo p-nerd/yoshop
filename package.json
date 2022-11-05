@@ -5,7 +5,8 @@
     "author": "Shihab Mahamud <shihab4t@gmail.com>",
     "license": "MIT",
     "engines": {
-        "node": "^16.17.1"
+        "yarn": ">=1.0.0 <2.0.0",
+        "node": ">=18.0.0 <19.0.0"
     },
     "scripts": {
         "server": "yarn --cwd backend dev",
