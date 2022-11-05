@@ -1,9 +1,8 @@
 # yoshop
 
-A full feature e-commerce app from scratch using MERN Stack
+A full feature e-commerce app from scratch using MERN Stack.
 
-I build this project via following [Brad Traversy](https://www.linkedin.com/in/bradtraversy/) Udemy course called [MERN eCommerce From Scratch
-](https://www.udemy.com/course/mern-ecommerce/). But I changed code, folder structure and logic with my own way. So it not just copy.
+I build this project by following [Brad Traversy](https://www.linkedin.com/in/bradtraversy/) Udemy course called [MERN eCommerce From Scratch](https://www.udemy.com/course/mern-ecommerce/). But I changed the code, folder structure, and logic in my own way. So it is not just another copy.
 
 ## Links
 
@@ -28,9 +27,15 @@ I build this project via following [Brad Traversy](https://www.linkedin.com/in/b
 ## Start Development Server
 
 -   First install
-    -   `Node v18`
-    -   `MongoDB`
-    -   `Yarn` `$ npm i -g yarn`
+    -   [`Node v18`](https://nodejs.org/de/download/)
+    -   [`MongoDB`](https://www.mongodb.com/try/download/community)
+    -   `Yarn`
+    ```sh
+    $ node -v
+    $ npm -v
+    $ npm i -g yarn
+    $ yarn -v
+    ```
 -   Second clone the repo
     ```sh
     $ git clone https://github.com/shh26b/yoshop.git
