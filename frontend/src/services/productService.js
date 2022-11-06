@@ -1,13 +1,10 @@
-import axios from "axios";
-import { BACKEND_API_URL } from "../utils/envUtil.js";
+import * as httpC from "../utils/httpC.js";
 import { logIfNotProduction } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
-axios.defaults.baseURL = BACKEND_API_URL;
-
 export const getAllProducts = async () => {
     try {
-        const { data: products, status } = await axios.get(`/products`);
+        const { data: products, status } = await httpC.get("/products", null);
         return { products, status };
     } catch (e) {
         const message = eem(e, "Get all product request unsuccessful");
@@ -18,8 +15,9 @@ export const getAllProducts = async () => {
 
 export const getOneProduct = async productId => {
     try {
-        const { data: product, status } = await axios.get(
-            `/products/${productId}`
+        const { data: product, status } = await httpC.get(
+            `/products/${productId}`,
+            null
         );
         return { product, status };
     } catch (e) {
