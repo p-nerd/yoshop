@@ -1,15 +1,13 @@
-import axios from "axios";
-import { BACKEND_API_URL } from "../utils/envUtil.js";
 import { logIfNotProduction } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
-
-axios.defaults.baseURL = BACKEND_API_URL;
+import * as httpC from "../utils/httpC.js";
 
 export const loginUser = async loginData => {
     try {
-        const { data: user, status } = await axios.post(
+        const { data: user, status } = await httpC.post(
             "/users/login",
-            loginData
+            loginData,
+            null
         );
         return { user, status };
     } catch (e) {
@@ -21,7 +19,11 @@ export const loginUser = async loginData => {
 
 export const registerUser = async registerData => {
     try {
-        const { data: user, status } = await axios.post("/users", registerData);
+        const { data: user, status } = await httpC.post(
+            "/users",
+            registerData,
+            null
+        );
         return { user, status };
     } catch (e) {
         const message = eem(e, "Register user request unsuccessful");
@@ -32,11 +34,7 @@ export const registerUser = async registerData => {
 
 export const getUserById = async (id, token) => {
     try {
-        const { data: user, status } = await axios.get(`/users/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const { data: user, status } = await httpC.get(`/users/${id}`, token);
         return { user, status };
     } catch (e) {
         const message = eem(e, "Get user profile request unsuccessful");
@@ -47,11 +45,11 @@ export const getUserById = async (id, token) => {
 
 export const updateUserProfile = async (userData, token) => {
     try {
-        const { data: user, status } = await axios.put(`/users`, userData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const { data: user, status } = await httpC.put(
+            "/users",
+            userData,
+            token
+        );
         return { user, status };
     } catch (e) {
         const message = eem(e, "Update user profile request unsuccessful");

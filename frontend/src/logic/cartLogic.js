@@ -33,7 +33,7 @@ export const calculateTotalPriceOfItemWithQty = (qty, price) => {
         }
     }
 
-    return xQty * xPrice;
+    return Number(xQty * xPrice).toFixed(2);
 };
 
 export const calculateShippingPrice = itemsPrice => {

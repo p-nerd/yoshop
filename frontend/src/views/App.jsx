@@ -13,6 +13,7 @@ import ProfileScreen from "./screens/ProfileScreen.jsx";
 import ShippingScreen from "./screens/ShippingScreen.jsx";
 import PaymentScreen from "./screens/PaymentScreen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
+import OrderScreen from "./screens/OrderScreen.jsx";
 
 export default () => (
     <BrowserRouter>
@@ -42,6 +43,7 @@ export default () => (
                         exact
                         element={<PlaceOrderScreen />}
                     />
+                    <Route path="/order/:id" exact element={<OrderScreen />} />
                 </Routes>
             </Container>
         </main>
