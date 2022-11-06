@@ -27,9 +27,10 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
 ## Start Development Server
 
 -   First install
-    -   [`Node v18`](https://nodejs.org/de/download/)
+    -   [`Node v16`](https://nodejs.org/de/download/)
     -   [`MongoDB`](https://www.mongodb.com/try/download/community)
     -   `Yarn`
+    -   [`Make`](<https://en.wikipedia.org/wiki/Make_(software)>)
     ```sh
     $ node -v
     $ npm -v
@@ -43,6 +44,9 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
     ```
 -   Install Dependencies
     ```sh
+    make install
+    ```
+    <!-- ```sh
     $ cd backend
     $ yarn install
     $ cp .env.example .env
@@ -55,8 +59,12 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
     ```sh
     $ cd ..
     $ yarn install
-    ```
+    ``` -->
 -   Now start development
+    ```sh
+    $ make dev
+    ```
+    or
     ```sh
     $ yarn dev
     ```
