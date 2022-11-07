@@ -5,10 +5,10 @@ const Message = ({ variant, children }) => (
     <Alert variant={variant}>{children}</Alert>
 );
 
-Message.propTypes = {
-    variant: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-};
+// Message.propTypes = {
+//     variant: PropTypes.string.isRequired,
+//     children: PropTypes.element.isRequired,
+// };
 
 Message.defaultProps = {
     variant: "info",

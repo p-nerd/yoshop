@@ -56,13 +56,13 @@ const PlaceOrderScreen = () => {
                     <ListGroup variant="flush">
                         <ListGroup.Item>
                             <h2>Shipping</h2>
-                            <p>
+                            <div>
                                 <strong>Address: </strong>
                                 {shippingAddress.address},{" "}
                                 {shippingAddress.city}{" "}
                                 {shippingAddress.postalCode},{" "}
                                 {shippingAddress.country}
-                            </p>
+                            </div>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Payment Method</h2>

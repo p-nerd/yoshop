@@ -25,7 +25,9 @@ const OrderScreen = () => {
     return loading ? (
         <Loader />
     ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">
+            <>{error}</>
+        </Message>
     ) : (
         order && (
             <>
@@ -35,55 +37,59 @@ const OrderScreen = () => {
                         <ListGroup variant="flush">
                             <ListGroup.Item>
                                 <h2>Shipping</h2>
-                                <p>
+                                <div>
                                     <strong>Name: </strong> {order.user.name}
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     <a href={`mailto:${order.user.email}`}>
                                         {order.user.email}
                                     </a>
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     <strong>Address: </strong>
                                     {order.shippingAddress.address},{" "}
                                     {order.shippingAddress.city}{" "}
                                     {order.shippingAddress.postalCode},{" "}
                                     {order.shippingAddress.country}
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     {order.isDelivered ? (
                                         <Message variant="success">
-                                            Delivered on {order.DeliveredAt}
+                                            <>
+                                                Delivered on {order.DeliveredAt}
+                                            </>
                                         </Message>
                                     ) : (
                                         <Message variant="danger">
-                                            Not Delivered
+                                            <>Not Delivered</>
                                         </Message>
                                     )}
-                                </p>
+                                </div>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Payment Method</h2>
-                                <p>
+                                <div>
                                     <strong>Method: </strong>
                                     {order.paymentMethod}
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     {order.isPaid ? (
                                         <Message variant="success">
-                                            Paid on {order.paidAt}
+                                            <>Paid on {order.paidAt}</>
                                         </Message>
                                     ) : (
                                         <Message variant="danger">
-                                            Not Paid
+                                            <>Not Paid</>
                                         </Message>
                                     )}
-                                </p>
+                                </div>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Order Items</h2>
                                 {order.orderItems.length === 0 ? (
-                                    <Message>Your cart is empty</Message>
+                                    <Message>
+                                        <>Your cart is empty</>
+                                    </Message>
                                 ) : (
                                     <ListGroup variant="flush">
                                         {order.orderItems.map((x, i) => (
