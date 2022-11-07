@@ -25,7 +25,7 @@ export const get = async (uri, token) => {
  * @returns {Promise<AxiosResponse<any, any>>}
  */
 export const post = async (uri, data, token) => {
-    await axios.post(uri, data, getConfig(token));
+    return await axios.post(uri, data, getConfig(token));
 };
 
 /**
@@ -36,5 +36,5 @@ export const post = async (uri, data, token) => {
  * @returns {Promise<AxiosResponse<any, any>>}
  */
 export const put = async (uri, data, token) => {
-    await axios.put(uri, data, getConfig(token));
+    return await axios.put(uri, data, getConfig(token));
 };

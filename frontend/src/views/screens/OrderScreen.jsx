@@ -1,20 +1,10 @@
 import { useEffect } from "react";
-import { Col, ListGroup, Row, Image, Card, Button } from "react-bootstrap";
+import { Col, ListGroup, Row, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {
-    calculateShippingPrice,
-    calculateTotalCartItemsPrice,
-    calculateTotalPriceOfItemWithQty,
-    calculateTexPrice,
-    calculateTotalPrice,
-} from "../../logic/cartLogic.js";
-import {
-    createOrderAction,
-    getOrderByIdAction,
-} from "../../stores/actions/orderActions.js";
-import CheckoutSteps from "../components/CheckoutSteps.jsx";
+import { calculateTotalPriceOfItemWithQty } from "../../logic/cartLogic.js";
+import { getOrderByIdAction } from "../../stores/actions/orderActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import ProductLinkAndName from "../components/ProductLinkAndName.jsx";
@@ -32,8 +22,6 @@ const OrderScreen = () => {
         dispatch(getOrderByIdAction(orderId));
     }, [dispatch, getOrderByIdAction, orderId]);
 
-    const handleUpdateOrder = () => {};
-
     return loading ? (
         <Loader />
     ) : error ? (
@@ -48,17 +36,49 @@ const OrderScreen = () => {
                             <ListGroup.Item>
                                 <h2>Shipping</h2>
                                 <p>
+                                    <strong>Name: </strong> {order.user.name}
+                                </p>
+                                <p>
+                                    <a href={`mailto:${order.user.email}`}>
+                                        {order.user.email}
+                                    </a>
+                                </p>
+                                <p>
                                     <strong>Address: </strong>
                                     {order.shippingAddress.address},{" "}
                                     {order.shippingAddress.city}{" "}
                                     {order.shippingAddress.postalCode},{" "}
                                     {order.shippingAddress.country}
                                 </p>
+                                <p>
+                                    {order.isDelivered ? (
+                                        <Message variant="success">
+                                            Delivered on {order.DeliveredAt}
+                                        </Message>
+                                    ) : (
+                                        <Message variant="danger">
+                                            Not Delivered
+                                        </Message>
+                                    )}
+                                </p>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Payment Method</h2>
-                                <strong>Method: </strong>
-                                {order.paymentMethod}
+                                <p>
+                                    <strong>Method: </strong>
+                                    {order.paymentMethod}
+                                </p>
+                                <p>
+                                    {order.isPaid ? (
+                                        <Message variant="success">
+                                            Paid on {order.paidAt}
+                                        </Message>
+                                    ) : (
+                                        <Message variant="danger">
+                                            Not Paid
+                                        </Message>
+                                    )}
+                                </p>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Order Items</h2>
@@ -130,23 +150,6 @@ const OrderScreen = () => {
                                         <Col>Total Price</Col>
                                         <Col>৳ {order.totalPrice}</Col>
                                     </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    {error && (
-                                        <Message variant="danger">
-                                            {error}
-                                        </Message>
-                                    )}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Button
-                                        type="button"
-                                        className="btn-block"
-                                        disabled={order.orderItems.length === 0}
-                                        onClick={handleUpdateOrder}
-                                    >
-                                        Update
-                                    </Button>
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card>
