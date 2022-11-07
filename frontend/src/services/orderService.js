@@ -38,3 +38,14 @@ export const payOrderRequest = async (orderId, data, token) => {
         throw new Error(message);
     }
 };
+
+export const listMyOrderRequest = async token => {
+    try {
+        const { data, status } = await httpC.get("/orders/me", token);
+        return { data, status };
+    } catch (e) {
+        const message = eem(e, "Get order by id request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
     createNewOrder,
+    getLoggedInUserOrders,
     getOrderById,
-    getOrders,
     updateOrderToPaid,
 } from "../controllers/orderController.js";
 import protect from "../middlewares/protect.js";
@@ -18,11 +18,11 @@ const orderRouter = Router();
 orderRouter.post("/", [protect], createNewOrder);
 
 /**
- * @desc Get all orders
- * @route GET /api/orders
+ * @desc Get logged in user orders
+ * @route GET /api/orders/me
  * @access Private
  */
-orderRouter.get("/", [protect], getOrders);
+orderRouter.get("/me", [protect], getLoggedInUserOrders);
 
 /**
  * @desc Get order by ID

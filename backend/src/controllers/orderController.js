@@ -32,17 +32,6 @@ export const createNewOrder = wrap(async (req, res, next) => {
     return res.status(201).json(createdOrder);
 });
 
-export const getOrders = wrap(async (req, res, next) => {
-    const order = await Order.find().populate("user", "name email");
-
-    if (!order) {
-        res.status(404);
-        throw new Error("Orders not found");
-    }
-
-    return res.status(200).json(order);
-});
-
 export const getOrderById = wrap(async (req, res, next) => {
     const orderId = req.params.id;
 
@@ -78,4 +67,9 @@ export const updateOrderToPaid = wrap(async (req, res, next) => {
 
     const updateOrder = await order.save();
     return res.status(200).json(updateOrder);
+});
+
+export const getLoggedInUserOrders = wrap(async (req, res, next) => {
+    const orders = await Order.find({ user: req.user._id });
+    return res.status(200).json(orders);
 });

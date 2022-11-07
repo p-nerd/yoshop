@@ -9,8 +9,10 @@ import {
     removeFromLocalStorage,
 } from "../../utils/localStorageUtil.js";
 import {
+    ORDER_LIST_ME_RESET,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
+    USER_DETAILS_RESET,
     USER_DETAILS_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
@@ -38,6 +40,8 @@ export const loginAction = (email, password) => async dispatch => {
 export const logoutAction = () => async dispatch => {
     removeFromLocalStorage("userInfo");
     dispatch({ type: USER_LOGOUT });
+    dispatch({ type: ORDER_LIST_ME_RESET });
+    dispatch({ type: USER_DETAILS_RESET });
 };
 
 export const registerAction = (name, email, password) => async dispatch => {

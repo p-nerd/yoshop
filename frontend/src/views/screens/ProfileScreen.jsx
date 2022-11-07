@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import {
     getProfileAction,
     updateUserProfileAction,
 } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
+import { listMyOrderAction } from "../../stores/actions/orderActions.js";
 import Message from "./../components/Message.jsx";
 import Loader from "./../components/Loader.jsx";
 import FormField from "../components/FormField.jsx";
 import PasswordShowToggle from "../components/PasswordShowToggle.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
+import XIcon from "../components/XIcon.jsx";
 
 const ProfileScreen = () => {
     const navigate = useNavigate();
@@ -27,6 +30,11 @@ const ProfileScreen = () => {
     const { loading, error, user } = useSelector(s => s.userDetails);
     const { userInfo } = useSelector(s => s.userLogin);
     const { success } = useSelector(s => s.userUpdateProfile);
+    const {
+        loading: loadingOrders,
+        orders,
+        error: errorOrders,
+    } = useSelector(s => s.orderListMe);
 
     useEffect(() => {
         if (isObjectEmpty(userInfo)) {
@@ -34,6 +42,7 @@ const ProfileScreen = () => {
         } else {
             if (!user.name) {
                 dispatch(getProfileAction("/profile"));
+                dispatch(listMyOrderAction());
             } else {
                 setName(user.name);
                 setEmail(user.email);
@@ -103,6 +112,73 @@ const ProfileScreen = () => {
             </Col>
             <Col md={9}>
                 <h2>My Orders</h2>
+                {loadingOrders ? (
+                    <Loader />
+                ) : errorOrders ? (
+                    <Message variant="danger">
+                        <>{errorOrders}</>
+                    </Message>
+                ) : (
+                    <Table
+                        striped
+                        bordered
+                        hover
+                        responsive
+                        className="table-sm"
+                    >
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DATE</th>
+                                <th>TOTAL</th>
+                                <th>PAID</th>
+                                <th>DELIVERED</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orders.map(order => (
+                                <tr key={order._id}>
+                                    <td>{order._id}</td>
+                                    <td>{order.createdAt.substring(0, 10)}</td>
+                                    <td>{order.totalPrice}</td>
+                                    <td>
+                                        {order.isPaid ? (
+                                            String(order.paidAt).substring(
+                                                0,
+                                                10
+                                            )
+                                        ) : (
+                                            <XIcon />
+                                        )}
+                                    </td>
+                                    <td>
+                                        {order.isDelivered ? (
+                                            String(order.deliveredAt).substring(
+                                                0,
+                                                10
+                                            )
+                                        ) : (
+                                            <XIcon />
+                                        )}
+                                    </td>
+                                    <td>
+                                        <LinkContainer
+                                            to={`/order/${order._id}`}
+                                        >
+                                            <Button
+                                                className="btn-sm"
+                                                variant="light"
+                                            >
+                                                Details
+                                            </Button>
+                                        </LinkContainer>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
             </Col>
         </Row>
     );

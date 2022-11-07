@@ -1,15 +1,21 @@
 import {
     createOrderRequest,
     getOrderByIdRequest,
+    listMyOrderRequest,
     payOrderRequest,
 } from "../../services/orderService.js";
+import { removeFromLocalStorage } from "../../utils/localStorageUtil.js";
 import {
+    CART_RESET,
     ORDER_CREATE_FAIL,
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
     ORDER_DETAILS_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
+    ORDER_LIST_ME_FAIL,
+    ORDER_LIST_ME_REQUEST,
+    ORDER_LIST_ME_SUCCESS,
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS,
@@ -25,6 +31,8 @@ export const createOrderAction = order => async (dispatch, getState) => {
 
         const { data } = await createOrderRequest(order, userInfo.token);
         dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
+        dispatch({ type: CART_RESET });
+        removeFromLocalStorage("cartItems");
     } catch (e) {
         dispatch({ type: ORDER_CREATE_FAIL, payload: e.message });
     }
@@ -61,3 +69,19 @@ export const payOrderAction =
             dispatch({ type: ORDER_PAY_FAIL, payload: e.message });
         }
     };
+
+export const listMyOrderAction = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ORDER_LIST_ME_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const { data } = await listMyOrderRequest(userInfo.token);
+
+        dispatch({ type: ORDER_LIST_ME_SUCCESS, payload: data });
+    } catch (e) {
+        dispatch({ type: ORDER_LIST_ME_FAIL, payload: e.message });
+    }
+};
