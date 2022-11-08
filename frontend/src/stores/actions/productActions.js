@@ -11,7 +11,7 @@ import {
     getOneProduct,
 } from "../../services/productService.js";
 
-export const listProducts = () => async dispatch => {
+export const listProductsAction = () => async dispatch => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
         const { products } = await getAllProducts();
@@ -21,7 +21,7 @@ export const listProducts = () => async dispatch => {
     }
 };
 
-export const listProductDetails = productId => async dispatch => {
+export const listProductDetailsByIdAction = productId => async dispatch => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
         const { product } = await getOneProduct(productId);

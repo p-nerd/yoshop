@@ -4,7 +4,7 @@ import { Form, Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import {
-    getUserDetailsAction,
+    getUserDetailsByIdAction,
     updateUserProfileAction,
 } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
@@ -41,7 +41,7 @@ const ProfileScreen = () => {
             navigate(`/login`);
         } else {
             if (!user.name) {
-                dispatch(getUserDetailsAction("/profile"));
+                dispatch(getUserDetailsByIdAction("/profile"));
                 dispatch(listMyOrderAction());
             } else {
                 setName(user.name);

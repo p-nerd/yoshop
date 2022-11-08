@@ -17,8 +17,8 @@ import {
     useSearchParams,
 } from "react-router-dom";
 import {
-    addToCart,
-    removeFromCart,
+    addToCartAction,
+    removeFromCartAction,
 } from "./../../stores/actions/cartActions.js";
 import Message from "../components/Message.jsx";
 import {
@@ -40,12 +40,12 @@ export default () => {
 
     useEffect(() => {
         if (productId) {
-            dispatch(addToCart(productId, qty));
+            dispatch(addToCartAction(productId, qty));
         }
     }, [dispatch, productId, qty]);
 
     const removeFromCartHandler = productId => {
-        dispatch(removeFromCart(productId));
+        dispatch(removeFromCartAction(productId));
     };
 
     const checkoutHandler = () => {
@@ -85,7 +85,7 @@ export default () => {
                                             value={item.qty}
                                             onChange={e =>
                                                 dispatch(
-                                                    addToCart(
+                                                    addToCartAction(
                                                         item.product,
                                                         Number(e.target.value)
                                                     )

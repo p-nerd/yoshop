@@ -3,8 +3,8 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getUserDetailsAction,
-    userUpdateAction,
+    getUserDetailsByIdAction,
+    userUpdateByIdAction,
 } from "../../stores/actions/userActions.js";
 import { USER_UPDATE_RESET } from "../../stores/constants/userConstants.js";
 import FormContainer from "../components/FormContainer.jsx";
@@ -38,7 +38,7 @@ const UserEditScreen = () => {
             navigate("/admin/users");
         } else {
             if (!user.name || user._id !== userId) {
-                dispatch(getUserDetailsAction(userId));
+                dispatch(getUserDetailsByIdAction(userId));
             } else {
                 setName(user.name);
                 setEmail(user.email);
@@ -50,7 +50,7 @@ const UserEditScreen = () => {
     const handlerSubmit = async e => {
         e.preventDefault();
         console.log(isAdmin);
-        dispatch(userUpdateAction({ _id: userId, name, email, isAdmin }));
+        dispatch(userUpdateByIdAction({ _id: userId, name, email, isAdmin }));
     };
 
     return (

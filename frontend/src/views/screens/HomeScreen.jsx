@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { listProducts } from "./../../stores/actions/productActions.js";
+import { listProductsAction } from "./../../stores/actions/productActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import Product from "../components/Product.jsx";
@@ -11,7 +11,7 @@ export default () => {
     const { loading, error, products } = useSelector(s => s.productList);
 
     useEffect(() => {
-        dispatch(listProducts());
+        dispatch(listProductsAction());
     }, [dispatch]);
 
     return (

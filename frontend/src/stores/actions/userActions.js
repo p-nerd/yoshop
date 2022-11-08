@@ -72,7 +72,7 @@ export const registerAction = (name, email, password) => async dispatch => {
     }
 };
 
-export const getUserDetailsAction = id => async (dispatch, getState) => {
+export const getUserDetailsByIdAction = id => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 
@@ -101,7 +101,7 @@ export const userListAction = () => async (dispatch, getState) => {
     }
 };
 
-export const userRemoveAction = userId => async (dispatch, getState) => {
+export const userRemoveByIdAction = userId => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_REMOVE_REQUEST });
         const {
@@ -133,7 +133,7 @@ export const updateUserProfileAction =
         }
     };
 
-export const userUpdateAction = user => async (dispatch, getState) => {
+export const userUpdateByIdAction = user => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_UPDATE_REQUEST });
 
