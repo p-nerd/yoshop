@@ -13,7 +13,7 @@ import {
     ORDER_PAY_REQUEST,
     ORDER_PAY_RESET,
     ORDER_PAY_SUCCESS,
-} from "../constants.js";
+} from "../constants/orderConstants.js";
 
 export const orderCreateReducer = (state = {}, action) => {
     switch (action.type) {

@@ -11,8 +11,8 @@ import {
     addItemToLocalStorage,
     removeFromLocalStorage,
 } from "../../utils/localStorageUtil.js";
+import { ORDER_LIST_ME_RESET } from "../constants/orderConstants.js";
 import {
-    ORDER_LIST_ME_RESET,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_RESET,
@@ -35,8 +35,6 @@ import {
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
-} from "../constants.js";
-import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,

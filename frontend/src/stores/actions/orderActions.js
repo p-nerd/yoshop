@@ -6,7 +6,6 @@ import {
 } from "../../services/orderService.js";
 import { removeFromLocalStorage } from "../../utils/localStorageUtil.js";
 import {
-    CART_RESET,
     ORDER_CREATE_FAIL,
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
@@ -19,7 +18,8 @@ import {
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS,
-} from "../constants.js";
+} from "../constants/orderConstants.js";
+import { CART_RESET } from "./../constants/cartConstants.js";
 
 export const createOrderAction = order => async (dispatch, getState) => {
     try {

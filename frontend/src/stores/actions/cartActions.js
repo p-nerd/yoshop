@@ -3,7 +3,7 @@ import {
     CART_REMOVE_ITEM,
     CART_SAVE_PAYMENT_METHOD,
     CART_SAVE_SHIPPING_ADDRESS,
-} from "./../constants.js";
+} from "./../constants/cartConstants.js";
 import { getOneProduct } from "../../services/productService.js";
 import { addItemToLocalStorage } from "../../utils/localStorageUtil.js";
 

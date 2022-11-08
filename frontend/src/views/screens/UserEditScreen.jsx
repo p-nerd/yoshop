@@ -45,10 +45,11 @@ const UserEditScreen = () => {
                 setIsAdmin(user.isAdmin);
             }
         }
-    }, [userId, dispatch, successUpdate]);
+    }, [userId, dispatch, successUpdate, user]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
+        console.log(isAdmin);
         dispatch(userUpdateAction({ _id: userId, name, email, isAdmin }));
     };
 
