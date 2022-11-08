@@ -2,7 +2,7 @@ import * as httpC from "../utils/httpC.js";
 import { logIfNotProduction } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
-export const getAllProducts = async () => {
+export const getProductsRequest = async () => {
     try {
         const { data: products, status } = await httpC.get("/products", null);
         return { products, status };
@@ -13,7 +13,7 @@ export const getAllProducts = async () => {
     }
 };
 
-export const getOneProduct = async productId => {
+export const getProductByIdRequest = async productId => {
     try {
         const { data: product, status } = await httpC.get(
             `/products/${productId}`,

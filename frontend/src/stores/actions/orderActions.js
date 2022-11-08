@@ -1,7 +1,7 @@
 import {
     createOrderRequest,
     getOrderByIdRequest,
-    listMyOrderRequest,
+    orderListLoggedInUserRequest,
     payOrderRequest,
 } from "../../services/orderService.js";
 import {
@@ -78,7 +78,7 @@ export const listMyOrderAction = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const { data } = await listMyOrderRequest(userInfo.token);
+        const { data } = await orderListLoggedInUserRequest(userInfo.token);
 
         dispatch({ type: ORDER_LIST_ME_SUCCESS, payload: data });
     } catch (e) {

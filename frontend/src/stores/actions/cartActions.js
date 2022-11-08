@@ -4,12 +4,12 @@ import {
     CART_SAVE_PAYMENT_METHOD,
     CART_SAVE_SHIPPING_ADDRESS,
 } from "./../constants/cartConstants.js";
-import { getOneProduct } from "../../services/productService.js";
+import { getProductByIdRequest } from "../../services/productService.js";
 import { addItemToLocalStorage } from "../../utils/localStorageUtil.js";
 
 export const addToCartAction =
     (productId, qty) => async (dispatch, getState) => {
-        const { product } = await getOneProduct(productId);
+        const { product } = await getProductByIdRequest(productId);
         dispatch({
             type: CART_ADD_ITEM,
             payload: {

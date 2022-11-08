@@ -7,14 +7,14 @@ import {
     PRODUCT_LIST_SUCCESS,
 } from "./../constants/productConstants.js";
 import {
-    getAllProducts,
-    getOneProduct,
+    getProductsRequest,
+    getProductByIdRequest,
 } from "../../services/productService.js";
 
 export const listProductsAction = () => async dispatch => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
-        const { products } = await getAllProducts();
+        const { products } = await getProductsRequest();
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
     } catch (e) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: e.message });
@@ -24,7 +24,7 @@ export const listProductsAction = () => async dispatch => {
 export const listProductDetailsByIdAction = productId => async dispatch => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
-        const { product } = await getOneProduct(productId);
+        const { product } = await getProductByIdRequest(productId);
         dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: product });
     } catch (e) {
         dispatch({ type: PRODUCT_DETAILS_FAIL, payload: e.message });

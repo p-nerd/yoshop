@@ -39,7 +39,7 @@ export const payOrderRequest = async (orderId, data, token) => {
     }
 };
 
-export const listMyOrderRequest = async token => {
+export const orderListLoggedInUserRequest = async token => {
     try {
         const { data, status } = await httpC.get("/orders/me", token);
         return { data, status };

@@ -1,11 +1,11 @@
 import {
-    getUserById,
+    getUserByIdRequest,
     getUserListRequest,
-    loginUser,
-    registerUser,
-    removeUser,
+    loginUserRequest,
+    registerUserRequest,
+    removeUserRequest,
     updateUserProfileRequest,
-    updateUserRequest,
+    updateUserByIdRequest,
 } from "../../services/userService.js";
 import {
     addItemToLocalStorage,
@@ -43,7 +43,7 @@ import {
 export const loginAction = (email, password) => async dispatch => {
     try {
         dispatch({ type: USER_LOGIN_REQUEST });
-        const { user } = await loginUser({ email, password });
+        const { user } = await loginUserRequest({ email, password });
         dispatch({ type: USER_LOGIN_SUCCESS, payload: user });
         addItemToLocalStorage("userInfo", user);
     } catch (e) {
@@ -63,7 +63,7 @@ export const logoutAction = () => async dispatch => {
 export const registerAction = (name, email, password) => async dispatch => {
     try {
         dispatch({ type: USER_REGISTER_REQUEST });
-        const { user } = await registerUser({ email, password, name });
+        const { user } = await registerUserRequest({ email, password, name });
         dispatch({ type: USER_REGISTER_SUCCESS, payload: user });
         dispatch({ type: USER_LOGIN_SUCCESS, payload: user });
         addItemToLocalStorage("userInfo", user);
@@ -80,7 +80,7 @@ export const getUserDetailsByIdAction = id => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const { user } = await getUserById(id, userInfo.token);
+        const { user } = await getUserByIdRequest(id, userInfo.token);
         dispatch({ type: USER_DETAILS_SUCCESS, payload: user });
     } catch (e) {
         dispatch({ type: USER_DETAILS_FAIL, payload: e.message });
@@ -107,7 +107,7 @@ export const userRemoveByIdAction = userId => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState();
-        await removeUser(userId, userInfo.token);
+        await removeUserRequest(userId, userInfo.token);
         dispatch({ type: USER_REMOVE_SUCCESS });
     } catch (e) {
         dispatch({ type: USER_REMOVE_FAIL, payload: e.message });
@@ -141,7 +141,7 @@ export const userUpdateByIdAction = user => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const { data } = await updateUserRequest(
+        const { data } = await updateUserByIdRequest(
             user._id,
             user,
             userInfo.token

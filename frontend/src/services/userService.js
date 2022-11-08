@@ -2,7 +2,7 @@ import { logIfNotProduction } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "../logic/commonLogic.js";
 import * as httpC from "../utils/httpC.js";
 
-export const loginUser = async loginData => {
+export const loginUserRequest = async loginData => {
     try {
         const { data: user, status } = await httpC.post(
             "/users/login",
@@ -17,7 +17,7 @@ export const loginUser = async loginData => {
     }
 };
 
-export const registerUser = async registerData => {
+export const registerUserRequest = async registerData => {
     try {
         const { data: user, status } = await httpC.post(
             "/users",
@@ -32,7 +32,7 @@ export const registerUser = async registerData => {
     }
 };
 
-export const getUserById = async (id, token) => {
+export const getUserByIdRequest = async (id, token) => {
     try {
         const { data: user, status } = await httpC.get(`/users/${id}`, token);
         return { user, status };
@@ -58,7 +58,7 @@ export const updateUserProfileRequest = async (userData, token) => {
     }
 };
 
-export const updateUserRequest = async (userId, userData, token) => {
+export const updateUserByIdRequest = async (userId, userData, token) => {
     try {
         const { data, status } = await httpC.put(
             `/users/${userId}`,
@@ -84,7 +84,7 @@ export const getUserListRequest = async token => {
     }
 };
 
-export const removeUser = async (userId, token) => {
+export const removeUserRequest = async (userId, token) => {
     try {
         await httpC.deleteR(`/users/${userId}`, token);
         return {};
