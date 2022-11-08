@@ -12,3 +12,6 @@ clear:
 	rm backend/.env
 	cd frontend; rm -rf node_modules
 	rm -rf node_modules
+
+seed:
+	yarn run data:import

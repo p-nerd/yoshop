@@ -58,6 +58,14 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
     $ cd ..
     $ yarn install
     ```
+-   Seeding development data
+    ```
+    $ make seed
+    ```
+    or
+    ```
+    yarn run data:import
+    ```
 -   Now start development
     ```sh
     $ make dev
