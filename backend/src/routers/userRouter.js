@@ -4,8 +4,11 @@ import {
     loginUser,
     createUser,
     updateUser,
+    getUsers,
 } from "../controllers/userController.js";
+import admin from "../middlewares/admin.js";
 import protect from "../middlewares/protect.js";
+
 const userRouter = Router();
 
 /**
@@ -35,5 +38,12 @@ userRouter.get("/profile", [protect], getUser);
  * @access Private
  */
 userRouter.put("/", [protect], updateUser);
+
+/**
+ * @desc Get all users
+ * @router GET /api/users
+ * @access Private/Admin
+ */
+userRouter.get("/", [protect, admin], getUsers);
 
 export default userRouter;

@@ -95,3 +95,8 @@ export const updateUser = wrap(async (req, res, next) => {
         token: await updatedUser.getToken(),
     });
 });
+
+export const getUsers = wrap(async (req, res, next) => {
+    const users = await User.find();
+    return res.json(users);
+});
