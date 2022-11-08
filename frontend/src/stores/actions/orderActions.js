@@ -13,6 +13,7 @@ import {
     ORDER_DETAILS_SUCCESS,
     ORDER_LIST_ME_FAIL,
     ORDER_LIST_ME_REQUEST,
+    ORDER_LIST_ME_RESET,
     ORDER_LIST_ME_SUCCESS,
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
@@ -32,6 +33,7 @@ export const createOrderAction = order => async (dispatch, getState) => {
         const { data } = await createOrderRequest(order, userInfo.token);
         dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
         dispatch({ type: CART_RESET });
+        dispatch({ type: ORDER_LIST_ME_RESET });
         removeFromLocalStorage("cartItems");
     } catch (e) {
         dispatch({ type: ORDER_CREATE_FAIL, payload: e.message });
