@@ -7,14 +7,13 @@ import {
     userListAction,
     userRemoveAction,
 } from "../../stores/actions/userActions.js";
+import { isAdmin } from "../../logic/commonLogic.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import XIcon from "../components/XIcon.jsx";
 import CheckIcon from "../components/CheckIcon.jsx";
 import EditIcon from "../components/EditIcon.jsx";
 import TrashIcon from "../components/TrashIcon.jsx";
-import { isAdmin } from "../../logic/commonLogic.js";
-import { removeUser } from "../../services/userService.js";
 
 const UserListScreen = () => {
     const dispatch = useDispatch();
@@ -73,7 +72,7 @@ const UserListScreen = () => {
                                 </td>
                                 <td>
                                     <LinkContainer
-                                        to={`/user/${user._id}/edit`}
+                                        to={`/admin/users/${user._id}/edit`}
                                     >
                                         <Button
                                             variant="light"

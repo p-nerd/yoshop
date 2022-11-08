@@ -15,6 +15,7 @@ import PaymentScreen from "./screens/PaymentScreen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
 import OrderScreen from "./screens/OrderScreen.jsx";
 import UserListScreen from "./screens/UserListScreen.jsx";
+import UserEditScreen from "./screens/UserEditScreen";
 
 export default () => (
     <BrowserRouter>
@@ -49,6 +50,11 @@ export default () => (
                         path="/admin/users"
                         exact
                         element={<UserListScreen />}
+                    />
+                    <Route
+                        path="/admin/users/:id/edit"
+                        exact
+                        element={<UserEditScreen />}
                     />
                 </Routes>
             </Container>

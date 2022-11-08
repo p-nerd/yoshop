@@ -4,7 +4,8 @@ import {
     loginUser,
     registerUser,
     removeUser,
-    updateUserProfile,
+    updateUserProfileRequest,
+    updateUserRequest,
 } from "../../services/userService.js";
 import {
     addItemToLocalStorage,
@@ -35,6 +36,11 @@ import {
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants.js";
+import {
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+} from "../constants/userConstants.js";
 
 export const loginAction = (email, password) => async dispatch => {
     try {
@@ -68,7 +74,7 @@ export const registerAction = (name, email, password) => async dispatch => {
     }
 };
 
-export const getProfileAction = id => async (dispatch, getState) => {
+export const getUserDetailsAction = id => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 
@@ -82,22 +88,6 @@ export const getProfileAction = id => async (dispatch, getState) => {
         dispatch({ type: USER_DETAILS_FAIL, payload: e.message });
     }
 };
-
-export const updateUserProfileAction =
-    userData => async (dispatch, getState) => {
-        try {
-            dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
-
-            const {
-                userLogin: { userInfo },
-            } = getState();
-
-            const { user } = await updateUserProfile(userData, userInfo.token);
-            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: user });
-        } catch (e) {
-            dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: e.message });
-        }
-    };
 
 export const userListAction = () => async (dispatch, getState) => {
     try {
@@ -123,5 +113,45 @@ export const userRemoveAction = userId => async (dispatch, getState) => {
         dispatch({ type: USER_REMOVE_SUCCESS });
     } catch (e) {
         dispatch({ type: USER_REMOVE_FAIL, payload: e.message });
+    }
+};
+
+export const updateUserProfileAction =
+    userData => async (dispatch, getState) => {
+        try {
+            dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+
+            const {
+                userLogin: { userInfo },
+            } = getState();
+
+            const { user } = await updateUserProfileRequest(
+                userData,
+                userInfo.token
+            );
+            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: user });
+        } catch (e) {
+            dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: e.message });
+        }
+    };
+
+export const userUpdateAction = user => async (dispatch, getState) => {
+    try {
+        dispatch({ type: USER_UPDATE_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const { data } = await updateUserRequest(
+            user._id,
+            user,
+            userInfo.token
+        );
+
+        dispatch({ type: USER_UPDATE_SUCCESS });
+        dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+    } catch (e) {
+        dispatch({ type: USER_UPDATE_FAIL, payload: e.message });
     }
 };
