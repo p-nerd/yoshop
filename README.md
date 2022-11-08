@@ -31,6 +31,7 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
     -   [`MongoDB`](https://www.mongodb.com/try/download/community)
     -   `Yarn`
     -   [`Make`](<https://en.wikipedia.org/wiki/Make_(software)>)
+-   Check softwares existence
     ```sh
     $ node -v
     $ npm -v
@@ -44,22 +45,19 @@ I build this project by following [Brad Traversy](https://www.linkedin.com/in/br
     ```
 -   Install Dependencies
     ```sh
-    make install
+    $ make install
     ```
-    <!-- ```sh
+    or
+    ```sh
     $ cd backend
     $ yarn install
     $ cp .env.example .env
-    ```
-    ```sh
     $ cd ..
     $ cd frontend
     $ yarn install
-    ```
-    ```sh
     $ cd ..
     $ yarn install
-    ``` -->
+    ```
 -   Now start development
     ```sh
     $ make dev
