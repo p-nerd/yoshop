@@ -1,5 +1,5 @@
 import { logIfNotProduction } from "../utils/loggerUtil.js";
-import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
+import { extractErrorMessage as eem } from "../logic/commonLogic.js";
 import * as httpC from "../utils/httpC.js";
 
 export const loginUser = async loginData => {

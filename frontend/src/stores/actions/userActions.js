@@ -4,7 +4,7 @@ import {
     loginUser,
     registerUser,
     updateUserProfile,
-} from "../../services/loginService.js";
+} from "../../services/userService.js";
 import {
     addItemToLocalStorage,
     removeFromLocalStorage,
