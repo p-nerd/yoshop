@@ -1,13 +1,16 @@
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { isObjectEmpty } from "../../logic/commonLogic.js";
+import { Link, useNavigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
+import { isAdmin, isObjectEmpty } from "../../logic/commonLogic.js";
 import { logoutAction } from "../../stores/actions/userActions.js";
 
 const { Brand, Toggle, Collapse } = Navbar;
 
 const HeaderScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { userInfo } = useSelector(s => s.userLogin);
     const logoutHandler = () => {
         dispatch(logoutAction());
@@ -53,6 +56,27 @@ const HeaderScreen = () => {
                                         <i className="fas fa-sign-in-alt"></i>{" "}
                                         Signup
                                     </Nav.Link>
+                                </>
+                            )}
+                            {isAdmin(userInfo) && (
+                                <>
+                                    <NavDropdown title="Admin" id="adminMenu">
+                                        <LinkContainer to="/admin/users">
+                                            <NavDropdown.Item>
+                                                Users
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+                                        <LinkContainer to="/admin/products">
+                                            <NavDropdown.Item>
+                                                Products
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+                                        <LinkContainer to="/admin/orders">
+                                            <NavDropdown.Item>
+                                                Orders
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+                                    </NavDropdown>
                                 </>
                             )}
                         </Nav>

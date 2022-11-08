@@ -10,3 +10,7 @@ export const isObjectEmpty = obj => {
     if (Object.keys(obj).length === 0) return true;
     return false;
 };
+
+export const isAdmin = userInfo => {
+    return !isObjectEmpty(userInfo) && userInfo.isAdmin;
+};

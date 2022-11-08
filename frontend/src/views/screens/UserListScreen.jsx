@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userListAction } from "../../stores/actions/userActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
@@ -9,15 +10,22 @@ import XIcon from "../components/XIcon.jsx";
 import CheckIcon from "../components/CheckIcon.jsx";
 import EditIcon from "../components/EditIcon.jsx";
 import TrashIcon from "../components/TrashIcon.jsx";
+import { isAdmin } from "../../logic/commonLogic.js";
 
 const UserListScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { loading, error, users } = useSelector(s => s.userList);
+    const { userInfo } = useSelector(s => s.userLogin);
 
     useEffect(() => {
-        dispatch(userListAction());
-    }, [dispatch]);
+        if (isAdmin(userInfo)) {
+            dispatch(userListAction());
+        } else {
+            navigate("/login");
+        }
+    }, [dispatch, navigate]);
 
     const handleDelete = userId => {
         console.log(userId);
