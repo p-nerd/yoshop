@@ -3,6 +3,7 @@ import {
     getUserListRequest,
     loginUser,
     registerUser,
+    removeUser,
     updateUserProfile,
 } from "../../services/userService.js";
 import {
@@ -25,7 +26,11 @@ import {
     USER_LOGOUT,
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
+    USER_REGISTER_RESET,
     USER_REGISTER_SUCCESS,
+    USER_REMOVE_FAIL,
+    USER_REMOVE_REQUEST,
+    USER_REMOVE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
@@ -48,6 +53,7 @@ export const logoutAction = () => async dispatch => {
     dispatch({ type: ORDER_LIST_ME_RESET });
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: USER_LIST_RESET });
+    dispatch({ type: USER_REGISTER_RESET });
 };
 
 export const registerAction = (name, email, password) => async dispatch => {
@@ -104,5 +110,18 @@ export const userListAction = () => async (dispatch, getState) => {
         dispatch({ type: USER_LIST_SUCCESS, payload: data });
     } catch (e) {
         dispatch({ type: USER_LIST_FAIL, payload: e.message });
+    }
+};
+
+export const userRemoveAction = userId => async (dispatch, getState) => {
+    try {
+        dispatch({ type: USER_REMOVE_REQUEST });
+        const {
+            userLogin: { userInfo },
+        } = getState();
+        await removeUser(userId, userInfo.token);
+        dispatch({ type: USER_REMOVE_SUCCESS });
+    } catch (e) {
+        dispatch({ type: USER_REMOVE_FAIL, payload: e.message });
     }
 };

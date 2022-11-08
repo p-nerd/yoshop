@@ -3,7 +3,10 @@ import { Button, Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userListAction } from "../../stores/actions/userActions.js";
+import {
+    userListAction,
+    userRemoveAction,
+} from "../../stores/actions/userActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import XIcon from "../components/XIcon.jsx";
@@ -11,6 +14,7 @@ import CheckIcon from "../components/CheckIcon.jsx";
 import EditIcon from "../components/EditIcon.jsx";
 import TrashIcon from "../components/TrashIcon.jsx";
 import { isAdmin } from "../../logic/commonLogic.js";
+import { removeUser } from "../../services/userService.js";
 
 const UserListScreen = () => {
     const dispatch = useDispatch();
@@ -18,6 +22,7 @@ const UserListScreen = () => {
 
     const { loading, error, users } = useSelector(s => s.userList);
     const { userInfo } = useSelector(s => s.userLogin);
+    const { success: successDelete } = useSelector(s => s.userRemove);
 
     useEffect(() => {
         if (isAdmin(userInfo)) {
@@ -25,10 +30,12 @@ const UserListScreen = () => {
         } else {
             navigate("/login");
         }
-    }, [dispatch, navigate]);
+    }, [dispatch, navigate, successDelete]);
 
     const handleDelete = userId => {
-        console.log(userId);
+        if (window.confirm("Are you sure?")) {
+            dispatch(userRemoveAction(userId));
+        }
     };
 
     return (
