@@ -174,9 +174,7 @@ export const updateUser = wrap(async (req, res, next) => {
 
     user.name = setProperty(user, req.body, "name");
     user.email = setProperty(user, req.body, "email");
-    if (req.body.isAdmin) {
-        user.isAdmin = req.body.isAdmin;
-    }
+    user.isAdmin = req.body.isAdmin;
 
     const updatedUser = await user.save();
     return res.json({
