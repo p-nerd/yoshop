@@ -57,3 +57,14 @@ export const updateUserProfile = async (userData, token) => {
         throw new Error(message);
     }
 };
+
+export const getUserListRequest = async token => {
+    try {
+        const { data, status } = await httpC.get("/users", token);
+        return { data, status };
+    } catch (e) {
+        const message = eem(e, "Get users request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

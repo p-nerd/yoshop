@@ -12,6 +12,7 @@ import {
 } from "./reducers/productReducers.js";
 import {
     userDetailsReducer,
+    userListReducer,
     userLoginReducer,
     userRegisterReducer,
     userUpdateProfileReducer,
@@ -29,6 +30,7 @@ const reducers = combineReducers({
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderListMe: orderListMeReducer,
+    userList: userListReducer,
 });
 
 export default reducers;
