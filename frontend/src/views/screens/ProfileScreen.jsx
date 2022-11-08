@@ -48,7 +48,7 @@ const ProfileScreen = () => {
                 setEmail(user.email);
             }
         }
-    }, [navigate, userInfo, dispatch, user]);
+    }, [navigate, userInfo, dispatch, user, orders]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
