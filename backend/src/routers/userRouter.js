@@ -1,57 +1,33 @@
 import { Router } from "express";
 import {
-    getUser,
+    getLoggedInUser,
     loginUser,
     createUser,
-    updateUser,
+    updateLoggedInUser,
     getUsers,
     deleteUser,
+    getUser,
+    updateUser,
 } from "../controllers/userController.js";
 import admin from "../middlewares/admin.js";
 import protect from "../middlewares/protect.js";
 
 const userRouter = Router();
 
-/**
- * @desc Create new user
- * @router POST /api/users
- * @access Public
- */
-userRouter.post("/", createUser);
+userRouter.route("/").post(createUser).get([protect, admin], getUsers);
 
-/**
- * @desc Auth user & get token
- * @router POST /api/users/login
- * @access Public
- */
-userRouter.post("/login", loginUser);
+userRouter.route("/login").post(loginUser);
 
-/**
- * @desc Auth user & get token
- * @router GET /api/users/profile
- * @access Private
- */
-userRouter.get("/profile", [protect], getUser);
+userRouter
+    .route("/profile")
+    .get([protect], getLoggedInUser)
+    .put([protect], updateLoggedInUser);
 
-/**
- * @desc Update user profile
- * @router PUT /api/users
- * @access Private
- */
-userRouter.put("/", [protect], updateUser);
-
-/**
- * @desc Get all users
- * @router GET /api/users
- * @access Private/Admin
- */
-userRouter.get("/", [protect, admin], getUsers);
-
-/**
- * @desc Delete user by id
- * @router DELETE /api/users
- * @access Private/Admin
- */
-userRouter.delete("/:id", [protect, admin], deleteUser);
+userRouter
+    .route("/:id")
+    .all([protect, admin])
+    .get(getUser)
+    .delete(deleteUser)
+    .put(updateUser);
 
 export default userRouter;

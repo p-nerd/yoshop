@@ -46,7 +46,7 @@ export const getUserById = async (id, token) => {
 export const updateUserProfile = async (userData, token) => {
     try {
         const { data: user, status } = await httpC.put(
-            "/users",
+            "/users/profile",
             userData,
             token
         );
