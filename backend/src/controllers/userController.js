@@ -46,7 +46,6 @@ export const createUser = wrap(async (req, res, next) => {
     try {
         let { name, email, password } = req.body;
         let user = await User.findOne({ email });
-        console.log(user);
         if (user) {
             res.status(400);
             console.error("User already exits");
@@ -99,4 +98,14 @@ export const updateUser = wrap(async (req, res, next) => {
 export const getUsers = wrap(async (req, res, next) => {
     const users = await User.find();
     return res.json(users);
+});
+
+export const deleteUser = wrap(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+    await User.deleteOne({ _id: req.params.id });
+    return res.json({ message: `${id} user deleted successfully` });
 });

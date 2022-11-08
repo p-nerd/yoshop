@@ -38,3 +38,7 @@ export const post = async (uri, data, token) => {
 export const put = async (uri, data, token) => {
     return await axios.put(uri, data, getConfig(token));
 };
+
+export const deleteR = async (uri, token) => {
+    return await axios.delete(uri, getConfig(token));
+};

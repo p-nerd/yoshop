@@ -5,6 +5,7 @@ import {
     createUser,
     updateUser,
     getUsers,
+    deleteUser,
 } from "../controllers/userController.js";
 import admin from "../middlewares/admin.js";
 import protect from "../middlewares/protect.js";
@@ -45,5 +46,12 @@ userRouter.put("/", [protect], updateUser);
  * @access Private/Admin
  */
 userRouter.get("/", [protect, admin], getUsers);
+
+/**
+ * @desc Delete user by id
+ * @router DELETE /api/users
+ * @access Private/Admin
+ */
+userRouter.delete("/:id", [protect, admin], deleteUser);
 
 export default userRouter;

@@ -68,3 +68,14 @@ export const getUserListRequest = async token => {
         throw new Error(message);
     }
 };
+
+export const removeUser = async (userId, token) => {
+    try {
+        await httpC.deleteR(`/users/${userId}`, token);
+        return {};
+    } catch (e) {
+        const message = eem(e, "Delete user request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};
