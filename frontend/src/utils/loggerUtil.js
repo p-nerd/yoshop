@@ -5,7 +5,7 @@ export const log = stuff => {
 };
 
 export const logIfNotProduction = stuff => {
-    if (NODE_ENV !== production) {
-        console.warn(stuff);
-    }
+    // if (NODE_ENV !== production) {
+    console.warn(stuff);
+    // }
 };

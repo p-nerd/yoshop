@@ -3,7 +3,10 @@ import { Button, Table, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { productsListAction } from "./../../stores/actions/productActions.js";
+import {
+    deleteProductByIdAction,
+    productsListAction,
+} from "./../../stores/actions/productActions.js";
 import { isAdmin } from "../../logic/commonLogic.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
@@ -27,7 +30,7 @@ const ProductListScreen = () => {
 
     const handleDelete = userId => {
         if (window.confirm("Are you sure?")) {
-            // delete product todo
+            dispatch(deleteProductByIdAction(userId));
         }
     };
 

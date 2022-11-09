@@ -29,3 +29,17 @@ export const getProductByIdRequest = async productId => {
         throw new Error(message);
     }
 };
+
+export const deleteProductByIdRequest = async (productId, token) => {
+    try {
+        const { data } = await httpC.deleteR(`/products/${productId}`, token);
+        return data;
+    } catch (e) {
+        const message = eem(
+            e,
+            `Get product with id ${productId} request unsuccessful`
+        );
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

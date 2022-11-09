@@ -15,3 +15,6 @@ clear:
 
 seed:
 	yarn run data:import
+
+delete_seed:
+	yarn run data:destroy

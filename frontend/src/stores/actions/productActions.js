@@ -5,10 +5,12 @@ import {
     PRODUCT_LIST_FAIL,
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
+    PRODUCT_DELETE_SUCCESS,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
     getProductByIdRequest,
+    deleteProductByIdRequest,
 } from "../../services/productService.js";
 
 export const productsListAction = () => async dispatch => {
@@ -30,3 +32,21 @@ export const productDetailsByIdAction = productId => async dispatch => {
         dispatch({ type: PRODUCT_DETAILS_FAIL, payload: e.message });
     }
 };
+
+export const deleteProductByIdAction =
+    productId => async (dispatch, getState) => {
+        try {
+            dispatch({ type: PRODUCT_DETAILS_REQUEST });
+
+            const {
+                userLogin: { userInfo },
+            } = getState();
+
+            await deleteProductByIdRequest(productId, userInfo.token);
+
+            dispatch({ type: PRODUCT_DELETE_SUCCESS });
+            dispatch(productsListAction());
+        } catch (e) {
+            dispatch({ type: PRODUCT_DETAILS_FAIL, payload: e.message });
+        }
+    };
