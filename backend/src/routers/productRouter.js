@@ -3,22 +3,19 @@ import { validId } from "../middlewares/validate.js";
 import {
     getProducts,
     getProductById,
+    deleteProductById,
 } from "../controllers/productController.js";
+import protect from "../middlewares/protect.js";
+import admin from "../middlewares/admin.js";
 
-const router = Router();
+const productRouter = Router();
 
-/**
- * @desc Fetch all products
- * @route GET /api/products/
- * @access Public
- */
-router.get("/", getProducts);
+productRouter.get("/", getProducts);
 
-/**
- * @desc Fetch single product
- * @route GET /api/products/:id
- * @access Public
- */
-router.get("/:id", [validId], getProductById);
+productRouter
+    .route("/:id")
+    .all([validId])
+    .get(getProductById)
+    .delete([protect, admin], deleteProductById);
 
-export default router;
+export default productRouter;
