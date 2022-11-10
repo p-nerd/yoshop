@@ -14,12 +14,14 @@ import {
     PRODUCT_CREATE_REQUEST,
     PRODUCT_CREATE_SUCCESS,
     PRODUCT_CREATE_FAIL,
+    PRODUCT_LIST_RESET,
+    PRODUCT_DETAILS_RESET,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
     getProductByIdRequest,
     deleteProductByIdRequest,
-    updateProductByIdRequest,
+    updateProductRequest,
     createSampleProductRequest,
 } from "../../services/productService.js";
 import { getTokenFromState } from "../../logic/commonLogic.js";
@@ -61,21 +63,6 @@ export const productDeleteAction = productId => async (dispatch, getState) => {
     }
 };
 
-export const productUpdateAction =
-    (productId, productData) => async (dispatch, getState) => {
-        try {
-            dispatch({ type: PRODUCT_UPDATE_REQUEST });
-
-            const token = getTokenFromState(getState());
-            await updateProductByIdRequest(productId, productData, token);
-
-            dispatch({ type: PRODUCT_UPDATE_SUCCESS });
-            dispatch(productListAction());
-        } catch (e) {
-            dispatch({ type: PRODUCT_UPDATE_FAIL, payload: e.message });
-        }
-    };
-
 export const productCreateAction = () => async (dispatch, getState) => {
     try {
         dispatch({ type: PRODUCT_CREATE_REQUEST });
@@ -89,3 +76,23 @@ export const productCreateAction = () => async (dispatch, getState) => {
         dispatch({ type: PRODUCT_CREATE_FAIL, payload: e.message });
     }
 };
+
+export const productUpdateAction =
+    (productId, productData) => async (dispatch, getState) => {
+        try {
+            dispatch({ type: PRODUCT_UPDATE_REQUEST });
+
+            const token = getTokenFromState(getState());
+            const data = await updateProductRequest(
+                productId,
+                productData,
+                token
+            );
+
+            dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
+            dispatch({ type: PRODUCT_DETAILS_RESET });
+            dispatch({ type: PRODUCT_LIST_RESET });
+        } catch (e) {
+            dispatch({ type: PRODUCT_UPDATE_FAIL, payload: e.message });
+        }
+    };

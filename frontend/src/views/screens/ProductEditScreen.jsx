@@ -20,17 +20,23 @@ const ProductEditScreen = () => {
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
-    const [category, setCategory] = useState("");
+    const [image, setImage] = useState("");
     const [brand, setBrand] = useState("");
+    const [category, setCategory] = useState("");
+    const [countInStock, setCountInStock] = useState(0);
+    const [description, setDescription] = useState("");
 
     const productId = params.id;
 
-    const { loading, error, product } = useSelector(s => s.productDetails);
+    const productDetails = useSelector(s => s.productDetails);
+    const productUpdate = useSelector(s => s.productUpdate);
+
+    const { loading, error, product } = productDetails;
     const {
         loading: loadingUpdate,
         error: errorUpdate,
         success: successUpdate,
-    } = useSelector(s => s.productUpdate);
+    } = productUpdate;
 
     useEffect(() => {
         if (successUpdate) {
@@ -42,16 +48,27 @@ const ProductEditScreen = () => {
             } else {
                 setName(product.name);
                 setPrice(product.price);
-                setCategory(product.category);
+                setImage(product.image);
                 setBrand(product.brand);
+                setCategory(product.category);
+                setCountInStock(product.countInStock);
+                setDescription(product.description);
             }
         }
-    }, [productId, dispatch, successUpdate, product]);
+    }, [dispatch, navigate, productId, product, successUpdate]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
         dispatch(
-            productUpdateAction(productId, { name, price, category, brand })
+            productUpdateAction(productId, {
+                name,
+                price,
+                image,
+                brand,
+                category,
+                countInStock,
+                description, 
+            })
         );
     };
 
@@ -86,16 +103,34 @@ const ProductEditScreen = () => {
                                 setFunc={setPrice}
                             />
                             <FormField
-                                label="Category"
-                                name="category"
-                                value={category}
-                                setFunc={setCategory}
+                                label="Image URL"
+                                name="image"
+                                value={image}
+                                setFunc={setImage}
                             />
                             <FormField
                                 label="Brand"
                                 name="brand"
                                 value={brand}
                                 setFunc={setBrand}
+                            />
+                            <FormField
+                                label="Category"
+                                name="category"
+                                value={category}
+                                setFunc={setCategory}
+                            />
+                            <FormField
+                                label="Count in Stock"
+                                name="countInStock"
+                                value={countInStock}
+                                setFunc={setCountInStock}
+                            />
+                            <FormField
+                                label="Description"
+                                name="description"
+                                value={description}
+                                setFunc={setDescription}
                             />
                             <SubmitButton label="Update" />
                         </Form>

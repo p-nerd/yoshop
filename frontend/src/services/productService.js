@@ -44,11 +44,7 @@ export const deleteProductByIdRequest = async (productId, token) => {
     }
 };
 
-export const updateProductByIdRequest = async (
-    productId,
-    productData,
-    token
-) => {
+export const updateProductRequest = async (productId, productData, token) => {
     try {
         const { data } = await httpC.put(
             `/products/${productId}`,
