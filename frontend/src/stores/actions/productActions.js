@@ -11,12 +11,16 @@ import {
     PRODUCT_UPDATE_FAIL,
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_FAIL,
+    PRODUCT_CREATE_REQUEST,
+    PRODUCT_CREATE_SUCCESS,
+    PRODUCT_CREATE_FAIL,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
     getProductByIdRequest,
     deleteProductByIdRequest,
     updateProductByIdRequest,
+    createSampleProductRequest,
 } from "../../services/productService.js";
 import { getTokenFromState } from "../../logic/commonLogic.js";
 
@@ -71,3 +75,17 @@ export const productUpdateAction =
             dispatch({ type: PRODUCT_UPDATE_FAIL, payload: e.message });
         }
     };
+
+export const productCreateAction = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: PRODUCT_CREATE_REQUEST });
+
+        const token = getTokenFromState(getState());
+        const data = await createSampleProductRequest(token);
+        console.log(data);
+
+        dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
+    } catch (e) {
+        dispatch({ type: PRODUCT_CREATE_FAIL, payload: e.message });
+    }
+};

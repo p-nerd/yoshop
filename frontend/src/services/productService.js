@@ -65,3 +65,14 @@ export const updateProductByIdRequest = async (
         throw new Error(message);
     }
 };
+
+export const createSampleProductRequest = async token => {
+    try {
+        const { data } = await httpC.post("/products", {}, token);
+        return data;
+    } catch (e) {
+        const message = eem(e, "Create product request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

@@ -1,9 +1,47 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import reduxThunk from "redux-thunk";
-import indexReducers from "./reducers/indexReducers.js";
 import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
+import { cartReducer } from "./reducers/cartReducers.js";
+import {
+    orderCreateReducer,
+    orderDetailsReducer,
+    orderListMeReducer,
+    orderPayReducer,
+} from "./reducers/orderReducers.js";
+import {
+    productCreateReducer,
+    productDeleteReducer,
+    productDetailsReducer,
+    productListReducer,
+    productUpdateReducer,
+} from "./reducers/productReducers.js";
+import {
+    userDetailsReducer,
+    userListReducer,
+    userLoginReducer,
+    userRegisterReducer,
+    userRemoveReducer,
+    userUpdateReducer,
+} from "./reducers/userReducers.js";
 
-const middlewares = [reduxThunk];
+const indexReducers = combineReducers({
+    productList: productListReducer,
+    productDetails: productDetailsReducer,
+    productDelete: productDeleteReducer,
+    productUpdate: productUpdateReducer,
+    productCreate: productCreateReducer,
+    cart: cartReducer,
+    userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
+    userUpdate: userUpdateReducer,
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
+    orderPay: orderPayReducer,
+    orderListMe: orderListMeReducer,
+    userList: userListReducer,
+    userRemove: userRemoveReducer,
+});
 
 const initialState = {
     cart: {
@@ -14,6 +52,8 @@ const initialState = {
     userLogin: { userInfo: extractFromLocalStorage("userInfo", {}) },
     userDetails: { user: {} },
 };
+
+const middlewares = [reduxThunk];
 
 const store = createStore(
     indexReducers,
