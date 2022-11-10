@@ -1,12 +1,14 @@
 import colors from "colors";
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { NODE_ENV, PORT } from "./utils/env.js";
+import { errHandler, notRoute } from "./middlewares/errorMiddlewares.js";
 import connectToMongoDB from "./utils/db.js";
 import productRouter from "./routers/productRouter.js";
-import { errHandler, notRoute } from "./middlewares/errorMiddlewares.js";
 import userRouter from "./routers/userRouter.js";
 import orderRouter from "./routers/orderRouter.js";
+import uploadRouter from "./routers/uploadRouter.js";
 
 const app = express();
 
@@ -16,6 +18,10 @@ app.use(express.json());
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/uploads", uploadRouter);
+
+const uploadsPath = path.join(path.resolve(), "..", "/uploads");
+app.use("/uploads", express.static(uploadsPath));
 
 app.use(notRoute);
 app.use(errHandler);
