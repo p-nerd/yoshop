@@ -43,21 +43,6 @@ export const getUserByIdRequest = async (id, token) => {
     }
 };
 
-export const updateUserProfileRequest = async (userData, token) => {
-    try {
-        const { data: user, status } = await httpC.put(
-            "/users/profile",
-            userData,
-            token
-        );
-        return { user, status };
-    } catch (e) {
-        const message = eem(e, "Update user profile request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
-    }
-};
-
 export const updateUserByIdRequest = async (userId, userData, token) => {
     try {
         const { data, status } = await httpC.put(

@@ -4,8 +4,8 @@ import { Form, Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import {
-    getUserDetailsByIdAction,
-    updateUserProfileAction,
+    userDetailsAction,
+    userUpdateAction,
 } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
 import { listMyOrderAction } from "../../stores/actions/orderActions.js";
@@ -29,7 +29,7 @@ const ProfileScreen = () => {
 
     const { loading, error, user } = useSelector(s => s.userDetails);
     const { userInfo } = useSelector(s => s.userLogin);
-    const { success } = useSelector(s => s.userUpdateProfile);
+    const { success } = useSelector(s => s.userUpdate);
     const {
         loading: loadingOrders,
         orders,
@@ -41,7 +41,7 @@ const ProfileScreen = () => {
             navigate(`/login`);
         } else {
             if (!user.name) {
-                dispatch(getUserDetailsByIdAction("/profile"));
+                dispatch(userDetailsAction("/profile"));
                 dispatch(listMyOrderAction());
             } else {
                 setName(user.name);
@@ -55,14 +55,7 @@ const ProfileScreen = () => {
         if (password !== confirmPassword) {
             setMessage("Password do not match");
         } else {
-            dispatch(
-                updateUserProfileAction({
-                    _id: user._id,
-                    name,
-                    email,
-                    password,
-                })
-            );
+            dispatch(userUpdateAction("profile", { name, email, password }));
         }
     };
 
@@ -94,11 +87,13 @@ const ProfileScreen = () => {
                         name="password"
                         value={password}
                         setFunc={setPassword}
+                        required={false}
                         type={showPassword ? "text" : "password"}
                     />
                     <FormField
                         label="Confirm Password"
                         name="confirmPassword"
+                        required={false}
                         value={confirmPassword}
                         setFunc={setConfirmPassword}
                         type="password"

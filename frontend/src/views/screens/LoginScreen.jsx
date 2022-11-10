@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Form } from "react-bootstrap";
-import { loginAction } from "../../stores/actions/userActions.js";
+import { userLoginAction } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "../components/Message.jsx";
@@ -31,7 +31,7 @@ const LoginScreen = () => {
 
     const handlerSubmit = async e => {
         e.preventDefault();
-        dispatch(loginAction(email, password));
+        dispatch(userLoginAction(email, password));
     };
 
     return (

@@ -1,10 +1,10 @@
+import { getTokenFromState } from "../../logic/commonLogic.js";
 import {
     getUserByIdRequest,
     getUserListRequest,
     loginUserRequest,
     registerUserRequest,
     removeUserRequest,
-    updateUserProfileRequest,
     updateUserByIdRequest,
 } from "../../services/userService.js";
 import {
@@ -32,18 +32,17 @@ import {
     USER_REMOVE_FAIL,
     USER_REMOVE_REQUEST,
     USER_REMOVE_SUCCESS,
-    USER_UPDATE_PROFILE_FAIL,
-    USER_UPDATE_PROFILE_REQUEST,
-    USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
 } from "../constants/userConstants.js";
 
-export const loginAction = (email, password) => async dispatch => {
+export const userLoginAction = (email, password) => async dispatch => {
     try {
         dispatch({ type: USER_LOGIN_REQUEST });
+
         const { user } = await loginUserRequest({ email, password });
+
         dispatch({ type: USER_LOGIN_SUCCESS, payload: user });
         addItemToLocalStorage("userInfo", user);
     } catch (e) {
@@ -51,7 +50,7 @@ export const loginAction = (email, password) => async dispatch => {
     }
 };
 
-export const logoutAction = () => async dispatch => {
+export const userLogoutAction = () => async dispatch => {
     removeFromLocalStorage("userInfo");
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: ORDER_LIST_ME_RESET });
@@ -60,10 +59,12 @@ export const logoutAction = () => async dispatch => {
     dispatch({ type: USER_REGISTER_RESET });
 };
 
-export const registerAction = (name, email, password) => async dispatch => {
+export const userRegisterAction = (name, email, password) => async dispatch => {
     try {
         dispatch({ type: USER_REGISTER_REQUEST });
+
         const { user } = await registerUserRequest({ email, password, name });
+
         dispatch({ type: USER_REGISTER_SUCCESS, payload: user });
         dispatch({ type: USER_LOGIN_SUCCESS, payload: user });
         addItemToLocalStorage("userInfo", user);
@@ -72,15 +73,13 @@ export const registerAction = (name, email, password) => async dispatch => {
     }
 };
 
-export const getUserDetailsByIdAction = id => async (dispatch, getState) => {
+export const userDetailsAction = userId => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
+        const token = getTokenFromState(getState());
+        const { user } = await getUserByIdRequest(userId, token);
 
-        const { user } = await getUserByIdRequest(id, userInfo.token);
         dispatch({ type: USER_DETAILS_SUCCESS, payload: user });
     } catch (e) {
         dispatch({ type: USER_DETAILS_FAIL, payload: e.message });
@@ -91,65 +90,43 @@ export const userListAction = () => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_LIST_REQUEST });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
-        const { data } = await getUserListRequest(userInfo.token);
+        const token = getTokenFromState(getState());
+        const { data } = await getUserListRequest(token);
+
         dispatch({ type: USER_LIST_SUCCESS, payload: data });
     } catch (e) {
         dispatch({ type: USER_LIST_FAIL, payload: e.message });
     }
 };
 
-export const userRemoveByIdAction = userId => async (dispatch, getState) => {
+export const userRemoveAction = userId => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_REMOVE_REQUEST });
-        const {
-            userLogin: { userInfo },
-        } = getState();
-        await removeUserRequest(userId, userInfo.token);
+
+        const token = getTokenFromState(getState());
+        await removeUserRequest(userId, token);
+
         dispatch({ type: USER_REMOVE_SUCCESS });
     } catch (e) {
         dispatch({ type: USER_REMOVE_FAIL, payload: e.message });
     }
 };
 
-export const updateUserProfileAction =
-    userData => async (dispatch, getState) => {
+export const userUpdateAction =
+    (userId, userData) => async (dispatch, getState) => {
         try {
-            dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+            dispatch({ type: USER_UPDATE_REQUEST });
 
-            const {
-                userLogin: { userInfo },
-            } = getState();
-
-            const { user } = await updateUserProfileRequest(
+            const token = getTokenFromState(getState());
+            const { data } = await updateUserByIdRequest(
+                userId,
                 userData,
-                userInfo.token
+                token
             );
-            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: user });
+
+            dispatch({ type: USER_UPDATE_SUCCESS });
+            dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
         } catch (e) {
-            dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: e.message });
+            dispatch({ type: USER_UPDATE_FAIL, payload: e.message });
         }
     };
-
-export const userUpdateByIdAction = user => async (dispatch, getState) => {
-    try {
-        dispatch({ type: USER_UPDATE_REQUEST });
-
-        const {
-            userLogin: { userInfo },
-        } = getState();
-
-        const { data } = await updateUserByIdRequest(
-            user._id,
-            user,
-            userInfo.token
-        );
-
-        dispatch({ type: USER_UPDATE_SUCCESS });
-        dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
-    } catch (e) {
-        dispatch({ type: USER_UPDATE_FAIL, payload: e.message });
-    }
-};

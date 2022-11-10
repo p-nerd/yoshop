@@ -18,7 +18,6 @@ import {
     userLoginReducer,
     userRegisterReducer,
     userRemoveReducer,
-    userUpdateProfileReducer,
     userUpdateReducer,
 } from "./userReducers.js";
 
@@ -31,7 +30,6 @@ const indexReducers = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
-    userUpdateProfile: userUpdateProfileReducer,
     userUpdate: userUpdateReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,

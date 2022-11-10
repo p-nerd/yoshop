@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
     userListAction,
-    userRemoveByIdAction,
+    userRemoveAction,
 } from "../../stores/actions/userActions.js";
 import { isAdmin } from "../../logic/commonLogic.js";
 import Loader from "../components/Loader.jsx";
@@ -37,7 +37,7 @@ const UserListScreen = () => {
 
     const handleDelete = userId => {
         if (window.confirm("Are you sure?")) {
-            dispatch(userRemoveByIdAction(userId));
+            dispatch(userRemoveAction(userId));
         }
     };
 

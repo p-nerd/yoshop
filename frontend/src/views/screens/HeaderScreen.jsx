@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { isAdmin, isObjectEmpty } from "../../logic/commonLogic.js";
-import { logoutAction } from "../../stores/actions/userActions.js";
+import { userLogoutAction } from "../../stores/actions/userActions.js";
 
 const { Brand, Toggle, Collapse } = Navbar;
 
@@ -13,7 +13,7 @@ const HeaderScreen = () => {
 
     const { userInfo } = useSelector(s => s.userLogin);
     const logoutHandler = () => {
-        dispatch(logoutAction());
+        dispatch(userLogoutAction());
     };
     return (
         <header>

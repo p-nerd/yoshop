@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { registerAction } from "../../stores/actions/userActions.js";
+import { userRegisterAction } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
 import FormContainer from "../components/FormContainer.jsx";
 import Message from "./../components/Message.jsx";
@@ -39,7 +39,7 @@ const RegisterScreen = () => {
         if (password !== confirmPassword) {
             setMessage("Password do not match");
         } else {
-            dispatch(registerAction(name, email, password));
+            dispatch(userRegisterAction(name, email, password));
         }
     };
 
