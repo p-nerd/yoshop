@@ -18,7 +18,6 @@ const FormField = ({ label, name, value, setFunc, required, type }) => (
 FormField.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    value: PropTypes.string,
     setFunc: PropTypes.func.isRequired,
     required: PropTypes.bool,
     type: PropTypes.string,

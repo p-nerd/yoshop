@@ -43,3 +43,25 @@ export const deleteProductByIdRequest = async (productId, token) => {
         throw new Error(message);
     }
 };
+
+export const updateProductByIdRequest = async (
+    productId,
+    productData,
+    token
+) => {
+    try {
+        const { data } = await httpC.put(
+            `/products/${productId}`,
+            productData,
+            token
+        );
+        return data;
+    } catch (e) {
+        const message = eem(
+            e,
+            `Update product with id ${productId} request unsuccessful`
+        );
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

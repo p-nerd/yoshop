@@ -17,6 +17,7 @@ import OrderScreen from "./screens/OrderScreen.jsx";
 import UserListScreen from "./screens/UserListScreen.jsx";
 import UserEditScreen from "./screens/UserEditScreen.jsx";
 import ProductListScreen from "./screens/ProductListScreen.jsx";
+import ProductEditScreen from "./screens/ProductEditScreen.jsx";
 
 export default () => (
     <BrowserRouter>
@@ -61,6 +62,11 @@ export default () => (
                         path="/admin/products"
                         exact
                         element={<ProductListScreen />}
+                    />
+                    <Route
+                        path="/admin/products/:id/edit"
+                        exact
+                        element={<ProductEditScreen />}
                     />
                 </Routes>
             </Container>

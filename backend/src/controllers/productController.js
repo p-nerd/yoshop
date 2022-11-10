@@ -44,3 +44,27 @@ export const deleteProductById = wrap(async (req, res, next) => {
     await Product.deleteOne({ _id: productId });
     return res.json({ message: `${productId} deleted successfully` });
 });
+
+const setProperty = (product, body, property) =>
+    body[property] || product[property];
+
+/**
+ * @desc Update single product
+ * @route PUT /api/products/:id
+ * @access Private/Admin
+ */
+export const updateProductById = wrap(async (req, res, next) => {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+        res.status(404);
+        throw new Error(`Product not found by id: ${productId}`);
+    }
+    product.name = req.body.name || product.name;
+    product.price = req.body.price || product.price;
+    product.category = req.body.category || product.category;
+    product.brand = req.body.brand || product.brand;
+
+    const savedProduct = await product.save();
+    return res.json(savedProduct);
+});

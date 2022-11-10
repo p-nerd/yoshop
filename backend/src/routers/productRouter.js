@@ -4,6 +4,7 @@ import {
     getProducts,
     getProductById,
     deleteProductById,
+    updateProductById,
 } from "../controllers/productController.js";
 import protect from "../middlewares/protect.js";
 import admin from "../middlewares/admin.js";
@@ -16,6 +17,7 @@ productRouter
     .route("/:id")
     .all([validId])
     .get(getProductById)
+    .put([protect, admin], updateProductById)
     .delete([protect, admin], deleteProductById);
 
 export default productRouter;
