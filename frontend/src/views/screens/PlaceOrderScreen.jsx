@@ -9,7 +9,7 @@ import {
     calculateTexPrice,
     calculateTotalPrice,
 } from "../../logic/cartLogic.js";
-import { createOrderAction } from "../../stores/actions/orderActions.js";
+import { orderCreateAction } from "../../stores/actions/orderActions.js";
 import CheckoutSteps from "../components/CheckoutSteps.jsx";
 import Message from "../components/Message.jsx";
 import ProductLinkAndName from "../components/ProductLinkAndName.jsx";
@@ -36,7 +36,7 @@ const PlaceOrderScreen = () => {
 
     const handlePlaceOrder = () => {
         dispatch(
-            createOrderAction({
+            orderCreateAction({
                 orderItems: cartItems,
                 shippingAddress,
                 paymentMethod,

@@ -21,16 +21,15 @@ import {
 } from "../constants/orderConstants.js";
 import { CART_RESET } from "./../constants/cartConstants.js";
 import { removeFromLocalStorage } from "../../utils/localStorageUtil.js";
+import { getTokenFromState } from "../../logic/commonLogic.js";
 
-export const createOrderAction = order => async (dispatch, getState) => {
+export const orderCreateAction = order => async (dispatch, getState) => {
     try {
         dispatch({ type: ORDER_CREATE_REQUEST });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
+        const token = getTokenFromState(getState());
+        const { data } = await createOrderRequest(order, token);
 
-        const { data } = await createOrderRequest(order, userInfo.token);
         dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
         dispatch({ type: CART_RESET });
         dispatch({ type: ORDER_LIST_ME_RESET });
@@ -40,31 +39,26 @@ export const createOrderAction = order => async (dispatch, getState) => {
     }
 };
 
-export const getOrderByIdAction = orderId => async (dispatch, getState) => {
+export const orderDetailsAction = orderId => async (dispatch, getState) => {
     try {
         dispatch({ type: ORDER_DETAILS_REQUEST });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
+        const token = getTokenFromState(getState());
+        const { data } = await getOrderByIdRequest(orderId, token);
 
-        const { data } = await getOrderByIdRequest(orderId, userInfo.token);
         dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
     } catch (e) {
         dispatch({ type: ORDER_DETAILS_FAIL, payload: e.message });
     }
 };
 
-export const payOrderAction =
+export const orderPayAction =
     (orderId, paymentResult) => async (dispatch, getState) => {
         try {
             dispatch({ type: ORDER_PAY_REQUEST });
 
-            const {
-                userLogin: { userInfo },
-            } = getState();
-
-            await payOrderRequest(orderId, paymentResult, userInfo.token);
+            const token = getTokenFromState(getState());
+            await payOrderRequest(orderId, paymentResult, token);
 
             dispatch({ type: ORDER_PAY_SUCCESS });
         } catch (e) {
@@ -72,15 +66,12 @@ export const payOrderAction =
         }
     };
 
-export const listMyOrderAction = () => async (dispatch, getState) => {
+export const orderListMeAction = () => async (dispatch, getState) => {
     try {
         dispatch({ type: ORDER_LIST_ME_REQUEST });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
-
-        const { data } = await orderListLoggedInUserRequest(userInfo.token);
+        const token = getTokenFromState(getState());
+        const { data } = await orderListLoggedInUserRequest(token);
 
         dispatch({ type: ORDER_LIST_ME_SUCCESS, payload: data });
     } catch (e) {

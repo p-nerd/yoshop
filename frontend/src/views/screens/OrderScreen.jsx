@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { calculateTotalPriceOfItemWithQty } from "../../logic/cartLogic.js";
-import { getOrderByIdAction } from "../../stores/actions/orderActions.js";
+import { orderDetailsAction } from "../../stores/actions/orderActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import ProductLinkAndName from "../components/ProductLinkAndName.jsx";
@@ -19,8 +19,8 @@ const OrderScreen = () => {
     const { order, loading, error } = useSelector(s => s.orderDetails);
 
     useEffect(() => {
-        dispatch(getOrderByIdAction(orderId));
-    }, [dispatch, getOrderByIdAction, orderId]);
+        dispatch(orderDetailsAction(orderId));
+    }, [dispatch, orderDetailsAction, orderId]);
 
     return loading ? (
         <Loader />

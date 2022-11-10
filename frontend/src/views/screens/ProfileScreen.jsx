@@ -8,7 +8,7 @@ import {
     userUpdateAction,
 } from "../../stores/actions/userActions.js";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
-import { listMyOrderAction } from "../../stores/actions/orderActions.js";
+import { orderListMeAction } from "../../stores/actions/orderActions.js";
 import Message from "./../components/Message.jsx";
 import Loader from "./../components/Loader.jsx";
 import FormField from "../components/FormField.jsx";
@@ -35,6 +35,7 @@ const ProfileScreen = () => {
         orders,
         error: errorOrders,
     } = useSelector(s => s.orderListMe);
+    const { success: successOrderCreate } = useSelector(s => s.orderCreate);
 
     useEffect(() => {
         if (isObjectEmpty(userInfo)) {
@@ -42,13 +43,13 @@ const ProfileScreen = () => {
         } else {
             if (!user.name) {
                 dispatch(userDetailsAction("/profile"));
-                dispatch(listMyOrderAction());
+                dispatch(orderListMeAction());
             } else {
                 setName(user.name);
                 setEmail(user.email);
             }
         }
-    }, [navigate, userInfo, dispatch, user, orders]);
+    }, [navigate, userInfo, dispatch, user, successOrderCreate]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
