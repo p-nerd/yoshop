@@ -5,8 +5,8 @@ import {
     getOrderById,
     updateOrderToPaid,
 } from "../controllers/orderController.js";
-import protect from "../middlewares/protect.js";
-import { validId } from "../middlewares/validate.js";
+import { protect } from "../middlewares/authMiddlewares.js";
+import { validId } from "../middlewares/validateMiddlewares.js";
 
 const orderRouter = Router();
 

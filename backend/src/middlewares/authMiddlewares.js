@@ -1,9 +1,9 @@
 import User from "../models/userModel.js";
 import { JWT_PRIVATE_KEY } from "../utils/env.js";
 import { validateToken } from "../utils/jwt.js";
-import wrap from "./wrap.js";
+import wrap from "../utils/wrap.js";
 
-const protect = wrap(async (req, res, next) => {
+export const protect = wrap(async (req, res, next) => {
     const authorization = req.get("Authorization");
     if (!authorization || !authorization.startsWith("Bearer")) {
         res.status(401);
@@ -21,4 +21,10 @@ const protect = wrap(async (req, res, next) => {
     }
 });
 
-export default protect;
+export const admin = wrap(async (req, res, next) => {
+    if (req.user.isAdmin === false) {
+        res.status(401);
+        throw new Error("User have to be admin");
+    }
+    return next();
+});

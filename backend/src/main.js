@@ -4,7 +4,7 @@ import cors from "cors";
 import { NODE_ENV, PORT } from "./utils/env.js";
 import connectToMongoDB from "./utils/db.js";
 import productRouter from "./routers/productRouter.js";
-import { errHandler, notRoute } from "./middlewares/errors.js";
+import { errHandler, notRoute } from "./middlewares/errorMiddlewares.js";
 import userRouter from "./routers/userRouter.js";
 import orderRouter from "./routers/orderRouter.js";
 

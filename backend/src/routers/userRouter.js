@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { protect, admin } from "../middlewares/authMiddlewares.js";
 import {
     getLoggedInUser,
     loginUser,
@@ -9,14 +10,16 @@ import {
     getUser,
     updateUser,
 } from "../controllers/userController.js";
-import admin from "../middlewares/admin.js";
-import protect from "../middlewares/protect.js";
 
 const userRouter = Router();
 
-userRouter.route("/").post(createUser).get([protect, admin], getUsers);
+userRouter
+    .route("/")
+    .post(createUser)
+    .get([protect, admin], getUsers);
 
-userRouter.route("/login").post(loginUser);
+userRouter
+    .route("/login").post(loginUser);
 
 userRouter
     .route("/profile")

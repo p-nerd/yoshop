@@ -1,4 +1,4 @@
-import wrap from "../middlewares/wrap.js";
+import wrap from "../utils/wrap.js";
 import Order from "../models/orderModel.js";
 
 export const createNewOrder = wrap(async (req, res, next) => {

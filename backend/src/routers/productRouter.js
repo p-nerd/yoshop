@@ -1,23 +1,26 @@
 import { Router } from "express";
-import { validId } from "../middlewares/validate.js";
+import { validId } from "../middlewares/validateMiddlewares.js";
+import { protect, admin } from "../middlewares/authMiddlewares.js";
 import {
     getProducts,
-    getProductById,
-    deleteProductById,
-    updateProductById,
+    getProduct,
+    deleteProduct,
+    updateProduct,
+    createProduct,
 } from "../controllers/productController.js";
-import protect from "../middlewares/protect.js";
-import admin from "../middlewares/admin.js";
 
 const productRouter = Router();
 
-productRouter.get("/", getProducts);
+productRouter
+    .route("/")
+    .get(getProducts)
+    .post([protect, admin], createProduct);
 
 productRouter
     .route("/:id")
     .all([validId])
-    .get(getProductById)
-    .put([protect, admin], updateProductById)
-    .delete([protect, admin], deleteProductById);
+    .get(getProduct)
+    .put([protect, admin], updateProduct)
+    .delete([protect, admin], deleteProduct);
 
 export default productRouter;

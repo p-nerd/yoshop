@@ -1,4 +1,4 @@
-import wrap from "../middlewares/wrap.js";
+import wrap from "../utils/wrap.js";
 import User from "../models/userModel.js";
 
 /**
