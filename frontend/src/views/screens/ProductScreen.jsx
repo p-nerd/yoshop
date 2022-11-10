@@ -10,7 +10,7 @@ import {
     ListGroup,
     FormControl,
 } from "react-bootstrap";
-import { productDetailsByIdAction } from "./../../stores/actions/productActions.js";
+import { productDetailsAction } from "./../../stores/actions/productActions.js";
 import { convertStockCountToArray } from "../../logic/cartLogic.js";
 import { isProductOutOfStock } from "../../logic/productLogic.js";
 import Rating from "../components/Rating.jsx";
@@ -42,7 +42,7 @@ export default () => {
     );
 
     useEffect(() => {
-        dispatch(productDetailsByIdAction(productId));
+        dispatch(productDetailsAction(productId));
     }, [dispatch]);
 
     const addToCartHandler = () => {

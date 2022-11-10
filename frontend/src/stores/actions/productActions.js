@@ -9,6 +9,8 @@ import {
     PRODUCT_UPDATE_REQUEST,
     PRODUCT_UPDATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_FAIL,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
@@ -16,62 +18,55 @@ import {
     deleteProductByIdRequest,
     updateProductByIdRequest,
 } from "../../services/productService.js";
+import { getTokenFromState } from "../../logic/commonLogic.js";
 
-export const productsListAction = () => async dispatch => {
+export const productListAction = () => async dispatch => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
+
         const { products } = await getProductsRequest();
+
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
     } catch (e) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: e.message });
     }
 };
 
-export const productDetailsByIdAction = productId => async dispatch => {
+export const productDetailsAction = productId => async dispatch => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
+
         const { product } = await getProductByIdRequest(productId);
+
         dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: product });
     } catch (e) {
         dispatch({ type: PRODUCT_DETAILS_FAIL, payload: e.message });
     }
 };
 
-export const deleteProductByIdAction =
-    productId => async (dispatch, getState) => {
-        try {
-            dispatch({ type: PRODUCT_DETAILS_REQUEST });
+export const productDeleteAction = productId => async (dispatch, getState) => {
+    try {
+        dispatch({ type: PRODUCT_DELETE_REQUEST });
 
-            const {
-                userLogin: { userInfo },
-            } = getState();
+        const token = getTokenFromState(getState());
+        await deleteProductByIdRequest(productId, token);
 
-            await deleteProductByIdRequest(productId, userInfo.token);
+        dispatch({ type: PRODUCT_DELETE_SUCCESS });
+    } catch (e) {
+        dispatch({ type: PRODUCT_DELETE_FAIL, payload: e.message });
+    }
+};
 
-            dispatch({ type: PRODUCT_DELETE_SUCCESS });
-            dispatch(productsListAction());
-        } catch (e) {
-            dispatch({ type: PRODUCT_DETAILS_FAIL, payload: e.message });
-        }
-    };
-
-export const productUpdateByIdAction =
-    productData => async (dispatch, getState) => {
+export const productUpdateAction =
+    (productId, productData) => async (dispatch, getState) => {
         try {
             dispatch({ type: PRODUCT_UPDATE_REQUEST });
 
-            const {
-                userLogin: { userInfo },
-            } = getState();
-
-            await updateProductByIdRequest(
-                productData._id,
-                productData,
-                userInfo.token
-            );
+            const token = getTokenFromState(getState());
+            await updateProductByIdRequest(productId, productData, token);
 
             dispatch({ type: PRODUCT_UPDATE_SUCCESS });
-            dispatch(productsListAction());
+            dispatch(productListAction());
         } catch (e) {
             dispatch({ type: PRODUCT_UPDATE_FAIL, payload: e.message });
         }

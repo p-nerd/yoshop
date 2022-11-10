@@ -42,11 +42,8 @@ export const deleteProductById = wrap(async (req, res, next) => {
         throw new Error(`Product not found by id: ${productId}`);
     }
     await Product.deleteOne({ _id: productId });
-    return res.json({ message: `${productId} deleted successfully` });
+    return res.json({ message: `${productId} product deleted successfully` });
 });
-
-const setProperty = (product, body, property) =>
-    body[property] || product[property];
 
 /**
  * @desc Update single product

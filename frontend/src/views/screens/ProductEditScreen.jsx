@@ -9,8 +9,8 @@ import FormField from "../components/FormField.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
 import { PRODUCT_UPDATE_RESET } from "../../stores/constants/productConstants.js";
 import {
-    productDetailsByIdAction,
-    productUpdateByIdAction,
+    productDetailsAction,
+    productUpdateAction,
 } from "../../stores/actions/productActions.js";
 
 const ProductEditScreen = () => {
@@ -38,7 +38,7 @@ const ProductEditScreen = () => {
             navigate("/admin/products");
         } else {
             if (!product.name || product._id !== productId) {
-                dispatch(productDetailsByIdAction(productId));
+                dispatch(productDetailsAction(productId));
             } else {
                 setName(product.name);
                 setPrice(product.price);
@@ -51,13 +51,7 @@ const ProductEditScreen = () => {
     const handlerSubmit = async e => {
         e.preventDefault();
         dispatch(
-            productUpdateByIdAction({
-                _id: productId,
-                name,
-                price,
-                category,
-                brand,
-            })
+            productUpdateAction(productId, { name, price, category, brand })
         );
     };
 

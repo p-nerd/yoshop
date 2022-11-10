@@ -4,8 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-    deleteProductByIdAction,
-    productsListAction,
+    productDeleteAction,
+    productListAction,
 } from "./../../stores/actions/productActions.js";
 import { isAdmin } from "../../logic/commonLogic.js";
 import Loader from "../components/Loader.jsx";
@@ -20,17 +20,23 @@ const ProductListScreen = () => {
     const { loading, error, products } = useSelector(s => s.productList);
     const { userInfo } = useSelector(s => s.userLogin);
 
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = useSelector(s => s.productDelete);
+
     useEffect(() => {
         if (isAdmin(userInfo)) {
-            dispatch(productsListAction());
+            dispatch(productListAction());
         } else {
             navigate("/login");
         }
-    }, [dispatch, navigate, userInfo]);
+    }, [dispatch, navigate, userInfo, successDelete]);
 
-    const handleDelete = userId => {
+    const handleDelete = productId => {
         if (window.confirm("Are you sure?")) {
-            dispatch(deleteProductByIdAction(userId));
+            dispatch(productDeleteAction(productId));
         }
     };
 
@@ -48,6 +54,8 @@ const ProductListScreen = () => {
                     </Button>
                 </Col>
             </Row>
+            {loadingDelete && <Loader />}
+            {errorDelete && <Message variant="danger">{errorDelete}</Message>}
             {loading ? (
                 <Loader />
             ) : error ? (

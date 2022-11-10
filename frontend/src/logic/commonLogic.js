@@ -14,3 +14,10 @@ export const isObjectEmpty = obj => {
 export const isAdmin = userInfo => {
     return !isObjectEmpty(userInfo) && userInfo.isAdmin;
 };
+
+export const getTokenFromState = state => {
+    const {
+        userLogin: { userInfo },
+    } = state;
+    return userInfo.token;
+};
