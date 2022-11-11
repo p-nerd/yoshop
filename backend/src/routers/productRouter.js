@@ -7,6 +7,7 @@ import {
     deleteProduct,
     updateProduct,
     createProduct,
+    createReview,
 } from "../controllers/productController.js";
 
 const productRouter = Router();
@@ -22,5 +23,10 @@ productRouter
     .get(getProduct)
     .put([protect, admin], updateProduct)
     .delete([protect, admin], deleteProduct);
+
+productRouter
+    .route("/:id/reviews")
+    .all([validId])
+    .post([protect], createReview);
 
 export default productRouter;

@@ -102,3 +102,44 @@ export const createProduct = wrap(async (req, res, next) => {
 export const uploadFile = wrap(async (req, res, next) => {
     return res.status(201).json({ fileName: `${req.file.filename}` });
 });
+
+/**
+ * @desc Create new review
+ * @route POST /api/products/:id/reviews
+ * @access Private
+ */
+export const createReview = wrap(async (req, res, next) => {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+        res.status(404);
+        throw new Error(`Product not found by id: ${productId}`);
+    }
+
+    const alreadyReviewed = product.reviews.find(
+        review => review.user.toString() === req.user._id.toString()
+    );
+    if (alreadyReviewed) {
+        res.status(400);
+        throw new Error(`Product already reviewed`);
+    }
+
+    const { rating, comment } = req.body;
+
+    const review = {
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+        user: req.user._id,
+    };
+
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+    product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+
+    const updatedProduct = await product.save();
+    return res.status(201).json(updatedProduct);
+});
