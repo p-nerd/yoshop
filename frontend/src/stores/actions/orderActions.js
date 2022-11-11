@@ -2,6 +2,7 @@ import {
     createOrderRequest,
     getOrderByIdRequest,
     orderListLoggedInUserRequest,
+    orderListRequest,
     payOrderRequest,
 } from "../../services/orderService.js";
 import {
@@ -15,6 +16,9 @@ import {
     ORDER_LIST_ME_REQUEST,
     ORDER_LIST_ME_RESET,
     ORDER_LIST_ME_SUCCESS,
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_FAIL,
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS,
@@ -76,5 +80,18 @@ export const orderListMeAction = () => async (dispatch, getState) => {
         dispatch({ type: ORDER_LIST_ME_SUCCESS, payload: data });
     } catch (e) {
         dispatch({ type: ORDER_LIST_ME_FAIL, payload: e.message });
+    }
+};
+
+export const orderListAction = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ORDER_LIST_REQUEST });
+
+        const token = getTokenFromState(getState());
+        const data = await orderListRequest(token);
+
+        dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+    } catch (e) {
+        dispatch({ type: ORDER_LIST_FAIL, payload: e.message });
     }
 };

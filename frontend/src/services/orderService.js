@@ -49,3 +49,14 @@ export const orderListLoggedInUserRequest = async token => {
         throw new Error(message);
     }
 };
+
+export const orderListRequest = async token => {
+    try {
+        const { data } = await httpC.get("/orders", token);
+        return data;
+    } catch (e) {
+        const message = eem(e, "Get order by id request unsuccessful");
+        logIfNotProduction(message);
+        throw new Error(message);
+    }
+};

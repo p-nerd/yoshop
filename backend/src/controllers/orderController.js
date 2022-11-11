@@ -100,6 +100,6 @@ export const getLoggedInUserOrders = wrap(async (req, res, next) => {
  * @access Private/Admin
  */
 export const getOrders = wrap(async (req, res, next) => {
-    const orders = await Order.find();
+    const orders = await Order.find().populate("user", "id name email");
     return res.status(200).json(orders);
 });
