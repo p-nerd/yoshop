@@ -35,7 +35,7 @@ const orderSchema = new Schema(
         totalPrice: { type: Number, required: true, default: 0.0 },
         isPaid: { type: Boolean, required: true, default: false },
         paidAt: { type: Date },
-        idDelivered: { type: Boolean, required: true, default: false },
+        isDelivered: { type: Boolean, required: true, default: false },
         deliveredAt: { type: Date },
     },
     { timestamps: true }

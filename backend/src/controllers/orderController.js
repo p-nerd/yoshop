@@ -104,3 +104,24 @@ export const getOrders = wrap(async (req, res, next) => {
     const orders = await Order.find().populate("user", "id name email");
     return res.status(200).json(orders);
 });
+
+/**
+ * @desc Update order to Delivered
+ * @route PUT /api/orders/:id/deliver
+ * @access Private/Admin
+ */
+export const updateOrderDeliveredField = wrap(async (req, res, next) => {
+    const orderId = req.params.id;
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+        res.status(404);
+        throw new Error("Order not found");
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updateOrder = await order.save();
+    return res.status(200).json(updateOrder);
+});

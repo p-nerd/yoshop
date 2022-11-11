@@ -6,6 +6,7 @@ import {
     getLoggedInUserOrders,
     getOrder,
     getOrders,
+    updateOrderDeliveredField,
     updateOrderPaidField,
 } from "../controllers/orderController.js";
 
@@ -30,5 +31,12 @@ orderRouter
     .route("/:id/pay")
     .all([validId])
     .put([protect], updateOrderPaidField);
+
+orderRouter
+    .route("/:id/deliver")
+    .all([validId])
+    .put([protect, admin], updateOrderDeliveredField);
+
+
 
 export default orderRouter;
