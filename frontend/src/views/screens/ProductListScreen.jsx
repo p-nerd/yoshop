@@ -87,19 +87,39 @@ const ProductListScreen = () => {
                             <th>ID</th>
                             <th>NAME</th>
                             <th>PRICE</th>
-                            <th>CATEGORY</th>
+                            <th>OWNER</th>
+                            <th>STOCK</th>
                             <th>BRAND</th>
+                            <th>CATEGORY</th>
+                            <th>DESCRIPTION</th>
+                            <th>RATING</th>
+                            <th>REVIEWS</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.map(product => (
                             <tr key={product._id}>
-                                <td>{product._id}</td>
+                                <td>
+                                    {product._id.substring(
+                                        product._id.length - 6,
+                                        product._id.length
+                                    )}
+                                </td>
                                 <td>{product.name}</td>
                                 <td>৳ {product.price}</td>
-                                <td>{product.category}</td>
+                                <td>{product.user.email}</td>
+                                <td>{product.countInStock}</td>
                                 <td>{product.brand}</td>
+                                <td>{product.category}</td>
+                                <td>
+                                    {product.description.length > 20
+                                        ? product.description.substring(0, 20) +
+                                          "..."
+                                        : product.description}
+                                </td>
+                                <td>{product.rating}</td>
+                                <td>{product.numReviews}</td>
                                 <td>
                                     <LinkContainer
                                         to={`/admin/products/${product._id}/edit`}

@@ -9,7 +9,7 @@ import wrap from "../utils/wrap.js";
 export const getProducts = wrap(async (req, res, next) => {
     // throw new Error("Not Authorized");
     // setTimeout(async () => {
-    const products = await Product.find();
+    const products = await Product.find().populate("user", "name email");
     return res.json(products);
     // }, 5000);
 });

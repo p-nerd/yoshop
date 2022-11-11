@@ -69,7 +69,6 @@ export const productCreateAction = () => async (dispatch, getState) => {
 
         const token = getTokenFromState(getState());
         const data = await createSampleProductRequest(token);
-        console.log(data);
 
         dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
     } catch (e) {
