@@ -12,6 +12,8 @@ import {
     productDetailsAction,
     productUpdateAction,
 } from "../../stores/actions/productActions.js";
+import { IMAGE_API_BASEURL } from "../../utils/envUtil.js";
+import { imageUploadRequest } from "../../services/productService.js";
 
 const ProductEditScreen = () => {
     const params = useParams();
@@ -25,6 +27,7 @@ const ProductEditScreen = () => {
     const [category, setCategory] = useState("");
     const [countInStock, setCountInStock] = useState(0);
     const [description, setDescription] = useState("");
+    const [uploading, setUploading] = useState(false);
 
     const productId = params.id;
 
@@ -67,9 +70,24 @@ const ProductEditScreen = () => {
                 brand,
                 category,
                 countInStock,
-                description, 
+                description,
             })
         );
+    };
+
+    const handleImageUpload = async e => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append("image", file);
+        setUploading(true);
+
+        try {
+            const data = await imageUploadRequest(formData);
+            setImage(`${IMAGE_API_BASEURL}/${data.fileName}`);
+            setUploading(false);
+        } catch (e) {
+            setUploading(false);
+        }
     };
 
     return (
@@ -102,12 +120,22 @@ const ProductEditScreen = () => {
                                 value={price}
                                 setFunc={setPrice}
                             />
-                            <FormField
-                                label="Image URL"
-                                name="image"
-                                value={image}
-                                setFunc={setImage}
-                            />
+                            <Form.Group controlId="image">
+                                <Form.Label>Image</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter image"
+                                    value={image}
+                                    onChange={e => setImage(e.target.value)}
+                                />
+                                <Form.File
+                                    id="image-file"
+                                    label="Choose File"
+                                    custom
+                                    onChange={handleImageUpload}
+                                />
+                                {uploading && <Loader />}
+                            </Form.Group>
                             <FormField
                                 label="Brand"
                                 name="brand"

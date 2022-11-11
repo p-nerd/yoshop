@@ -24,3 +24,6 @@ dist-ssr
 
 # Added
 .env
+
+# Custom
+uploads/

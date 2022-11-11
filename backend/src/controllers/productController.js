@@ -93,3 +93,12 @@ export const createProduct = wrap(async (req, res, next) => {
     const createProduct = await product.save();
     return res.status(201).json(createProduct);
 });
+
+/**
+ * @desc Upload file
+ * @route POST /api/uploads
+ * @access Private/Admin
+ */
+export const uploadFile = wrap(async (req, res, next) => {
+    return res.status(201).json({ fileName: `${req.file.filename}` });
+});

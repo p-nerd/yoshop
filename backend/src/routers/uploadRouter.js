@@ -1,6 +1,8 @@
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
+import { uploadFile } from "../controllers/productController.js";
+import { admin, protect } from "../middlewares/authMiddlewares.js";
 
 const uploadRouter = Router();
 
@@ -33,12 +35,10 @@ const checkFileType = (file, cp) => {
 const upload = multer({
     storage,
     fileFilter: function (req, file, cb) {
-        checkFileType(file, cp);
+        checkFileType(file, cb);
     },
 });
 
-uploadRouter.post("/", upload.single("image"), (req, res) => {
-    return res.status(201).json({ imagePath: `${req.file.path}` });
-});
+uploadRouter.post("/", [protect, admin, upload.single("image")], uploadFile);
 
 export default uploadRouter;

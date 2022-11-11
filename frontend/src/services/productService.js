@@ -72,3 +72,12 @@ export const createSampleProductRequest = async token => {
         throw new Error(message);
     }
 };
+
+export const imageUploadRequest = async formData => {
+    try {
+        return await httpC.postFile("/uploads", formData);
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+};
