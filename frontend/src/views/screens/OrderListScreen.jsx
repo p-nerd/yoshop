@@ -17,11 +17,12 @@ const OrderListScreen = () => {
     const { userInfo } = useSelector(s => s.userLogin);
 
     useEffect(() => {
-        if (!isAdmin(userInfo)) navigate("/login");
-        else {
-            if (orders && orders.length === 0) dispatch(orderListAction());
+        if (!isAdmin(userInfo)) {
+            navigate("/login");
+        } else {
+            dispatch(orderListAction());
         }
-    }, [dispatch, navigate, userInfo, orders]);
+    }, [dispatch, navigate, userInfo]);
 
     const getShippingAddress = order =>
         `${order.shippingAddress.address}, ` +
@@ -42,14 +43,12 @@ const OrderListScreen = () => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>CREATE_AT</th>
-                            <th>TOTAL PRICE</th>
-                            <th>OWNER</th>
-                            <th>ITEMS</th>
-                            <th>PAYMENT METHOD</th>
-                            <th>IS PAID</th>
-                            <th>IS DELIVERED</th>
-                            <th>SHIPPING ADDRESS</th>
+                            <th>USER</th>
+                            <th>DATE</th>
+                            <th>TOTAL</th>
+                            <th>PAID</th>
+                            <th>DELIVERED</th>
+                            <th>ADDRESS</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -62,11 +61,9 @@ const OrderListScreen = () => {
                                         order._id.length
                                     )}
                                 </td>
-                                <td>{order.createAt}</td>
-                                <td>৳ {order.totalPrice}</td>
                                 <td>{order.user.email}</td>
-                                <td>{order.orderItems.length}</td>
-                                <td>{order.paymentMethod}</td>
+                                <td>{order.createdAt.substring(0, 10)}</td>
+                                <td>৳ {order.totalPrice}</td>
                                 <td>
                                     {order.isPaid ? (
                                         String(order.paidAt).substring(0, 10)

@@ -36,13 +36,13 @@ const indexReducers = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
+    userList: userListReducer,
+    userRemove: userRemoveReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderListMe: orderListMeReducer,
     orderList: orderListReducer,
-    userList: userListReducer,
-    userRemove: userRemoveReducer,
 });
 
 const initialState = {
