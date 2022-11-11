@@ -1,7 +1,12 @@
 import wrap from "../utils/wrap.js";
 import Order from "../models/orderModel.js";
 
-export const createNewOrder = wrap(async (req, res, next) => {
+/**
+ * @desc Create new order
+ * @route POST /api/orders
+ * @access Private
+ */
+export const createOrder = wrap(async (req, res, next) => {
     const {
         orderItems,
         shippingAddress,
@@ -32,7 +37,12 @@ export const createNewOrder = wrap(async (req, res, next) => {
     return res.status(201).json(createdOrder);
 });
 
-export const getOrderById = wrap(async (req, res, next) => {
+/**
+ * @desc Get order by ID
+ * @route GET /api/orders/:id
+ * @access Private
+ */
+export const getOrder = wrap(async (req, res, next) => {
     const orderId = req.params.id;
 
     const order = await Order.findById(orderId).populate("user", "name email");
@@ -45,7 +55,12 @@ export const getOrderById = wrap(async (req, res, next) => {
     return res.status(200).json(order);
 });
 
-export const updateOrderToPaid = wrap(async (req, res, next) => {
+/**
+ * @desc Update order to paid
+ * @route PUT /api/orders/:id/pay
+ * @access Private
+ */
+export const updateOrderPaidField = wrap(async (req, res, next) => {
     const orderId = req.params.id;
 
     const order = await Order.findById(orderId);
@@ -69,7 +84,22 @@ export const updateOrderToPaid = wrap(async (req, res, next) => {
     return res.status(200).json(updateOrder);
 });
 
+/**
+ * @desc Get logged in user orders
+ * @route GET /api/orders/me
+ * @access Private
+ */
 export const getLoggedInUserOrders = wrap(async (req, res, next) => {
     const orders = await Order.find({ user: req.user._id });
+    return res.status(200).json(orders);
+});
+
+/**
+ * @desc Get all orders
+ * @route GET /api/orders
+ * @access Private/Admin
+ */
+export const getOrders = wrap(async (req, res, next) => {
+    const orders = await Order.find();
     return res.status(200).json(orders);
 });
