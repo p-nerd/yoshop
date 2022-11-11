@@ -1,19 +1,22 @@
 import "dotenv/config";
 
-const checkEnv = (env, name) => {
-    if (!env) {
-        console.error(`${name} can't be null in .env`.red.underline.bold);
-        process.exit(1);
-    }
-};
+export const development = "development";
+export const production = "production";
 
-export const NODE_ENV = process.env.NODE_ENV || "production";
+export const NODE_ENV = process.env.NODE_ENV || production;
 export const PORT = process.env.PORT || 3000;
 export const MONGO_URI = process.env.MONGO_URI;
 export const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY || "key";
 export const JWT_EXPIRES_IN_MINUTE = Number(
     process.env.JWT_EXPIRES_IN_MINUTE || 2880
 );
+
+const checkEnv = (env, name) => {
+    if (!env) {
+        console.error(`${name} can't be null in .env`.red.underline.bold);
+        process.exit(1);
+    }
+};
 
 checkEnv(PORT, "PORT");
 checkEnv(NODE_ENV, "NODE_ENV");

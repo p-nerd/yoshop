@@ -1,8 +1,9 @@
+import path from "node:path";
 import colors from "colors";
 import express from "express";
 import cors from "cors";
-import path from "path";
-import { NODE_ENV, PORT } from "./utils/env.js";
+import morgan from "morgan";
+import { development, NODE_ENV, PORT } from "./utils/env.js";
 import { errHandler, notRoute } from "./middlewares/errorMiddlewares.js";
 import connectToMongoDB from "./utils/db.js";
 import productRouter from "./routers/productRouter.js";
@@ -11,6 +12,10 @@ import orderRouter from "./routers/orderRouter.js";
 import uploadRouter from "./routers/uploadRouter.js";
 
 const app = express();
+
+if (NODE_ENV === development) {
+    app.use(morgan("dev"));
+}
 
 app.use(cors());
 app.use(express.json());
