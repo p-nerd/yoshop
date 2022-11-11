@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BACKEND_API_URL } from "../utils/envUtil.js";
-import { extractFromLocalStorage } from "./localStorageUtil.js";
 
 axios.defaults.baseURL = BACKEND_API_URL;
 
@@ -24,8 +23,7 @@ export const deleteR = async (uri, token) => {
     return await axios.delete(uri, getConfig(token));
 };
 
-export const postFile = async (uri, formData) => {
-    const token = extractFromLocalStorage("userInfo", "f**k").token;
+export const postFile = async (uri, formData, token) => {
     const config = {
         headers: {
             "Content-Type": "multipart/form-data",

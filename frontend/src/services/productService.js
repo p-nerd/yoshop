@@ -1,4 +1,5 @@
 import * as httpC from "../utils/httpC.js";
+import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
 import { logIfNotProduction } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
@@ -75,7 +76,8 @@ export const createSampleProductRequest = async token => {
 
 export const imageUploadRequest = async formData => {
     try {
-        return await httpC.postFile("/uploads", formData);
+        const token = extractFromLocalStorage("userInfo", "f**k").token;
+        return await httpC.postFile("/uploads", formData, token);
     } catch (e) {
         console.error(e);
         throw e;
