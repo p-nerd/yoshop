@@ -1,5 +1,4 @@
-import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
-import { logIfNotProduction } from "../utils/loggerUtil.js";
+import { logReqNotProd } from "../utils/loggerUtil.js";
 import * as httpC from "../utils/httpC.js";
 
 export const createOrderRequest = async (order, token) => {
@@ -7,9 +6,7 @@ export const createOrderRequest = async (order, token) => {
         const { data, status } = await httpC.post("/orders", order, token);
         return { data, status };
     } catch (e) {
-        const message = eem(e, "Order Create request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -18,9 +15,7 @@ export const getOrderByIdRequest = async (orderId, token) => {
         const { data, status } = await httpC.get(`/orders/${orderId}`, token);
         return { data, status };
     } catch (e) {
-        const message = eem(e, "Get order by id request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -33,9 +28,7 @@ export const payOrderRequest = async (orderId, data, token) => {
         );
         return { data, status };
     } catch (e) {
-        const message = eem(e, "Get order by id request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -44,9 +37,7 @@ export const orderListLoggedInUserRequest = async token => {
         const { data, status } = await httpC.get("/orders/me", token);
         return { data, status };
     } catch (e) {
-        const message = eem(e, "Get order by id request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -55,8 +46,19 @@ export const orderListRequest = async token => {
         const { data } = await httpC.get("/orders", token);
         return data;
     } catch (e) {
-        const message = eem(e, "Get order by id request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
+    }
+};
+
+export const orderDeliverRequest = async (orderId, token) => {
+    try {
+        const { data } = await httpC.put(
+            `/orders/${orderId}/deliver`,
+            {},
+            token
+        );
+        return data;
+    } catch (e) {
+        throw new Error(logReqNotProd(e));
     }
 };

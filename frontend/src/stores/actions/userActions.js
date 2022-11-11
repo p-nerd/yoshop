@@ -11,7 +11,10 @@ import {
     addItemToLocalStorage,
     removeFromLocalStorage,
 } from "../../utils/localStorageUtil.js";
-import { ORDER_LIST_ME_RESET } from "../constants/orderConstants.js";
+import {
+    ORDER_DELIVER_RESET,
+    ORDER_LIST_ME_RESET,
+} from "../constants/orderConstants.js";
 import {
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
@@ -57,6 +60,8 @@ export const userLogoutAction = () => async dispatch => {
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: USER_LIST_RESET });
     dispatch({ type: USER_REGISTER_RESET });
+    dispatch({ type: ORDER_DELIVER_RESET });
+    window.location.reload();
 };
 
 export const userRegisterAction = (name, email, password) => async dispatch => {

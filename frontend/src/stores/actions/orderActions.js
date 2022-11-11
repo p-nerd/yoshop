@@ -1,6 +1,7 @@
 import {
     createOrderRequest,
     getOrderByIdRequest,
+    orderDeliverRequest,
     orderListLoggedInUserRequest,
     orderListRequest,
     payOrderRequest,
@@ -22,6 +23,9 @@ import {
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS,
+    ORDER_DELIVER_REQUEST,
+    ORDER_DELIVER_FAIL,
+    ORDER_DELIVER_SUCCESS,
 } from "../constants/orderConstants.js";
 import { CART_RESET } from "./../constants/cartConstants.js";
 import { removeFromLocalStorage } from "../../utils/localStorageUtil.js";
@@ -93,5 +97,18 @@ export const orderListAction = () => async (dispatch, getState) => {
         dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
     } catch (e) {
         dispatch({ type: ORDER_LIST_FAIL, payload: e.message });
+    }
+};
+
+export const orderDeliverAction = orderId => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ORDER_DELIVER_REQUEST });
+
+        const token = getTokenFromState(getState());
+        await orderDeliverRequest(orderId, token);
+
+        dispatch({ type: ORDER_DELIVER_SUCCESS });
+    } catch (e) {
+        dispatch({ type: ORDER_DELIVER_FAIL, payload: e.message });
     }
 };

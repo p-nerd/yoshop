@@ -4,6 +4,7 @@ import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
 import { cartReducer } from "./reducers/cartReducers.js";
 import {
     orderCreateReducer,
+    orderDeliverReducer,
     orderDetailsReducer,
     orderListMeReducer,
     orderListReducer,
@@ -28,21 +29,22 @@ import {
 const indexReducers = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
-    productDelete: productDeleteReducer,
     productCreate: productCreateReducer,
     productUpdate: productUpdateReducer,
+    productDelete: productDeleteReducer,
     cart: cartReducer,
+    userList: userListReducer,
+    userDetails: userDetailsReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
-    userList: userListReducer,
     userRemove: userRemoveReducer,
-    orderCreate: orderCreateReducer,
-    orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer,
-    orderListMe: orderListMeReducer,
     orderList: orderListReducer,
+    orderListMe: orderListMeReducer,
+    orderDetails: orderDetailsReducer,
+    orderCreate: orderCreateReducer,
+    orderPay: orderPayReducer,
+    orderDeliver: orderDeliverReducer,
 });
 
 const initialState = {
