@@ -1,20 +1,13 @@
 import { useEffect } from "react";
-import { Button, Table, Row, Col } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    productCreateAction,
-    productDeleteAction,
-    productListAction,
-} from "./../../stores/actions/productActions.js";
 import { isAdmin } from "../../logic/commonLogic.js";
-import { PRODUCT_CREATE_RESET } from "../../stores/constants/productConstants.js";
+import { orderListAction } from "../../stores/actions/orderActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
-import EditIcon from "../components/EditIcon.jsx";
-import TrashIcon from "../components/TrashIcon.jsx";
-import { orderListAction } from "../../stores/actions/orderActions.js";
+import XIcon from "../components/XIcon.jsx";
 
 const OrderListScreen = () => {
     const dispatch = useDispatch();
@@ -29,8 +22,6 @@ const OrderListScreen = () => {
             if (orders && orders.length === 0) dispatch(orderListAction());
         }
     }, [dispatch, navigate, userInfo, orders]);
-
-    console.log(orders);
 
     const getShippingAddress = order =>
         `${order.shippingAddress.address}, ` +
@@ -76,18 +67,31 @@ const OrderListScreen = () => {
                                 <td>{order.user.email}</td>
                                 <td>{order.orderItems.length}</td>
                                 <td>{order.paymentMethod}</td>
-                                <td>{order.isPaid ? "YES" : "NO"}</td>
-                                <td>{order.isDelivered ? "YES" : "NO"}</td>
+                                <td>
+                                    {order.isPaid ? (
+                                        String(order.paidAt).substring(0, 10)
+                                    ) : (
+                                        <XIcon />
+                                    )}
+                                </td>
+                                <td>
+                                    {order.isDelivered ? (
+                                        String(order.deliveredAt).substring(
+                                            0,
+                                            10
+                                        )
+                                    ) : (
+                                        <XIcon />
+                                    )}
+                                </td>
                                 <td>{getShippingAddress(order)}</td>
                                 <td>
-                                    <LinkContainer
-                                        to={`/admin/orders/${order._id}`}
-                                    >
+                                    <LinkContainer to={`/order/${order._id}`}>
                                         <Button
-                                            variant="light"
                                             className="btn-sm"
+                                            variant="light"
                                         >
-                                            <EditIcon />
+                                            Details
                                         </Button>
                                     </LinkContainer>
                                 </td>

@@ -40,18 +40,19 @@ export const createOrder = wrap(async (req, res, next) => {
 /**
  * @desc Get order by ID
  * @route GET /api/orders/:id
- * @access Private
+ * @access Private/Admin OR Owner
  */
 export const getOrder = wrap(async (req, res, next) => {
     const orderId = req.params.id;
-
     const order = await Order.findById(orderId).populate("user", "name email");
-
     if (!order) {
         res.status(404);
         throw new Error("Order not found");
     }
-
+    if (!req.user.isAdmin && req.user.id !== order.user.id) {
+        res.status(401);
+        throw new Error("User must have to be admin or Owner");
+    }
     return res.status(200).json(order);
 });
 
