@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button, Table, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     productCreateAction,
     productDeleteAction,
@@ -14,38 +14,53 @@ import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import EditIcon from "../components/EditIcon.jsx";
 import TrashIcon from "../components/TrashIcon.jsx";
+import Paginate from "../components/Paginate.jsx";
 
 const ProductListScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
 
-    const { loading, error, products } = useSelector(s => s.productList);
-    const { userInfo } = useSelector(s => s.userLogin);
+    const productList = useSelector(s => s.productList);
+    const userLogin = useSelector(s => s.userLogin);
+    const productDelete = useSelector(s => s.productDelete);
+    const productCreate = useSelector(s => s.productCreate);
 
+    const { loading, error, products, pagesCount } = productList;
+    const { userInfo } = userLogin;
     const {
         loading: loadingDelete,
         error: errorDelete,
         success: successDelete,
-    } = useSelector(s => s.productDelete);
+    } = productDelete;
 
     const {
         loading: loadingCreate,
         error: errorCreate,
         success: successCreate,
         product: createdProduct,
-    } = useSelector(s => s.productCreate);
+    } = productCreate;
+    const pageNumber = params.pageNumber || 1;
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET });
         if (!isAdmin(userInfo)) {
             navigate("/login");
-        }
-        if (successCreate) {
-            navigate(`/admin/products/${createdProduct._id}/edit`);
         } else {
-            dispatch(productListAction());
+            if (successCreate) {
+                navigate(`/admin/products/${createdProduct._id}/edit`);
+            } else {
+                dispatch(productListAction("", pageNumber));
+            }
         }
-    }, [dispatch, navigate, userInfo, successDelete, successCreate]);
+    }, [
+        dispatch,
+        navigate,
+        userInfo,
+        successDelete,
+        successCreate,
+        pageNumber,
+    ]);
 
     const handleDelete = productId => {
         if (window.confirm("Are you sure?")) {
@@ -81,70 +96,85 @@ const ProductListScreen = () => {
                     <>{error}</>
                 </Message>
             ) : (
-                <Table striped bordered hover responsive className="table-sm">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>PRICE</th>
-                            <th>OWNER</th>
-                            <th>STOCK</th>
-                            <th>BRAND</th>
-                            <th>CATEGORY</th>
-                            <th>DESCRIPTION</th>
-                            <th>RATING</th>
-                            <th>REVIEWS</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map(product => (
-                            <tr key={product._id}>
-                                <td>
-                                    {product._id.substring(
-                                        product._id.length - 6,
-                                        product._id.length
-                                    )}
-                                </td>
-                                <td>{product.name}</td>
-                                <td>৳ {product.price}</td>
-                                <td>{product.user.email}</td>
-                                <td>{product.countInStock}</td>
-                                <td>{product.brand}</td>
-                                <td>{product.category}</td>
-                                <td>
-                                    {product.description.length > 20
-                                        ? product.description.substring(0, 20) +
-                                          "..."
-                                        : product.description}
-                                </td>
-                                <td>{product.rating}</td>
-                                <td>{product.numReviews}</td>
-                                <td>
-                                    <LinkContainer
-                                        to={`/admin/products/${product._id}/edit`}
-                                    >
-                                        <Button
-                                            variant="light"
-                                            className="btn-sm"
-                                        >
-                                            <EditIcon />
-                                        </Button>
-                                    </LinkContainer>
-                                    <Button
-                                        variant="danger"
-                                        className="btn-sm"
-                                        onClick={() =>
-                                            handleDelete(product._id)
-                                        }
-                                    >
-                                        <TrashIcon />
-                                    </Button>
-                                </td>
+                <>
+                    <Table
+                        striped
+                        bordered
+                        hover
+                        responsive
+                        className="table-sm"
+                    >
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>PRICE</th>
+                                <th>OWNER</th>
+                                <th>STOCK</th>
+                                <th>BRAND</th>
+                                <th>CATEGORY</th>
+                                <th>DESCRIPTION</th>
+                                <th>RATING</th>
+                                <th>REVIEWS</th>
+                                <th></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {products.map(product => (
+                                <tr key={product._id}>
+                                    <td>
+                                        {product._id.substring(
+                                            product._id.length - 6,
+                                            product._id.length
+                                        )}
+                                    </td>
+                                    <td>{product.name}</td>
+                                    <td>৳ {product.price}</td>
+                                    <td>{product.user.email}</td>
+                                    <td>{product.countInStock}</td>
+                                    <td>{product.brand}</td>
+                                    <td>{product.category}</td>
+                                    <td>
+                                        {product.description.length > 20
+                                            ? product.description.substring(
+                                                  0,
+                                                  20
+                                              ) + "..."
+                                            : product.description}
+                                    </td>
+                                    <td>{product.rating}</td>
+                                    <td>{product.numReviews}</td>
+                                    <td>
+                                        <LinkContainer
+                                            to={`/admin/products/${product._id}/edit`}
+                                        >
+                                            <Button
+                                                variant="light"
+                                                className="btn-sm"
+                                            >
+                                                <EditIcon />
+                                            </Button>
+                                        </LinkContainer>
+                                        <Button
+                                            variant="danger"
+                                            className="btn-sm"
+                                            onClick={() =>
+                                                handleDelete(product._id)
+                                            }
+                                        >
+                                            <TrashIcon />
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                    <Paginate
+                        pagesCount={pagesCount}
+                        page={pageNumber}
+                        isAdmin={true}
+                    />
+                </>
             )}
         </>
     );

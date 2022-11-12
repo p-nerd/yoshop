@@ -31,14 +31,14 @@ import {
 import { getTokenFromState } from "../../logic/commonLogic.js";
 
 export const productListAction =
-    (keyword = "") =>
+    (keyword = "", pageNumber = 1) =>
     async dispatch => {
         try {
             dispatch({ type: PRODUCT_LIST_REQUEST });
 
-            const { products } = await getProductsRequest(keyword);
+            const data = await getProductsRequest(keyword, pageNumber);
 
-            dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
+            dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
         } catch (e) {
             dispatch({ type: PRODUCT_LIST_FAIL, payload: e.message });
         }

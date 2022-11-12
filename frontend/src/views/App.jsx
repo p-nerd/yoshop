@@ -65,6 +65,11 @@ export default () => (
                         element={<ProductListScreen />}
                     />
                     <Route
+                        path="/admin/products/page/:pageNumber"
+                        exact
+                        element={<ProductListScreen />}
+                    />
+                    <Route
                         path="/admin/products/:id/edit"
                         exact
                         element={<ProductEditScreen />}
@@ -74,7 +79,21 @@ export default () => (
                         exact
                         element={<OrderListScreen />}
                     />
-                    <Route path="/search/:keyword" element={<HomeScreen />} />
+                    <Route
+                        path="/search/:keyword"
+                        exact
+                        element={<HomeScreen />}
+                    />
+                    <Route
+                        path="/page/:pageNumber"
+                        exact
+                        element={<HomeScreen />}
+                    />
+                    <Route
+                        path="/search/:keyword/page/:pageNumber"
+                        exact
+                        element={<HomeScreen />}
+                    />
                 </Routes>
             </Container>
         </main>

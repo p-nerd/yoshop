@@ -3,10 +3,16 @@ import wrap from "../utils/wrap.js";
 
 /**
  * @desc Fetch all products
- * @route GET /api/products?keyword=<search keyword>
+ * @route GET /api/products?
+ *            keyword=<search keyword>&
+ *            pageNumber=<Page number>&
+ *            pageSize=<PageSize>
  * @access Public
  */
 export const getProducts = wrap(async (req, res, next) => {
+    const pageSize = Number(req.query.pageSize) || 15;
+    const pageNumber = Number(req.query.pageNumber) || 1;
+
     const keyword = req.query.keyword
         ? {
               name: {
@@ -16,10 +22,17 @@ export const getProducts = wrap(async (req, res, next) => {
           }
         : {};
 
-    const products = await Product
-        .find({ ...keyword })
-        .populate("user","name email");
-    return res.json(products);
+    const productCount = await Product.count({ ...keyword });
+
+    const products = await Product.find({ ...keyword })
+        .populate("user", "name email")
+        .limit(pageSize)
+        .skip((pageNumber - 1) * pageSize);
+    return res.json({
+        products,
+        pageNumber,
+        pagesCount: Math.ceil(productCount / pageSize),
+    });
 });
 
 /**
