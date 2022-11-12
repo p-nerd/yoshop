@@ -9,6 +9,8 @@
         "node": ">=16.17.1 <17.0.0"
     },
     "scripts": {
+        "build": "yarn --cwd frontend build",
+        "start": "yarn --cwd backend prod",
         "server": "yarn --cwd backend dev",
         "client": "yarn --cwd frontend dev",
         "dev": "concurrently \"yarn server\" \"yarn client\"",

@@ -1,6 +1,6 @@
 export const development = "development";
 export const production = "production";
 
-export const NODE_ENV = development;
-export const BACKEND_API_URL = `http://localhost:3000/api`;
-export const IMAGE_API_BASEURL = "http://localhost:3000/uploads";
+export const NODE_ENV = production;
+export const BACKEND_API_URL = "/api";
+export const IMAGE_API_BASEURL = "/uploads";

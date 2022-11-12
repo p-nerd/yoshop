@@ -3,7 +3,7 @@ import colors from "colors";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { development, NODE_ENV, PORT } from "./utils/env.js";
+import { development, NODE_ENV, PORT, production } from "./utils/env.js";
 import { errHandler, notRoute } from "./middlewares/errorMiddlewares.js";
 import connectToMongoDB from "./utils/db.js";
 import productRouter from "./routers/productRouter.js";
@@ -27,6 +27,14 @@ app.use("/api/uploads", uploadRouter);
 
 const uploadsPath = path.join(path.resolve(), "..", "/uploads");
 app.use("/uploads", express.static(uploadsPath));
+
+if (NODE_ENV === production) {
+    const distPath = path.join(path.resolve(), "..", "/frontend", "/dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => res.sendFile(path.join(distPath, "index.html")));
+} else {
+    app.use("/", (req, res) => res.json({ message: "API is running ..." }));
+}
 
 app.use(notRoute);
 app.use(errHandler);
