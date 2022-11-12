@@ -2,7 +2,13 @@
 
 A full feature e-commerce cart app from scratch using MERN and Redux Stack.
 
-I build this project by following [Brad Traversy](https://www.linkedin.com/in/bradtraversy/) Udemy course called [MERN eCommerce From Scratch](https://www.udemy.com/course/mern-ecommerce/). But I changed the code, folder structure, and logic in my own way. So it is not just another copy.
+I build this project by following [Brad Traversy](https://www.linkedin.com/in/bradtraversy/) Udemy course called [MERN eCommerce From Scratch](https://www.udemy.com/course/mern-ecommerce/).
+But I changed the code, folder structure, and logic in my own way.
+So it is not just another copy.
+After finishing half of the course almost every time, I implement stuff before watching the video.
+After implementing I watched that video correct the code if needed and do the necessary change.
+Most of the time it seemed to change very evenly.
+So again it is not just another copy, it has my own things to it.
 
 ## Links
 
