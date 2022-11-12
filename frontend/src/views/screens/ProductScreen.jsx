@@ -15,6 +15,7 @@ import Message from "../components/Message.jsx";
 import { isObjectEmpty } from "../../logic/commonLogic.js";
 import SubmitButton from "../components/SubmitButton.jsx";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../../stores/constants/productConstants.js";
+import Meta from "../components/Meta.jsx";
 
 const { Item } = ListGroup;
 
@@ -59,7 +60,7 @@ export default () => {
             alert("Review Submitted");
             setRating(0);
             setComment("");
-            dispatch({type: PRODUCT_CREATE_REVIEW_RESET})
+            dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
         }
         dispatch(productDetailsAction(productId));
     }, [dispatch, productId, successReview]);
@@ -84,6 +85,8 @@ export default () => {
                 <Message variant="danger">{errorProduct}</Message>
             ) : (
                 <>
+                    <Meta title={product.name} />
+
                     <Row>
                         <Col md={6}>
                             <Image

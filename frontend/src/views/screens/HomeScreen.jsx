@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { productListAction } from "./../../stores/actions/productActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import Product from "../components/Product.jsx";
 import Paginate from "../components/Paginate.jsx";
 import ProductCarousel from "../components/ProductCarousel.jsx";
+import Meta from "../components/Meta.jsx";
 
 export default () => {
     const dispatch = useDispatch();
@@ -25,7 +26,14 @@ export default () => {
 
     return (
         <>
-            {!keyword && <ProductCarousel />}
+            <Meta />
+            {!keyword ? (
+                <ProductCarousel />
+            ) : (
+                <Link to="/" className="btn btn-light">
+                    Go Back
+                </Link>
+            )}
             <h1>Latest Products</h1>
             {loading ? (
                 <Loader />
