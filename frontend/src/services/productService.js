@@ -3,9 +3,12 @@ import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
 import { logIfNotProduction, logReqNotProd } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
-export const getProductsRequest = async () => {
+export const getProductsRequest = async keyword => {
     try {
-        const { data: products, status } = await httpC.get("/products", null);
+        const { data: products, status } = await httpC.get(
+            `/products?keyword=${keyword}`,
+            null
+        );
         return { products, status };
     } catch (e) {
         const message = eem(e, "Get all product request unsuccessful");

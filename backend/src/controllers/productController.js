@@ -3,15 +3,23 @@ import wrap from "../utils/wrap.js";
 
 /**
  * @desc Fetch all products
- * @route GET /api/products
+ * @route GET /api/products?keyword=<search keyword>
  * @access Public
  */
 export const getProducts = wrap(async (req, res, next) => {
-    // throw new Error("Not Authorized");
-    // setTimeout(async () => {
-    const products = await Product.find().populate("user", "name email");
+    const keyword = req.query.keyword
+        ? {
+              name: {
+                  $regex: req.query.keyword,
+                  $options: "i",
+              },
+          }
+        : {};
+
+    const products = await Product
+        .find({ ...keyword })
+        .populate("user","name email");
     return res.json(products);
-    // }, 5000);
 });
 
 /**

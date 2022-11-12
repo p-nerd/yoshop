@@ -5,14 +5,20 @@ import { productListAction } from "./../../stores/actions/productActions.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import Product from "../components/Product.jsx";
+import { useParams } from "react-router-dom";
 
 export default () => {
     const dispatch = useDispatch();
-    const { loading, error, products } = useSelector(s => s.productList);
+    const params = useParams();
+
+    const productList = useSelector(s => s.productList);
+
+    const { loading, error, products } = productList;
+    const keyword = params.keyword;
 
     useEffect(() => {
-        dispatch(productListAction());
-    }, [dispatch]);
+        dispatch(productListAction(keyword));
+    }, [dispatch, keyword]);
 
     return (
         <>

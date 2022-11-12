@@ -74,6 +74,7 @@ export default () => (
                         exact
                         element={<OrderListScreen />}
                     />
+                    <Route path="/search/:keyword" element={<HomeScreen />} />
                 </Routes>
             </Container>
         </main>

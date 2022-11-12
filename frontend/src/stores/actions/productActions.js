@@ -30,17 +30,19 @@ import {
 } from "../../services/productService.js";
 import { getTokenFromState } from "../../logic/commonLogic.js";
 
-export const productListAction = () => async dispatch => {
-    try {
-        dispatch({ type: PRODUCT_LIST_REQUEST });
+export const productListAction =
+    (keyword = "") =>
+    async dispatch => {
+        try {
+            dispatch({ type: PRODUCT_LIST_REQUEST });
 
-        const { products } = await getProductsRequest();
+            const { products } = await getProductsRequest(keyword);
 
-        dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
-    } catch (e) {
-        dispatch({ type: PRODUCT_LIST_FAIL, payload: e.message });
-    }
-};
+            dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
+        } catch (e) {
+            dispatch({ type: PRODUCT_LIST_FAIL, payload: e.message });
+        }
+    };
 
 export const productDetailsAction = productId => async dispatch => {
     try {

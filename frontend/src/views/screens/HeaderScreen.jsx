@@ -4,17 +4,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { isAdmin, isObjectEmpty } from "../../logic/commonLogic.js";
 import { userLogoutAction } from "../../stores/actions/userActions.js";
+import SearchBox from "../components/SearchBox.jsx";
+import { useParams } from "react-router-dom";
 
 const { Brand, Toggle, Collapse } = Navbar;
 
 const HeaderScreen = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    
+    const userLogin = useSelector(s => s.userLogin);
 
-    const { userInfo } = useSelector(s => s.userLogin);
+    const { userInfo } = userLogin;
+
     const logoutHandler = () => {
         dispatch(userLogoutAction());
     };
+
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -22,6 +27,7 @@ const HeaderScreen = () => {
                     <Brand as={Link} to="/">
                         YoShop
                     </Brand>
+                    <SearchBox />
                     <Toggle aria-controls="basic-navbar-nav" />
                     <Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
