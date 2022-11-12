@@ -1,6 +1,6 @@
 import * as httpC from "../utils/httpC.js";
 import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
-import { logIfNotProduction } from "../utils/loggerUtil.js";
+import { logIfNotProduction, logReqNotProd } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
 
 export const getProductsRequest = async () => {
@@ -81,5 +81,18 @@ export const imageUploadRequest = async formData => {
     } catch (e) {
         console.error(e);
         throw e;
+    }
+};
+
+export const productCreateReviewRequest = async (productId, review, token) => {
+    try {
+        const { data } = await httpC.post(
+            `/products/${productId}/reviews`,
+            review,
+            token
+        );
+        return data;
+    } catch (e) {
+        throw new Error(logReqNotProd(e));
     }
 };

@@ -16,6 +16,9 @@ import {
     PRODUCT_CREATE_FAIL,
     PRODUCT_LIST_RESET,
     PRODUCT_DETAILS_RESET,
+    PRODUCT_CREATE_REVIEW_REQUEST,
+    PRODUCT_CREATE_REVIEW_SUCCESS,
+    PRODUCT_CREATE_REVIEW_FAIL,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
@@ -23,6 +26,7 @@ import {
     deleteProductByIdRequest,
     updateProductRequest,
     createSampleProductRequest,
+    productCreateReviewRequest,
 } from "../../services/productService.js";
 import { getTokenFromState } from "../../logic/commonLogic.js";
 
@@ -93,5 +97,19 @@ export const productUpdateAction =
             dispatch({ type: PRODUCT_LIST_RESET });
         } catch (e) {
             dispatch({ type: PRODUCT_UPDATE_FAIL, payload: e.message });
+        }
+    };
+
+export const productCreateReviewAction =
+    (productId, review) => async (dispatch, getState) => {
+        try {
+            dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
+
+            const token = getTokenFromState(getState());
+            await productCreateReviewRequest(productId, review, token);
+
+            dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
+        } catch (e) {
+            dispatch({ type: PRODUCT_CREATE_REVIEW_FAIL, payload: e.message });
         }
     };
