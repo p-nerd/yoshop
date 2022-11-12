@@ -17,7 +17,7 @@
         "data:destroy": "yarn --cwd backend data:destroy",
         "post:build": "yarn --cwd frontend build",
         "post:install": "yarn --cwd backend install && yarn --cwd frontend install && yarn install",
-        "heroku-postbuild": "yarn run post:install; yarn run post:build"
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false yarn run post:install; yarn run post:build"
     },
     "devDependencies": {
         "concurrently": "^7.5.0"
