@@ -9,9 +9,10 @@ dev:
 
 clear:
 	cd backend; rm -rf node_modules
-	rm backend/.env
 	cd frontend; rm -rf node_modules
 	rm -rf node_modules
+	rm -rf frontend/dist
+	rm backend/.env
 
 seed:
 	yarn run data:import

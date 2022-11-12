@@ -9,13 +9,15 @@
         "node": ">=16.17.1 <17.0.0"
     },
     "scripts": {
-        "build": "yarn --cwd frontend build",
-        "start": "yarn --cwd backend prod",
+        "start": "NODE_ENV=production yarn --cwd backend prod",
         "server": "yarn --cwd backend dev",
         "client": "yarn --cwd frontend dev",
         "dev": "concurrently \"yarn server\" \"yarn client\"",
         "data:import": "yarn --cwd backend data:import",
-        "data:destroy": "yarn --cwd backend data:destroy"
+        "data:destroy": "yarn --cwd backend data:destroy",
+        "post:build": "yarn --cwd frontend build",
+        "post:install": "yarn --cwd backend install && yarn --cwd frontend install && yarn install",
+        "heroku-postbuild": "yarn run post:install; yarn run post:build"
     },
     "devDependencies": {
         "concurrently": "^7.5.0"
