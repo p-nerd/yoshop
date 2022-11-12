@@ -7,6 +7,7 @@ import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import Product from "../components/Product.jsx";
 import Paginate from "../components/Paginate.jsx";
+import ProductCarousel from "../components/ProductCarousel.jsx";
 
 export default () => {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default () => {
 
     return (
         <>
+            {!keyword && <ProductCarousel />}
             <h1>Latest Products</h1>
             {loading ? (
                 <Loader />

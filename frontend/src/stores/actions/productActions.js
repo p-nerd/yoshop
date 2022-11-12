@@ -19,6 +19,9 @@ import {
     PRODUCT_CREATE_REVIEW_REQUEST,
     PRODUCT_CREATE_REVIEW_SUCCESS,
     PRODUCT_CREATE_REVIEW_FAIL,
+    PRODUCT_TOP_LIST_REQUEST,
+    PRODUCT_TOP_LIST_SUCCESS,
+    PRODUCT_TOP_LIST_FAIL,
 } from "./../constants/productConstants.js";
 import {
     getProductsRequest,
@@ -27,6 +30,7 @@ import {
     updateProductRequest,
     createSampleProductRequest,
     productCreateReviewRequest,
+    getTopProductsRequest,
 } from "../../services/productService.js";
 import { getTokenFromState } from "../../logic/commonLogic.js";
 
@@ -115,3 +119,15 @@ export const productCreateReviewAction =
             dispatch({ type: PRODUCT_CREATE_REVIEW_FAIL, payload: e.message });
         }
     };
+
+export const productTopListAction = () => async dispatch => {
+    try {
+        dispatch({ type: PRODUCT_TOP_LIST_REQUEST });
+
+        const data = await getTopProductsRequest();
+
+        dispatch({ type: PRODUCT_TOP_LIST_SUCCESS, payload: data });
+    } catch (e) {
+        dispatch({ type: PRODUCT_TOP_LIST_FAIL, payload: e.message });
+    }
+};

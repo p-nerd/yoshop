@@ -8,7 +8,7 @@ So it is not just another copy.
 After finishing half of the course almost every time, I implement stuff before watching the video.
 After implementing I watched that video correct the code if needed and do the necessary change.
 Most of the time it seemed to change very evenly.
-So again it is not just another copy, it has my own things to it.
+So again it is not just another copy.
 
 ## Links
 

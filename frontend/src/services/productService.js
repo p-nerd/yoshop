@@ -1,7 +1,6 @@
 import * as httpC from "../utils/httpC.js";
 import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
-import { logIfNotProduction, logReqNotProd } from "../utils/loggerUtil.js";
-import { extractErrorMessage as eem } from "./../logic/commonLogic.js";
+import { logReqNotProd } from "../utils/loggerUtil.js";
 
 export const getProductsRequest = async (keyword, pageNumber) => {
     try {
@@ -23,12 +22,7 @@ export const getProductByIdRequest = async productId => {
         );
         return { product, status };
     } catch (e) {
-        const message = eem(
-            e,
-            `Get product with id ${productId} request unsuccessful`
-        );
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -37,12 +31,7 @@ export const deleteProductByIdRequest = async (productId, token) => {
         const { data } = await httpC.deleteR(`/products/${productId}`, token);
         return data;
     } catch (e) {
-        const message = eem(
-            e,
-            `Get product with id ${productId} request unsuccessful`
-        );
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -55,12 +44,7 @@ export const updateProductRequest = async (productId, productData, token) => {
         );
         return data;
     } catch (e) {
-        const message = eem(
-            e,
-            `Update product with id ${productId} request unsuccessful`
-        );
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -69,9 +53,7 @@ export const createSampleProductRequest = async token => {
         const { data } = await httpC.post("/products", {}, token);
         return data;
     } catch (e) {
-        const message = eem(e, "Create product request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -80,8 +62,7 @@ export const imageUploadRequest = async formData => {
         const token = extractFromLocalStorage("userInfo", "f**k").token;
         return await httpC.postFile("/uploads", formData, token);
     } catch (e) {
-        console.error(e);
-        throw e;
+        throw new Error(logReqNotProd(e));
     }
 };
 
@@ -92,6 +73,15 @@ export const productCreateReviewRequest = async (productId, review, token) => {
             review,
             token
         );
+        return data;
+    } catch (e) {
+        throw new Error(logReqNotProd(e));
+    }
+};
+
+export const getTopProductsRequest = async () => {
+    try {
+        const { data } = await httpC.get("/products/top", null);
         return data;
     } catch (e) {
         throw new Error(logReqNotProd(e));

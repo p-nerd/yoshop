@@ -164,3 +164,13 @@ export const createReview = wrap(async (req, res, next) => {
     const updatedProduct = await product.save();
     return res.status(201).json(updatedProduct);
 });
+
+/**
+ * @desc Get top rated products
+ * @route GET /api/products/top
+ * @access Public
+ */
+export const getTopProducts = wrap(async (req, res, next) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    return res.status(200).json(products);
+});

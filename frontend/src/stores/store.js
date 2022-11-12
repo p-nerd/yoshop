@@ -16,6 +16,7 @@ import {
     productDeleteReducer,
     productDetailsReducer,
     productListReducer,
+    productTopListReducer,
     productUpdateReducer,
 } from "./reducers/productReducers.js";
 import {
@@ -29,6 +30,7 @@ import {
 
 const indexReducers = combineReducers({
     productList: productListReducer,
+    productTopList: productTopListReducer,
     productDetails: productDetailsReducer,
     productCreate: productCreateReducer,
     productUpdate: productUpdateReducer,

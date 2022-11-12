@@ -8,6 +8,7 @@ import {
     updateProduct,
     createProduct,
     createReview,
+    getTopProducts,
 } from "../controllers/productController.js";
 
 const productRouter = Router();
@@ -16,6 +17,10 @@ productRouter
     .route("/")
     .get(getProducts)
     .post([protect, admin], createProduct);
+
+productRouter
+    .route("/top")
+    .get(getTopProducts)
 
 productRouter
     .route("/:id")
