@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import reduxThunk from "redux-thunk";
 import { extractFromLocalStorage } from "../utils/localStorageUtil.js";
 import { cartReducer } from "./reducers/cartReducers.js";
@@ -55,10 +56,8 @@ const initialState = {
     cart: {
         cartItems: extractFromLocalStorage("cartItems", []),
         shippingAddress: extractFromLocalStorage("shippingAddress", {}),
-        paymentMethod: extractFromLocalStorage("paymentMethod", ""),
     },
     userLogin: { userInfo: extractFromLocalStorage("userInfo", {}) },
-    userDetails: { user: {} },
 };
 
 const middlewares = [reduxThunk];
@@ -66,11 +65,7 @@ const middlewares = [reduxThunk];
 const store = createStore(
     indexReducers,
     initialState,
-    compose(
-        applyMiddleware(...middlewares),
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+    composeWithDevTools(applyMiddleware(...middlewares))
 );
 
 export default store;
