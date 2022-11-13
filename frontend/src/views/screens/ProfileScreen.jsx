@@ -15,6 +15,7 @@ import FormField from "../components/FormField.jsx";
 import PasswordShowToggle from "../components/PasswordShowToggle.jsx";
 import SubmitButton from "../components/SubmitButton.jsx";
 import XIcon from "../components/XIcon.jsx";
+import { USER_UPDATE_RESET } from "../../stores/constants/userConstants.js";
 
 const ProfileScreen = () => {
     const navigate = useNavigate();
@@ -27,21 +28,24 @@ const ProfileScreen = () => {
     const [message, setMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
 
-    const { loading, error, user } = useSelector(s => s.userDetails);
-    const { userInfo } = useSelector(s => s.userLogin);
-    const { success } = useSelector(s => s.userUpdate);
-    const {
-        loading: loadingOrders,
-        orders,
-        error: errorOrders,
-    } = useSelector(s => s.orderListMe);
-    const { success: successOrderCreate } = useSelector(s => s.orderCreate);
+    const userDetails = useSelector(s => s.userDetails);
+    const userLogin = useSelector(s => s.userLogin);
+    const userUpdate = useSelector(s => s.userUpdate);
+    const orderListMe = useSelector(s => s.orderListMe);
+    const orderCreate = useSelector(s => s.orderCreate);
+
+    const { loading: loadingUser, error: errorUser, user } = userDetails;
+    const { userInfo } = userLogin;
+    const { success: successUserUpdate } = userUpdate;
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMe;
+    const { success: successOrderCreate } = orderCreate;
 
     useEffect(() => {
         if (isObjectEmpty(userInfo)) {
             navigate(`/login`);
         } else {
-            if (!user.name) {
+            if (!user || !user.name || successUserUpdate) {
+                dispatch({ type: USER_UPDATE_RESET });
                 dispatch(userDetailsAction("/profile"));
                 dispatch(orderListMeAction());
             } else {
@@ -49,7 +53,14 @@ const ProfileScreen = () => {
                 setEmail(user.email);
             }
         }
-    }, [navigate, userInfo, dispatch, user, successOrderCreate]);
+    }, [
+        navigate,
+        userInfo,
+        dispatch,
+        user,
+        successOrderCreate,
+        successUserUpdate,
+    ]);
 
     const handlerSubmit = async e => {
         e.preventDefault();
@@ -65,11 +76,11 @@ const ProfileScreen = () => {
             <Col md={3}>
                 <h1>User Profile</h1>
                 {message && <Message variant="danger">{message}</Message>}
-                {error && <Message variant="danger">{error}</Message>}
-                {success && !error && (
+                {errorUser && <Message variant="danger">{errorUser}</Message>}
+                {successUserUpdate && !errorUser && (
                     <Message variant="success">"Updated successfully</Message>
                 )}
-                {loading && <Loader />}
+                {loadingUser && <Loader />}
                 <Form onSubmit={handlerSubmit}>
                     <FormField
                         label="Name"

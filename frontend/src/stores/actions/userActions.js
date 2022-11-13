@@ -123,14 +123,12 @@ export const userUpdateAction =
             dispatch({ type: USER_UPDATE_REQUEST });
 
             const token = getTokenFromState(getState());
-            const { data } = await updateUserByIdRequest(
-                userId,
-                userData,
-                token
-            );
+            const data = await updateUserByIdRequest(userId, userData, token);
 
             dispatch({ type: USER_UPDATE_SUCCESS });
-            dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+            dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
+            addItemToLocalStorage("userInfo", data);
         } catch (e) {
             dispatch({ type: USER_UPDATE_FAIL, payload: e.message });
         }

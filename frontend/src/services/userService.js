@@ -1,4 +1,4 @@
-import { logIfNotProduction } from "../utils/loggerUtil.js";
+import { logIfNotProduction, logReqNotProd } from "../utils/loggerUtil.js";
 import { extractErrorMessage as eem } from "../logic/commonLogic.js";
 import * as httpC from "../utils/httpC.js";
 
@@ -45,16 +45,10 @@ export const getUserByIdRequest = async (id, token) => {
 
 export const updateUserByIdRequest = async (userId, userData, token) => {
     try {
-        const { data, status } = await httpC.put(
-            `/users/${userId}`,
-            userData,
-            token
-        );
-        return { data, status };
+        const { data } = await httpC.put(`/users/${userId}`, userData, token);
+        return data;
     } catch (e) {
-        const message = eem(e, "Update user by ID request unsuccessful");
-        logIfNotProduction(message);
-        throw new Error(message);
+          throw new Error(logReqNotProd(e));
     }
 };
 
