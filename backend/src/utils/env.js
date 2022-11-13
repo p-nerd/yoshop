@@ -15,6 +15,8 @@ const checkEnv = (env, name) => {
     if (!env) {
         console.error(`${name} can't be null in .env`.red.underline.bold);
         process.exit(1);
+    } else {
+        console.log(`ENV FOUND: ${name} = ${env}`);
     }
 };
 
