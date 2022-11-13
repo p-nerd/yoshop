@@ -10,6 +10,14 @@ After implementing I watched that video correct the code if needed and do the ne
 Most of the time it seemed to change very evenly.
 So again it is not just another copy.
 
+## The app is running in Heroku on production mode
+
+-   https://yoshop-shihab.herokuapp.com
+-   In production the has three user
+    -   Admin User: `admin@example.com` Password: `123456`
+    -   Normal User 1: `john@example.com` Password: `123456`
+    -   Normal User 2: `jane@example.com` Password: `123456`
+
 ## Links
 
 -   https://www.linkedin.com/in/bradtraversy
