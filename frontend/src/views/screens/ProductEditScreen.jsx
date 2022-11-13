@@ -12,7 +12,7 @@ import {
     productDetailsAction,
     productUpdateAction,
 } from "../../stores/actions/productActions.js";
-import { IMAGE_API_BASEURL } from "../../utils/envUtil.js";
+import { IMAGE_API_BASEURL } from "../../utils/env.js";
 import { imageUploadRequest } from "../../services/productService.js";
 
 const ProductEditScreen = () => {

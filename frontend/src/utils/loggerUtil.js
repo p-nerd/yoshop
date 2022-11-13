@@ -1,5 +1,5 @@
 import { extractErrorMessage } from "../logic/commonLogic.js";
-import { NODE_ENV, production } from "./envUtil.js";
+import { NODE_ENV, production } from "./env.js";
 
 export const log = stuff => {
     console.log(stuff);

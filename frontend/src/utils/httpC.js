@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_API_URL } from "../utils/envUtil.js";
+import { BACKEND_API_URL } from "./env.js";
 
 axios.defaults.baseURL = BACKEND_API_URL;
 
