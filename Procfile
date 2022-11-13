@@ -1,1 +1,1 @@
-web: node backend/src/main.js
+web: yarn run start
